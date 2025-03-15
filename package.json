@@ -14,11 +14,14 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
+    "express-http-errors": "^0.0.3",
     "winston": "^3.17.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.10",

@@ -1,25 +1,34 @@
-import express from 'express';
-import winston from 'winston';
+import express, { Request, Response, NextFunction } from 'express';
+import { ZodError } from "zod";
+import { m } from './router';
+import createError from 'http-errors';
 
 const app = express();
 
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' })
-  ]
-});
-
 app.use(express.json());
+app.use('/api/v1', m);
 
-app.get('/', (req, res) => {
-  res.send('Hello, Express!');
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof createError.HttpError) {
+    res.status(err.statusCode || 500);
+    res.json({
+      errors: [{ message: err.message }],
+    });
+  } else if (err instanceof ZodError) {
+    res.status(400);
+    res.json({
+      errors: err.errors,
+    });
+  } else {
+    res.status(500);
+    res.json({
+      errors: [{ message: err.message }],
+    });
+  }
+console.log(err.message, err);
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  logger.info(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

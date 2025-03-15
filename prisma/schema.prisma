@@ -9,6 +9,47 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  username String    @id @db.VarChar(100)
+  password String    @db.VarChar(100)
+  name     String    @db.VarChar(100)
+  token    String?    @db.VarChar(200)
+  contacts Contact[]
+
+  @@map("users")
+}
+
+model Contact {
+  id         Int     @id @default(autoincrement())
+  first_name String  @db.VarChar(100)
+  last_name  String  @db.VarChar(100)
+  email      String? @db.VarChar(100)
+  phone      String? @db.VarChar(20)
+
+  username  String    @db.VarChar(100)
+  user      User      @relation(fields: [username], references: [username])
+  addresses Address[]
+
+  @@map("contacts")
+}
+
+model Address {
+  id          Int     @id @default(autoincrement())
+  street      String? @db.VarChar(255)
+  city        String? @db.VarChar(100)
+  province    String? @db.VarChar(100)
+  country     String  @db.VarChar(100)
+  postal_code String  @db.VarChar(100)
+
+  contact_id Int
+
+  contact Contact @relation(fields: [contact_id], references: [id])
+
+  @@map("addresses")
+}
+
+// comment
