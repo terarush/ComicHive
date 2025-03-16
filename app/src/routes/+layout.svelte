@@ -3,5 +3,5 @@
  let { children } = $props();
 </script>
  
-<ModeWatcher defaultMode={"light"} />
+<ModeWatcher />
 {@render children?.()}

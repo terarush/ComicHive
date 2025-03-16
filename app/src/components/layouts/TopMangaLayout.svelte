@@ -4,7 +4,7 @@
     id: number;
     title: string;
     image: string;
-    rating: number;
+    upload_on: string;
     description: string;
   }[] = [];
 </script>
@@ -12,7 +12,7 @@
 <section class="py-12 bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
   <div class="max-w-7xl mx-auto px-4">
     <div class="text-center mb-12">
-      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-[hsl(var(--foreground))]">
+      <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-[hsl(var(--foreground))]">
         {title}
       </h2>
       <p class="mt-4 text-lg text-[hsl(var(--muted-foreground))]">
@@ -22,32 +22,25 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       {#each mangaList as manga}
-        <div class="bg-[hsl(var(--card))] rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-          <div class="w-full aspect-[4/3] relative overflow-hidden rounded-t-lg">
+        <div
+          class="group border border-[hsl-(var(--background-foreground))] border-1 bg-[hsl(var(--card))] rounded-md shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+        >
+          <div class="w-full aspect-[4/3] relative overflow-hidden">
             <img
               src={manga.image}
               alt={manga.title}
-              class="absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             />
           </div>
 
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] line-clamp-1">
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-[hsl(var(--foreground))] line-clamp-1 group-hover:text-blue-400 transition-colors">
               {manga.title}
             </h3>
             <div class="flex items-center mt-2 text-sm text-[hsl(var(--muted-foreground))]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 text-yellow-400 mr-1"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                stroke="none"
-              >
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-              <span>{manga.rating.toFixed(1)}</span>
+              <span>{manga.upload_on}</span>
             </div>
-            <p class="mt-2 text-sm text-[hsl(var(--muted-foreground))] line-clamp-2">
+            <p class="mt-4 text-sm text-[hsl(var(--muted-foreground))] line-clamp-3">
               {manga.description}
             </p>
           </div>
