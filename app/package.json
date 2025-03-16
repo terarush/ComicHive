@@ -17,11 +17,14 @@
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
+		"svelte-link": "^2.0.0",
 		"typescript": "^5.0.0",
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^0.482.0",
 		"@tailwindcss/vite": "^4.0.14",
+		"mode-watcher": "^0.5.1",
 		"tailwindcss": "^4.0.14"
 	}
 }
