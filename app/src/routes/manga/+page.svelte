@@ -1,1 +1,7 @@
-<h1>test</h1>
+<script lang="ts">
+import SearchManga from "../../components/SearchManga.svelte";
+</script>
+
+<main>
+  <SearchManga/>
+</main>

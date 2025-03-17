@@ -1,0 +1,44 @@
+<script lang="ts">
+  import { Fetch } from "../utils/Fetch";
+  import SearchManga from "./fragments/SearchManga.svelte";
+  import ResultSearchLayout from "./layouts/ResultSearchLayout.svelte";
+
+  let searchResults: {
+    title: string;
+    type: string;
+    endpoint: string;
+    updated_on: string;
+    thumb: string;
+    sortDesc: string;
+  }[] = [];
+
+  let hasInteracted = false;
+
+  async function handleSearch(query: string) {
+    hasInteracted = true;
+
+    try {
+      const response = await Fetch.get(`api/search?q=${query}`);
+      if (response.status && response.data.manga_list) {
+        searchResults = response.data.manga_list;
+      } else {
+        searchResults = [];
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      searchResults = [];
+    }
+  }
+</script>
+
+<div class="bg-[hsl(var(--background))]">
+  <div class="flex justify-center items-center pt-20">
+    <SearchManga on:search={(e) => handleSearch(e.detail)} />
+  </div>
+
+  {#if hasInteracted}
+    <div class="mt-8 mx-auto max-w-2xl">
+      <ResultSearchLayout mangaList={searchResults} />
+    </div>
+  {/if}
+</div>

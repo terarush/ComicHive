@@ -1,10 +1,8 @@
-import axios from "axios";
+import { Fetch } from "../utils/Fetch";
 
 export const fetchPopularManga = async () => {
   try {
-    const response = await axios.get(
-      `${import.meta.env.VITE_MANGA_API}/api/manga/popular/1`
-    );
+    const response = await Fetch.get("/api/manga/popular/1");
 
     const apiData = response.data;
     if (apiData.status && apiData.manga_list) {

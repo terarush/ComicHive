@@ -3,6 +3,7 @@
   import Hero from "../components/Hero.svelte";
   import TopMangaLayout from "../components/layouts/TopMangaLayout.svelte";
   import LoadingElements from "../components/elements/LoadingElements.svelte";
+  import SearchManga from "../components/SearchManga.svelte";
   import { fetchPopularManga } from "../hooks/PopularMangaHooks";
 
   let mangaList: {
@@ -28,7 +29,7 @@
 
 <main>
   <Hero />
-
+<SearchManga/>
   {#if isLoading}
     <LoadingElements />
   {:else}
