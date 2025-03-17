@@ -9,7 +9,7 @@
 
 <div class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
   {#if mangaList.length > 0}
-    <div class="flex flex-wrap justify-center gap-6">
+    <div class="flex flex-wrap justify-center gap-6 mx-5">
       {#each mangaList as manga}
         <div
           class="w-full sm:w-64 bg-[hsl(var(--card))] p-2 rounded-md transition-all duration-300 hover:shadow-lg"
