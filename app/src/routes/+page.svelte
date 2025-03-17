@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Hero from "../components/Hero.svelte";
-  import TopMangaLayout from "../components/layouts/TopMangaLayout.svelte";
+  import MangaLayout from "../components/layouts/MangaLayout.svelte";
   import LoadingElements from "../components/elements/LoadingElements.svelte";
   import SearchManga from "../components/SearchManga.svelte";
-  import { fetchPopularManga } from "../hooks/PopularMangaHooks";
+  import TopManga from "../components/TopManga.svelte";
+  import { fetchPopularManga } from "../hooks/ManggaHooks";
 
   let mangaList: {
     id: number;
@@ -22,17 +23,19 @@
     } catch (error) {
       console.error("Failed to fetch manga data:", error);
     } finally {
-      isLoading = false; 
+      isLoading = false;
     }
   });
 </script>
 
 <main>
   <Hero />
-<SearchManga/>
+  <SearchManga />
   {#if isLoading}
     <LoadingElements />
   {:else}
-    <TopMangaLayout {mangaList} />
+    <MangaLayout {mangaList} text="Last post ">
+      <TopManga />
+    </MangaLayout>
   {/if}
 </main>
