@@ -38,7 +38,7 @@
               {manga.title}
             </h3>
             <div class="flex items-center mt-2 text-sm text-[hsl(var(--muted-foreground))]">
-              <span>{manga.upload_on}</span>
+              <span>Last post {manga.upload_on}</span>
             </div>
             <p class="mt-4 text-sm text-[hsl(var(--muted-foreground))] line-clamp-3">
               {manga.description}
