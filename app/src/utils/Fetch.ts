@@ -5,7 +5,5 @@ export const Fetch = axios.create({
   baseURL: ENV.API_URL,
   headers: {
     "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
   },
 });
-
