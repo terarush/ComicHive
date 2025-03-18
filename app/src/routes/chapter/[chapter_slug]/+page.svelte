@@ -17,7 +17,6 @@
       console.error("Failed to fetch chapter:", error);
     }
   });
-  console.log(data.slug);
 </script>
 
 {#if chapter}
