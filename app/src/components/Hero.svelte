@@ -17,7 +17,7 @@
         class="text-4xl sm:text-6xl font-extrabold tracking-tight text-[hsl(var(--background-foreground))] drop-shadow-lg"
       >
         Enter the ComicHive of
-        <br />
+        <br class="hidden sm:inline" />
         Infinite Adventures & Stories
       </h1>
       <p
