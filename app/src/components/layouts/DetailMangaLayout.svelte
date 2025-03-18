@@ -1,5 +1,5 @@
 <script lang="ts">
-import Link from "svelte-link";
+  import Link from "svelte-link";
   export let manga: {
     title: string;
     type: string;
@@ -12,7 +12,9 @@ import Link from "svelte-link";
   } | null;
 </script>
 
-<section class="bg-[hsl(var(--background))] py-[100px] text-[hsl(var(--foreground))]">
+<section
+  class="bg-[hsl(var(--background))] py-[100px] text-[hsl(var(--foreground))]"
+>
   <div class="max-w-5xl mx-auto px-4">
     {#if manga}
       <div class="flex flex-col md:flex-row gap-8">
@@ -27,23 +29,33 @@ import Link from "svelte-link";
         <div class="flex flex-col space-y-4 flex-1">
           <h1 class="text-3xl font-bold">{manga.title}</h1>
           <p class="text-sm text-[hsl(var(--muted-foreground))]">
-            <strong>Author:</strong> {manga.author || "Unknown"}
+            <strong>Author:</strong>
+            {manga.author || "Unknown"}
           </p>
           <p class="text-sm text-[hsl(var(--muted-foreground))]">
-            <strong>Status:</strong> {manga.status || "Unknown"}
+            <strong>Status:</strong>
+            {manga.status || "Unknown"}
           </p>
 
           <div class="flex flex-wrap gap-2">
             {#each manga.genre_list as genre}
-              <span class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]">
-                {genre.genre_name}
-              </span>
+              <Link
+                href={`/genres/${genre.genre_name.toLowerCase().replace(/\s+/g, "-")}`}
+              >
+                <span
+                  class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
+                >
+                  {genre.genre_name}
+                </span>
+              </Link>
             {/each}
           </div>
 
           <div class="mt-4">
             <h2 class="text-lg font-semibold">Synopsis</h2>
-            <p class="mt-2 text-sm text-[hsl(var(--muted-foreground))] whitespace-pre-line">
+            <p
+              class="mt-2 text-sm text-[hsl(var(--muted-foreground))] whitespace-pre-line"
+            >
               {manga.synopsis}
             </p>
           </div>
@@ -74,4 +86,3 @@ import Link from "svelte-link";
     {/if}
   </div>
 </section>
-

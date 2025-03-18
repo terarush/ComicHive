@@ -67,8 +67,8 @@
           >
             <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
           </svg>
-          <span class="text-lg font-bold text-[hsl(var(--primary))]"
-            >ComicHive</span
+          <a href="/" class="text-lg font-bold text-[hsl(var(--primary))]"
+            >ComicHive</a
           >
         </div>
       </div>
