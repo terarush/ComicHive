@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "MODE=PRODUCTION node index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
