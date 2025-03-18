@@ -1,4 +1,5 @@
 <script lang="ts">
+import Link from "svelte-link";
   export let manga: {
     title: string;
     type: string;
@@ -53,13 +54,13 @@
         <h2 class="text-xl font-bold">Chapters</h2>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {#each manga.chapter as chapter}
-            <a
-              href={chapter.chapter_endpoint}
+            <Link
+              href={`/chapter${chapter.chapter_endpoint}`}
               class="block px-4 py-3 bg-[hsl(var(--muted))] rounded-lg text-sm font-medium transition-all duration-300 shadow-sm 
               hover:bg-[hsl(var(--muted-foreground))] hover:shadow-md"
             >
               {chapter.chapter_title}
-            </a>
+            </Link>
           {/each}
         </div>
       </div>

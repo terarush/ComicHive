@@ -16,7 +16,7 @@ export const fetchPopularManga = async () => {
       }));
     }
   } catch (error) {
-    console.error("Error fetching manga data:", error);
+    console.error("Error fetching popular manga:", error);
     return [];
   }
 };
@@ -41,3 +41,28 @@ export const fetchMangaPage = async (page: number = 1) => {
     return [];
   }
 };
+
+export const fetchMangaDetail = async (slug: string) => {
+  try {
+    const response = await Fetch.get(`/api/manga/detail/${slug}`);
+
+    if (response.status === 200 && response.data.status !== false) {
+      return { manga: response.data, isFound: true };
+    } else {
+      return {
+        manga: {
+          status: false,
+          message: response.data.message || "Manga not found",
+        },
+        isFound: false,
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching manga details:", error);
+    return {
+      manga: { status: false, message: "Failed to fetch manga details" },
+      isFound: false,
+    };
+  }
+};
+

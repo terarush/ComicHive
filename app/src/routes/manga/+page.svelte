@@ -4,7 +4,7 @@
   import MangaLayout from "../../components/layouts/MangaLayout.svelte";
   import Loading from "../../components/elements/Loading.svelte";
   import Pagination from "../../components/elements/Pagination.svelte";
-  import { fetchMangaPage } from "../../hooks/ManggaHooks";
+  import { fetchMangaPage } from "../../hooks/MangaHooks";
 
   let mangaList: any[] = [];
   let currentPage = 1;

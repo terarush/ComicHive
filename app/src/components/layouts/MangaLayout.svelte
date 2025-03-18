@@ -2,12 +2,12 @@
   import Link from 'svelte-link';
 
   export let mangaList: {
-    id: number;
-    title: string;
-    image: string;
-    upload_on: string;
-    description: string;
-    endpoint: string;
+    id?: number;
+    title?: string;
+    image?: string;
+    upload_on?: string;
+    description?: string;
+    endpoint?: string;
   }[] = [];
 
   export let text: string = "Last post";

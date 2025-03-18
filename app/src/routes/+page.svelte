@@ -5,7 +5,7 @@
   import LoadingElements from "../components/elements/LoadingElements.svelte";
   import SearchManga from "../components/SearchManga.svelte";
   import TopManga from "../components/TopManga.svelte";
-  import { fetchPopularManga } from "../hooks/ManggaHooks";
+  import { fetchPopularManga } from "../hooks/MangaHooks";
 
   let mangaList: {
     id: number;
