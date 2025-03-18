@@ -1,9 +1,10 @@
 <script lang="ts">
+import { ArrowBigLeft, ArrowBigRight } from "@lucide/svelte";
   export let currentPage: number = 1;
-  export let totalPages: number = Infinity; 
+  export let totalPages: number = Infinity;
   export let onPageChange: (page: number) => void;
 
-  const PAGE_RANGE = 5; 
+  const PAGE_RANGE = 5;
 
   let startPage = 1;
   let endPage = PAGE_RANGE;
@@ -37,16 +38,20 @@
   };
 </script>
 
-<div class="flex justify-center py-8 space-x-2 bg-[hsl(var(--background))]">
+<div
+  class="flex justify-center py-8 space-x-2 bg-[hsl(var(--background))] sm:px-0 px-[100px]"
+>
   <button
     class="px-4 py-2 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] rounded-md hover:bg-[hsl(var(--primary))]"
     on:click={handlePrevious}
     disabled={currentPage === 1}
   >
-    Previous
+    <ArrowBigLeft />
   </button>
 
-  {#each Array(endPage - startPage + 1).fill(0).map((_, i) => startPage + i) as pageNumber}
+  {#each Array(endPage - startPage + 1)
+    .fill(0)
+    .map((_, i) => startPage + i) as pageNumber}
     <button
       class={`px-4 py-2 rounded-md ${
         currentPage === pageNumber
@@ -64,6 +69,6 @@
     on:click={handleNext}
     disabled={totalPages !== Infinity && currentPage === totalPages}
   >
-    Next
+  <ArrowBigRight/>
   </button>
 </div>
