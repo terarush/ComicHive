@@ -11,5 +11,5 @@
       "src": "/(.*)",
       "dest": "dist/index.js"
     }
-  ],
+  ]
 }
