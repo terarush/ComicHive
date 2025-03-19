@@ -5,7 +5,7 @@
   import "../app.css";
 </script>
 
-<main>
+<main class="bg-[hsl(var(--background))]">
   <ModeWatcher />
   <Navbar />
   <slot />

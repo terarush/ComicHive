@@ -2,14 +2,22 @@
   import { onMount } from "svelte";
   import SearchManga from "../../components/SearchManga.svelte";
   import MangaLayout from "../../components/layouts/MangaLayout.svelte";
-  import Loading from "../../components/elements/Loading.svelte";
+  import LoadingElements from "../../components/elements/LoadingElements.svelte";
   import Pagination from "../../components/elements/Pagination.svelte";
+  import MenuHero from "../../components/MenuHero.svelte";
   import { fetchMangaPage } from "../../hooks/MangaHooks";
 
   let mangaList: any[] = [];
   let currentPage = 1;
   let isLoading = false;
   let hasMorePages = true;
+
+  const MenuHeroData = {
+    title: "Baca Manga & Manhwa Terbaru",
+    description:
+      "Nikmati streaming Manga & Manhwa favoritmu hanya di Comichive!",
+    imageUrl: "/icon.jpg",
+  };
 
   const loadMangaPage = async (page: number) => {
     if (!hasMorePages) return;
@@ -19,9 +27,9 @@
       const newMangaList = await fetchMangaPage(page);
 
       if (newMangaList.length > 0) {
-        mangaList = newMangaList; 
+        mangaList = newMangaList;
       } else {
-        hasMorePages = false; 
+        hasMorePages = false;
       }
     } catch (err) {
       console.error("Failed to load manga data:", err);
@@ -36,18 +44,17 @@
 
   const handlePageChange = (page: number) => {
     currentPage = page;
-    loadMangaPage(page); 
+    loadMangaPage(page);
   };
 </script>
 
 <main>
-  <SearchManga />
   {#if mangaList.length === 0}
-    <div class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] h-full py-[250px]">
-      <Loading />
-    </div>
+  <LoadingElements/>
   {:else}
-    <MangaLayout {mangaList} text="update at "/>
+    <MenuHero {...MenuHeroData} />
+    <SearchManga />
+    <MangaLayout {mangaList} text="update at " />
     <Pagination
       {currentPage}
       totalPages={Infinity}

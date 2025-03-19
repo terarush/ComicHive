@@ -80,6 +80,12 @@
           Home
         </Link>
         <Link
+          href="/anime"
+          class="font-medium text-sm text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] rounded-md"
+        >
+          Anime
+        </Link>
+        <Link
           href="/manga"
           class="font-medium text-sm text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] rounded-md"
         >
@@ -117,6 +123,12 @@
           class="block px-4 py-2 text-sm font-medium text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] rounded-md"
         >
           Home
+        </Link>
+        <Link
+          href="/anime"
+          class="block px-4 py-2 text-sm font-medium text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))] rounded-md"
+        >
+          Anime
         </Link>
         <Link
           href="/manga"
