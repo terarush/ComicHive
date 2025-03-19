@@ -1,4 +1,4 @@
 export const ENV = {
-  API_URL: import.meta.env.VITE_API_URL,
-  CLIENT_URL: 'https://comic-hive.tuxedolabs.xyz'
+  MANGA_API_URL: import.meta.env.VITE_MANGA_API_URL,
+  ANIME_API_URL: import.meta.env.VITE_ANIME_API_URL
 }
