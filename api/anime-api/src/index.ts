@@ -24,3 +24,5 @@ app.use("/kuronime", kuronime);
 app.listen(process.env.PORT || 3001, () => {
   console.warn("\nReady 🚀");
 });
+
+module.exports = app;
