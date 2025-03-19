@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Fetch } from "../utils/Fetch";
+import { FetchMangaApi } from "../utils/Fetch";
   import SearchManga from "./fragments/SearchManga.svelte";
   import ResultSearchLayout from "./layouts/ResultSearchLayout.svelte";
 
@@ -18,7 +18,7 @@
     hasInteracted = true;
 
     try {
-      const response = await Fetch.get(`api/search?q=${query}`);
+      const response = await FetchMangaApi.get(`api/search?q=${query}`);
       if (response.status && response.data.manga_list) {
         searchResults = response.data.manga_list;
       } else {

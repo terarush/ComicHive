@@ -1,8 +1,7 @@
-import { Fetch } from "../utils/Fetch";
-
+import { FetchMangaApi } from "../utils/Fetch";
 export const fetchPopularManga = async () => {
   try {
-    const response = await Fetch.get("/api/manga/popular/1");
+    const response = await FetchMangaApi.get("/api/manga/popular/1");
 
     const apiData = response.data;
     if (apiData.status && apiData.manga_list) {
@@ -23,7 +22,7 @@ export const fetchPopularManga = async () => {
 
 export const fetchMangaPage = async (page: number = 1) => {
   try {
-    const response = await Fetch.get(`/api/manga/page/${page}`);
+    const response = await FetchMangaApi.get(`/api/manga/page/${page}`);
     const apiData = response.data;
 
     if (apiData.status && apiData.manga_list) {
@@ -44,7 +43,7 @@ export const fetchMangaPage = async (page: number = 1) => {
 
 export const fetchMangaDetail = async (slug: string) => {
   try {
-    const response = await Fetch.get(`/api/manga/detail/${slug}`);
+    const response = await FetchMangaApi.get(`/api/manga/detail/${slug}`);
 
     if (response.status === 200 && response.data.status !== false) {
       return { manga: response.data, isFound: true };

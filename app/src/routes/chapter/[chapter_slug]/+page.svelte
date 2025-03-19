@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
   import Loading from "../../../components/elements/Loading.svelte";
-  import { Fetch } from "../../../utils/Fetch";
   import ChapterLayout from "../../../components/layouts/ChapterLayout.svelte";
   import type { ChapterSlug } from "./proxy+page";
+  import { FetchMangaApi } from "../../../utils/Fetch";
 
   export let data: ChapterSlug;
 
@@ -13,7 +13,7 @@
 
   onMount(async () => {
     try {
-      const response = await Fetch.get(`/api/chapter/${data.slug}`);
+      const response = await FetchMangaApi.get(`/api/chapter/${data.slug}`);
 
       if (response.data.status == false) {
         notFound = true;
