@@ -1,10 +1,9 @@
-
 <script lang="ts">
   export let title: string;
   export let description: string;
 </script>
 
-<section class="relative w-full h-[300px] flex flex-col items-center justify-center text-center bg-[hsl(var(--background))] rounded-lg p-8">
+<section class="relative w-full h-[300px] flex flex-col items-center justify-center text-center bg-[hsl(var(--background))] rounded-lg p-8 pt-[100px] lg:pt-0">
   <h1 class="text-5xl font-extrabold text-primary-foreground drop-shadow-lg tracking-wide animate-fade-in">
     {title}
   </h1>
@@ -27,4 +26,3 @@
   .animate-fade-in { animation: fadeIn 1s ease-out; }
   .animate-slide-up { animation: slideUp 1s ease-out; }
 </style>
-
