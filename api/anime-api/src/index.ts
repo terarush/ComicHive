@@ -1,28 +1,31 @@
+import { clientCache } from "@middlewares/cache";
+import { otakudesuInfo, otakudesuRoute } from "@otakudesu/index";
+import { samehadakuInfo, samehadakuRoute } from "@samehadaku/index";
+import mainRoute from "@routes/mainRoute";
+import errorHandler from "@middlewares/errorHandler";
+import animeConfig from "@configs/animeConfig";
+import path from "path";
 import express from "express";
 import cors from "cors";
-import kuramanime from "./source/kuramanime/kuramanime";
-import nanime from "./source/nanime/nanime";
-import kuronime from "./source/kuronime/kuronime";
-import otakudesu from "./source/otakudesu/otakudesu";
 
-import axios from "axios";
+const { PORT } = animeConfig;
+const app = express();
 
-export const app = express();
-axios.defaults.validateStatus = () => true;
-axios.defaults.headers.common["User-Agent"] =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54";
-
+// MIDDLEWARES
 app.use(cors());
-app.get("/", async (req, res) => {
-  res.send("ANIYOI API IS UP 🚀");
-});
-app.use("/kuramanime", kuramanime);
-app.use("/nanime", nanime);
-app.use("/kuronime", kuronime);
-// app.use("/otakudesu", otakudesu); //Url page streaming memakai slug yang berbeda
+app.use(express.static(path.join(__dirname, "public")));
+app.use(clientCache(1));
 
-app.listen(process.env.PORT || 3001, () => {
-  console.warn("\nReady 🚀");
-});
+// RUTE SUMBER
+app.use(otakudesuInfo.baseUrlPath, otakudesuRoute);
+app.use(samehadakuInfo.baseUrlPath, samehadakuRoute);
 
-module.exports = app;
+// RUTE UTAMA
+app.use(mainRoute);
+
+// ERROR HANDLER
+app.use(errorHandler);
+
+app.listen(PORT, () => {
+  console.log(`SERVER BERJALAN DI http://localhost:${PORT}`);
+});

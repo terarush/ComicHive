@@ -1,35 +1,38 @@
 {
-  "name": "aniyoi-api",
+  "name": "wajik-anime-api",
   "version": "1.0.0",
-  "description": "Anime Scrapper",
-  "author": "miukyo",
+  "description": "",
   "main": "dist/index.js",
-  "license": "MIT",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "build": "rimraf dist && tsc",
-    "dev": "nodemon ./src/index.ts"
+    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
+    "build": "rimraf dist && tsc && tsc-alias && gulp build",
+    "start": "node dist/index.js"
   },
-  "pre-commit": [
-    "build"
-  ],
+  "engines": {
+    "node": "20 || >=22"
+  },
+  "keywords": [],
+  "author": "wajik45",
+  "license": "MIT",
   "devDependencies": {
-    "@types/cheerio": "^0.22.31",
-    "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.15",
-    "@types/node": "^18.11.18",
-    "nodemon": "^2.0.20",
-    "pre-commit": "^1.2.2",
-    "prettier": "^2.8.4",
-    "rimraf": "^4.1.2",
-    "ts-node": "^10.9.1"
+    "@hasura/ts-node-dev": "^2.1.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.8.6",
+    "gulp": "^5.0.0",
+    "gulp-csso": "^4.0.1",
+    "gulp-html-minifier-terser": "^7.1.0",
+    "gulp-terser": "^2.1.0",
+    "rimraf": "^6.0.1",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.2"
   },
   "dependencies": {
-    "axios": "^1.2.2",
-    "cheerio": "^1.0.0-rc.12",
+    "axios": "^1.7.6",
+    "cheerio": "1.0.0-rc.12",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "typescript": "^4.9.4"
+    "express": "^4.21.1",
+    "lru-cache": "^11.0.1"
   }
 }

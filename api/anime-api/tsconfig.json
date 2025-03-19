@@ -1,14 +1,31 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2021",
     "module": "CommonJS",
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "allowJs": true,
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2021"],
+    "outDir": "dist",
+    "rootDir": "./src",
     "strict": true,
-    "skipLibCheck": true
-  }
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "moduleResolution": "Node",
+    "baseUrl": "./src",
+    "paths": {
+      "@otakudesu/*": ["anims/otakudesu/*"],
+      "@samehadaku/*": ["anims/samehadaku/*"],
+      "@configs/*": ["configs/*"],
+      "@controllers/*": ["controllers/*"],
+      "@helpers/*": ["helpers/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@libs/*": ["libs/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@routes/*": ["routes/*"],
+      "@scrapers/*": ["scrapers/*"],
+      "@services/*": ["services/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
