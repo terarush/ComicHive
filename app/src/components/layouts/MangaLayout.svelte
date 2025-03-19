@@ -16,7 +16,7 @@
 <section class="bg-[hsl(var(--background))] py-8 sm:py-12 text-[hsl(var(--foreground))]">
   <div class="max-w-6xl mx-auto px-4">
     <slot />
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {#each mangaList as manga}
         <Link href={`/manga/${manga.endpoint}`} class="flex">
           <div

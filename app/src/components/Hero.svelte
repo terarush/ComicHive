@@ -16,15 +16,16 @@
       <h1
         class="text-4xl sm:text-6xl font-extrabold tracking-tight text-[hsl(var(--background-foreground))] drop-shadow-lg"
       >
-        Enter the ComicHive of
+        Selamat Datang di ComicHive!
         <br class="hidden sm:inline" />
-        Infinite Adventures & Stories
+        Baca Manga & Tonton Anime Gratis
       </h1>
       <p
         class="mt-4 text-lg sm:text-xl text-[hsl(var(--muted-foreground))] max-w-md"
       >
-        Your ultimate destination for reading manga online. Discover thousands
-        of titles, connect with fellow fans, and enjoy seamless reading.
+        ComicHive adalah platform terbaik untuk membaca manga, manhwa, dan
+        menonton anime secara gratis. Temukan ribuan judul, terhubung dengan
+        komunitas, dan nikmati pengalaman membaca yang menyenangkan!
       </p>
       <div
         class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
@@ -33,13 +34,14 @@
           href="/manga"
           class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))] transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          Get Started
+          Mulai Membaca
         </Link>
-        <button
+        <Link
+          href="/anime"
           class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-[hsl(var(--foreground))] bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))] transition-all duration-300"
         >
-          Explore Manga
-        </button>
+          Jelajahi Anime
+        </Link>
       </div>
     </div>
 

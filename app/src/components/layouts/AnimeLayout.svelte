@@ -17,9 +17,9 @@
 <section class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] py-[20px]">
   <div class="max-w-6xl mx-auto px-4">
     <slot />
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {#each animeList as anime}
-        <Link href={anime.href} class="flex">
+        <Link href={`/anime/${anime.animeId}`} class="flex">
           <div
             class="flex flex-col w-full bg-[hsl(var(--card))] border rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
