@@ -10,6 +10,7 @@
   let chapter: any = null;
   let isLoading = true;
   let notFound = false;
+  let title: any;
 
   onMount(async () => {
     try {
@@ -19,6 +20,7 @@
         notFound = true;
       } else {
         chapter = response.data;
+        title = response.data.chapter_name;
       }
     } catch (error) {
       console.error("Failed to fetch chapter:", error);
@@ -29,6 +31,10 @@
     }
   });
 </script>
+
+<svelte:head>
+  <title>ComicHive - Chapter {title}</title>
+</svelte:head>
 
 {#if isLoading}
   <div

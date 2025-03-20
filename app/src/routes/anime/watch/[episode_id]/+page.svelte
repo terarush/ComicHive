@@ -10,6 +10,7 @@
   let videoUrl: string | null = null;
   let notFound = false;
   let isLoading = true;
+  let title: string;
 
   async function fetchEpisode() {
     try {
@@ -19,6 +20,7 @@
         notFound = true;
       } else {
         episodeData = response.data.data;
+        title = episodeData.title;
 
         const firstServer = episodeData.server.qualities?.find(
           (q: any) => q.serverList.length > 0,
@@ -78,6 +80,10 @@
 
   fetchEpisode();
 </script>
+
+<svelte:head>
+  <title>ComicHive - {title}</title>
+</svelte:head>
 
 <div>
   {#if isLoading}

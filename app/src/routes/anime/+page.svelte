@@ -30,6 +30,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>ComicHive - Tonton anime secara gratis tanpa iklan!</title>
+</svelte:head>
+
 <div>
   {#if isLoading}
     <LoadingElements/>

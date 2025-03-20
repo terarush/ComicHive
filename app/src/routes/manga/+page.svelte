@@ -48,6 +48,10 @@
   };
 </script>
 
+<svelte:head>
+  <title>ComicHive - Baca manga secara gratis!</title>
+</svelte:head>
+
 <main>
   {#if mangaList.length === 0}
   <LoadingElements/>

@@ -28,6 +28,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>ComicHive - Platform baca manga & nonton anime.</title>
+</svelte:head>
+
 <main>
   <Hero />
   <SearchManga />

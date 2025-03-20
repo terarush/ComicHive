@@ -8,6 +8,7 @@
   export let data: AnimeSlug;
   let animeData: any;
   let error: string | null = null;
+  let title: string;
 
   onMount(async () => {
     try {
@@ -17,12 +18,17 @@
         return;
       }
       animeData = response.data.data;
+      title = response.data.data.english;
     } catch (err) {
       error = "Failed to fetch anime details.";
       console.error(err);
     }
   });
 </script>
+
+<svelte:head>
+  <title>ComicHive - {title}</title>
+</svelte:head>
 
 {#if error}
   <div class="min-h-screen flex justify-center items-center">
