@@ -16,14 +16,15 @@
   function handleInputChange(newValue: string) {
     query = newValue; 
   }
+  export let placeholder: string;
 </script>
 
 <div class="flex items-center space-x-2 w-full md:px-0 px-5 max-w-md">
   <Input
     type="text"
     value={query}
-    placeholder="Cari manga..."
-    classes="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-300 bg-[hsl(var(--background))] text-[hsl(var(--foreground))]"
+    placeholder={placeholder}
+    classes="flex-grow px-4 py-2 border border-[hsl(var(--primary))] rounded-l-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors duration-300 bg-[hsl(var(--background))] text-[hsl(var(--foreground))]"
     on:input={(e) => handleInputChange(e.detail)}
   />
 

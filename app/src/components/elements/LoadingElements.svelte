@@ -1,9 +1,8 @@
 <div class="fixed inset-0 flex justify-center items-center bg-[hsl(var(--background))] z-50">
   <div class="text-center">
     <svg
-      class="animate-spin h-8 w-8 mx-auto mb-4"
+      class="animate-spin h-8 w-8 mx-auto mb-4 text-[hsl(var(--primary))]"
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 24 24"
     >
       <circle

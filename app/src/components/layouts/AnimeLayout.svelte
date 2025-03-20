@@ -21,7 +21,7 @@
       {#each animeList as anime}
         <Link href={`/anime/${anime.animeId}`} class="flex">
           <div
-            class="flex flex-col w-full bg-[hsl(var(--card))] border rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            class="flex flex-col w-full bg-[hsl(var(--card))] border border-[hsl(var(--primary))] rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
             <div class="w-full aspect-[4/3] relative overflow-hidden">
               <img

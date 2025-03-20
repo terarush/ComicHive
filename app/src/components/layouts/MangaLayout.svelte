@@ -20,7 +20,7 @@
       {#each mangaList as manga}
         <Link href={`/manga/${manga.endpoint}`} class="flex">
           <div
-            class="flex flex-col w-full bg-[hsl(var(--card))] border rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            class="flex flex-col w-full bg-[hsl(var(--card))] border border-[hsl(var(--primary))] rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
             <div class="w-full aspect-[4/3] relative overflow-hidden">
               <img

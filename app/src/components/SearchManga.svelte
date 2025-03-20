@@ -1,6 +1,6 @@
 <script lang="ts">
-import { FetchMangaApi } from "../utils/Fetch";
-  import SearchManga from "./fragments/SearchManga.svelte";
+  import { FetchMangaApi } from "../utils/Fetch";
+  import Search from "./fragments/Search.svelte";
   import ResultSearchLayout from "./layouts/ResultSearchLayout.svelte";
 
   let searchResults: {
@@ -33,7 +33,7 @@ import { FetchMangaApi } from "../utils/Fetch";
 
 <div class="bg-[hsl(var(--background))]">
   <div class="flex justify-center items-center pt-20">
-    <SearchManga on:search={(e) => handleSearch(e.detail)} />
+    <Search placeholder="Cari manga..." on:search={(e) => handleSearch(e.detail)} />
   </div>
 
   {#if hasInteracted}
