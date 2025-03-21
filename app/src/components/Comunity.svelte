@@ -30,7 +30,7 @@
         About Us
       </Link>
       <a
-        href="https://chat.whatsapp.com/your-whatsapp-group-link"
+        href="https://chat.whatsapp.com/CkXA34zc4c9Kw3KOOMPuy1"
         target="_blank"
         rel="noopener noreferrer"
         class="px-6 py-3 text-sm font-medium text-[hsl(var(--foreground))] 
