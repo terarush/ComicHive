@@ -23,60 +23,54 @@
 
     const rootElement = document.getElementById("root");
 
-    rootElement.innerHTML = `<h1 style="text-align: center; padding: 2rem 1rem;">Loading...</h1>`;
+    rootElement.innerHTML = `<h1 class="text-center p-8 text-lg text-gray-500 dark:text-gray-300">Loading...</h1>`;
 
     const response = await fetch(pathname + "/view-data");
     const { data } = await response.json();
     
     if (!response.ok) {
-      rootElement.innerHTML = `<h1 style="text-align: center; padding: 2rem 1rem;">${response.status} ${response.statusText}</h1>`;
+      rootElement.innerHTML = `<h1 class="text-center p-8 text-lg text-red-500 dark:text-red-400">${response.status} ${response.statusText}</h1>`;
     } else {
       if (data) {
         document.title = data.title;
 
         rootElement.innerHTML = `
-          <div class="container">
-            <h2>${data.title} is ${data.ok ? `Ready 💧🍌🚀🚀... Izin bang ${data.title}` : "not Ready 🛌😴"}</h2>
-            <h4>Message : ${data.message}</h4>
-            <h4>Source : <a href="${data.baseUrl}" target="_blank">${data.baseUrl}</a></h4>
-            <h4><a href="/">back to home</a></h4>
-            <div class="card-wrapper">
-              <h3>Routes :</h3>
-
+          <div class="container mx-auto p-6 dark:bg-gray-900 dark:text-white">
+            <div class="card-wrapper mt-4">
               ${data.routesView
                 .map((route) => {
                   return `
-                    <div class="card">
-                      <h4>${route.title}</h4>
-                      <p><span class="key"><span class="dot"></span>Get</span> : <a href="${data.baseUrlPath + route.route}" target="_blank">${data.baseUrlPath + route.route}</a></p>
-                      <p><span class="key"><span class="dot"></span>Route Params</span> : <span class="value">${route.routeParams?.length > 0 ? "" : "none"}</span></p>
+                    <div class="card bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md mt-2">
+                      <h4 class="text-lg font-semibold">${route.title}</h4>
+                      <p class="text-sm"><span class="font-bold">Get</span> : <a href="${data.baseUrlPath + route.route}" target="_blank" class="text-blue-500 dark:text-blue-400 underline">${data.baseUrlPath + route.route}</a></p>
+                      <p class="text-sm"><span class="font-bold">Route Params</span> : <span class="text-gray-500">${route.routeParams?.length > 0 ? "" : "none"}</span></p>
                       ${
                         route.routeParams?.length > 0
                         ?
                           route.routeParams.map((routeParam) => {
                             return `
-                              <p data-spasi="1"><span class="key"><span class="dot"></span>Placeholder</span> : <span class="value">${routeParam.placeholder}</span></p>
-                              <p data-spasi="1"><span class="key"><span class="dot"></span>Value</span> : </p>
-                              <p data-spasi="2"><span class="key"><span class="dot"></span>Type</span> : <span class="value">${routeParam.value.type}</span></p>
-                              <p data-spasi="2"><span class="key"><span class="dot"></span>Default Value</span> : <span class="value">${routeParam.value.default ? routeParam.value.default : "none"}</span></p>
-                              <p data-spasi="2"><span class="key"><span class="dot"></span>Required</span> : <span class="value">${routeParam.value.required ? "Yes" : "No"}</span></p>
+                              <p data-spasi="1" class="text-sm"><span class="font-bold">Placeholder</span> : <span class="text-gray-400">${routeParam.placeholder}</span></p>
+                              <p data-spasi="1" class="text-sm"><span class="font-bold">Value</span> :</p>
+                              <p data-spasi="2" class="text-sm"><span class="font-bold">Type</span> : <span class="text-gray-400">${routeParam.value.type}</span></p>
+                              <p data-spasi="2" class="text-sm"><span class="font-bold">Default Value</span> : <span class="text-gray-400">${routeParam.value.default ? routeParam.value.default : "none"}</span></p>
+                              <p data-spasi="2" class="text-sm"><span class="font-bold">Required</span> : <span class="text-gray-400">${routeParam.value.required ? "Yes" : "No"}</span></p>
                             `;
                           }).join("")
                         :
                           ""
                       }
-                      <p><span class="key"><span class="dot"></span>Query Params</span> : <span class="value">${route.queryParams && route.queryParams.length > 0 ? "" : "none"}</span></p>
+                      <p class="text-sm"><span class="font-bold">Query Params</span> : <span class="text-gray-500">${route.queryParams && route.queryParams.length > 0 ? "" : "none"}</span></p>
                       ${
                         route.queryParams?.length > 0
                         ?
                           route.queryParams
                             .map((queryParam) => {
                               return `
-                                <p data-spasi="1"><span class="key"><span class="dot"></span>Key</span> : <span class="value">${queryParam.key}</span></p>
-                                <p data-spasi="1"><span class="key"><span class="dot"></span>Value</span> : </p>
-                                <p data-spasi="2"><span class="key"><span class="dot"></span>Type</span> : <span class="value">${queryParam.value.type}</span></p>
-                                <p data-spasi="2"><span class="key"><span class="dot"></span>Default Value</span> : <span class="value">${queryParam.value.default ? queryParam.value.default : "none"}</span></p>
-                                <p data-spasi="2"><span class="key"><span class="dot"></span>Required</span> : <span class="value">${queryParam.value.required ? "Yes" : "No"}</span></p>
+                                <p data-spasi="1" class="text-sm"><span class="font-bold">Key</span> : <span class="text-gray-400">${queryParam.key}</span></p>
+                                <p data-spasi="1" class="text-sm"><span class="font-bold">Value</span> :</p>
+                                <p data-spasi="2" class="text-sm"><span class="font-bold">Type</span> : <span class="text-gray-400">${queryParam.value.type}</span></p>
+                                <p data-spasi="2" class="text-sm"><span class="font-bold">Default Value</span> : <span class="text-gray-400">${queryParam.value.default ? queryParam.value.default : "none"}</span></p>
+                                <p data-spasi="2" class="text-sm"><span class="font-bold">Required</span> : <span class="text-gray-400">${queryParam.value.required ? "Yes" : "No"}</span></p>
                               `;
                             })
                             .join("")
@@ -95,3 +89,4 @@
       }
     }
 })();
+
