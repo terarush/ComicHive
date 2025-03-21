@@ -27,7 +27,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-6">
       {#each animeList as anime}
         <div
-          class="bg-[hsl(var(--card))] p-3 rounded-lg transition-all duration-300 hover:shadow-lg flex flex-col h-full border border-[hsl(var(--background-foreground))] lg:mx-0 mx-2"
+          class="bg-[hsl(var(--card))] p-3 rounded-lg transition-all duration-300 hover:shadow-lg flex flex-col h-full border border-[hsl(var(--primary))] lg:mx-0 mx-2"
         >
           <img
             src={anime.poster}

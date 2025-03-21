@@ -36,7 +36,7 @@
           </p>
           <a
             href={`/manga/${manga.endpoint}`}
-            class="mt-3 inline-block text-blue-500 hover:text-blue-600 transition-colors duration-300"
+            class="mt-3 inline-block text-[hsl(var(--primary))] hover:text-[hsl(var(--background-foreground))] transition-colors duration-300"
           >
             Read More
           </a>
