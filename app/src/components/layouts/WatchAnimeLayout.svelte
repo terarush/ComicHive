@@ -1,109 +1,16 @@
 <script lang="ts">
-  interface EpisodeData {
-    title: string;
-    animeId: string;
-    poster: string;
-    releasedOn: string;
-    defaultStreamingUrl: string;
-    hasPrevEpisode: boolean;
-    prevEpisode?: PrevNextEpisode;
-    hasNextEpisode: boolean;
-    nextEpisode?: PrevNextEpisode;
-    synopsis: Synopsis;
-    genreList: Genre[];
-    server: Server;
-    downloadUrl: DownloadUrl;
-    recommendedEpisodeList: RecommendedEpisode[];
-    movie: MovieSection;
-  }
-
-  interface PrevNextEpisode {
-    title: string;
-    episodeId: string;
-    href: string;
-    samehadakuUrl: string;
-  }
-
-  interface Synopsis {
-    paragraphs: string[];
-    connections: any[];
-  }
-
-  interface Genre {
-    title: string;
-    genreId: string;
-    href: string;
-    samehadakuUrl: string;
-  }
-
-  interface Server {
-    qualities: Quality[];
-  }
-
-  interface Quality {
-    title: string;
-    serverList: ServerItem[];
-  }
-
-  interface ServerItem {
-    title: string;
-    serverId: string;
-    href: string;
-  }
-
-  interface DownloadUrl {
-    formats: Format[];
-  }
-
-  interface Format {
-    title: string;
-    qualities: QualityDownload[];
-  }
-
-  interface QualityDownload {
-    title: string;
-    urls: DownloadUrlItem[];
-  }
-
-  interface DownloadUrlItem {
-    title: string;
-    url: string;
-  }
-
-  interface RecommendedEpisode {
-    title: string;
-    poster: string;
-    releaseDate: string;
-    episodeId: string;
-    href: string;
-    samehadakuUrl: string;
-  }
-
-  interface MovieSection {
-    href: string;
-    samehadakuUrl: string;
-    animeList: Movie[];
-  }
-
-  interface Movie {
-    title: string;
-    poster: string;
-    releaseDate: string;
-    animeId: string;
-    href: string;
-    samehadakuUrl: string;
-    genreList: Genre[];
-  }
-
+  import type { EpisodeData } from "../../types/episodes";
+  import { ArrowBigRight, ArrowBigLeft } from "@lucide/svelte";
+  import { FetchAnimeApi } from "../../utils/Fetch";
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
-  import { ENV } from "../../env";
+
   async function fetchServerUrl(serverId: string) {
     try {
-      const response = await fetch(`${ENV.ANIME_API_URL}/samehadaku/server/${serverId}`);
-      const result = await response.json();
-      
+      const response = await FetchAnimeApi.get(`/server/${serverId}`);
+      const result = response.data;
+
       if (result.ok && result.data.url) {
         return result.data.url;
       } else {
@@ -116,15 +23,20 @@
     }
   }
 
-  async function updateVideoUrl(serverId: string) {
+  async function updateVideoUrl(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const serverId = selectElement.value;
     const url = await fetchServerUrl(serverId);
     if (url) {
       selectedQualityUrl = url;
     }
   }
+  console.log(episode);
 </script>
 
-<section class="bg-[hsl(var(--background))] py-10 text-[hsl(var(--foreground))] py-[100px]">
+<section
+  class="bg-[hsl(var(--background))] py-10 text-[hsl(var(--foreground))] py-[100px]"
+>
   <div class="max-w-5xl mx-auto px-4">
     <div class="w-full aspect-video bg-black rounded-md overflow-hidden">
       <iframe
@@ -136,15 +48,19 @@
     </div>
 
     <div class="mt-4">
-      <label for="quality" class="block text-sm font-medium text-white">Pilih Kualitas Streaming:</label>
+      <label for="quality" class="block text-sm font-medium text-white"
+        >Pilih Kualitas Streaming:</label
+      >
       <select
         id="quality"
-        class="mt-1 p-2 border border-white bg-black text-white rounded-md"
-        on:change={(e) => updateVideoUrl(e.target.value)}
+        class="mt-1 p-2 border border-[hsl(var(--primary))] bg-black text-white rounded-md"
+        on:change={updateVideoUrl}
       >
         {#each episode.server.qualities as quality}
           {#each quality.serverList as serverItem}
-            <option value={serverItem.serverId} class="text-black bg-white">{quality.title} - {serverItem.title}</option>
+            <option value={serverItem.serverId} class="text-black bg-white"
+              >{quality.title} - {serverItem.title}</option
+            >
           {/each}
         {/each}
       </select>
@@ -154,18 +70,18 @@
         <a
           rel="external"
           href={`/anime/watch/${episode.prevEpisode?.episodeId}`}
-          class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))]"
+          class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))] flex items-center gap-2"
         >
-          ⬅ Episode {episode.prevEpisode?.title}
+          <ArrowBigLeft/> Episode {episode.prevEpisode?.title}
         </a>
       {/if}
       {#if episode.hasNextEpisode}
         <a
           rel="external"
           href={`/anime/watch/${episode.nextEpisode?.episodeId}`}
-          class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))]"
+          class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))] flex items-center gap-2"
         >
-          Episode {episode.nextEpisode?.title} ➡
+          Episode {episode.nextEpisode?.title} <ArrowBigRight/>
         </a>
       {/if}
     </div>
@@ -177,7 +93,11 @@
     </div>
     <div class="flex flex-wrap gap-2 mt-4">
       {#each episode.genreList as genre}
-        <a href={genre.href} class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full">{genre.title}</a>
+        <a
+          href={genre.href}
+          class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full"
+          >{genre.title}</a
+        >
       {/each}
     </div>
     <div class="mt-6">
@@ -205,6 +125,7 @@
         </div>
       {/each}
     </div>
+    <!--
     <div class="mt-6">
       <h2 class="text-xl font-semibold mb-2">Recommended Episodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -229,5 +150,6 @@
         {/each}
       </div>
     </div>
+    -->
   </div>
 </section>
