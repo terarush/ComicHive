@@ -1,6 +1,7 @@
 # ComicHive
-
-![ComicHive Logo](./logo.gif)
+<p>
+  <img src="https://github.com/user-attachments/assets/daa69afc-268f-468f-926f-9920dbb0c55a" alt="ComicHive Logo" width="200"/>
+</p>
 
 **ComicHive** adalah platform open-source untuk membaca manga, manhwa, dan menonton anime tanpa iklan. Temukan ribuan judul favoritmu dan nikmati pengalaman membaca yang nyaman serta interaktif!
 
@@ -21,7 +22,7 @@
 ## 📜 Cara Install dan Menjalankan
 1. Clone repository ini:
    ```sh
-   git clone https://github.com/username/ComicHive.git
+   git clone https://github.com/tuxedo-labs/ComicHive.git
    cd ComicHive
    ```
 2. Install dependencies:
@@ -51,10 +52,8 @@ Kami menerima kontribusi dari komunitas! Jika ingin berkontribusi:
 Proyek ini dirilis di bawah lisensi **MIT**.
 
 ## 📬 Kontak & Komunitas
-- 🌐 Website: [ComicHive](https://comichive.dev)
-- 🐦 Twitter: [@ComicHive](https://twitter.com/ComicHive)
-- 💬 Discord: [Join Here](https://discord.gg/comichive)
-- ✉️ Email: support@comichive.dev
+- 🌐 Website: [ComicHive](https://comic-hive.tuxedolabs.xyz)
+- ✉️ Email: me@tuxedolabs.xyz
 
 ---
 Selamat membaca dan menikmati anime favoritmu di **ComicHive**! 🎉
