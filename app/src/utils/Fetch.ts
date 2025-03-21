@@ -9,7 +9,7 @@ export const FetchMangaApi = axios.create({
 });
 
 export const FetchAnimeApi = axios.create({
-  baseURL: ENV.ANIME_API_URL,
+  baseURL: `${ENV.ANIME_API_URL}/samehadaku`,
   headers: {
     "Content-Type": "application/json"
   }
