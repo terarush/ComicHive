@@ -94,60 +94,61 @@
     samehadakuUrl: string;
     genreList: Genre[];
   }
+
   export let videoUrl: string | null = null;
-  export let episode: EpisodeData = {
-    title: "",
-    animeId: "",
-    poster: "",
-    releasedOn: "",
-    defaultStreamingUrl: "",
-    hasPrevEpisode: false,
-    prevEpisode: {
-      title: "",
-      episodeId: "",
-      href: "",
-      samehadakuUrl: "",
-    },
-    hasNextEpisode: false,
-    nextEpisode: {
-      title: "",
-      episodeId: "",
-      href: "",
-      samehadakuUrl: "",
-    },
-    synopsis: {
-      paragraphs: [],
-      connections: [],
-    },
-    genreList: [],
-    server: {
-      qualities: [],
-    },
-    downloadUrl: {
-      formats: [],
-    },
-    recommendedEpisodeList: [],
-    movie: {
-      href: "",
-      samehadakuUrl: "",
-      animeList: [],
-    },
-  };
+  export let episode: EpisodeData;
+  let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
+  import { ENV } from "../../env";
+  async function fetchServerUrl(serverId: string) {
+    try {
+      const response = await fetch(`${ENV.ANIME_API_URL}/samehadaku/server/${serverId}`);
+      const result = await response.json();
+      
+      if (result.ok && result.data.url) {
+        return result.data.url;
+      } else {
+        console.error("Failed to fetch server URL:", result.message);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching server URL:", error);
+      return null;
+    }
+  }
+
+  async function updateVideoUrl(serverId: string) {
+    const url = await fetchServerUrl(serverId);
+    if (url) {
+      selectedQualityUrl = url;
+    }
+  }
 </script>
 
-<section
-  class="bg-[hsl(var(--background))] py-10 text-[hsl(var(--foreground))] py-[100px]"
->
+<section class="bg-[hsl(var(--background))] py-10 text-[hsl(var(--foreground))] py-[100px]">
   <div class="max-w-5xl mx-auto px-4">
     <div class="w-full aspect-video bg-black rounded-md overflow-hidden">
       <iframe
-        src={videoUrl}
+        src={selectedQualityUrl}
         class="w-full h-full flex justify-center items-center"
         allowfullscreen
         frameborder="0"
       ></iframe>
     </div>
 
+    <div class="mt-4">
+      <label for="quality" class="block text-sm font-medium text-white">Pilih Kualitas Streaming:</label>
+      <select
+        id="quality"
+        class="mt-1 p-2 border border-white bg-black text-white rounded-md"
+        on:change={(e) => updateVideoUrl(e.target.value)}
+      >
+        {#each episode.server.qualities as quality}
+          {#each quality.serverList as serverItem}
+            <option value={serverItem.serverId} class="text-black bg-white">{quality.title} - {serverItem.title}</option>
+          {/each}
+        {/each}
+      </select>
+    </div>
     <div class="flex justify-between items-center mt-4">
       {#if episode.hasPrevEpisode}
         <a
@@ -168,25 +169,17 @@
         </a>
       {/if}
     </div>
-
     <div class="mt-6">
       <h2 class="text-xl font-semibold mb-2">Synopsis</h2>
       {#each episode.synopsis.paragraphs as paragraph}
         <p class="text-sm mb-2">{paragraph}</p>
       {/each}
     </div>
-
     <div class="flex flex-wrap gap-2 mt-4">
       {#each episode.genreList as genre}
-        <a
-          href={genre.href}
-          class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
-        >
-          {genre.title}
-        </a>
+        <a href={genre.href} class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full">{genre.title}</a>
       {/each}
     </div>
-
     <div class="mt-6">
       <h2 class="text-xl font-semibold mb-2">Download Links</h2>
       {#each episode.downloadUrl.formats as format}
@@ -212,7 +205,6 @@
         </div>
       {/each}
     </div>
-
     <div class="mt-6">
       <h2 class="text-xl font-semibold mb-2">Recommended Episodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
