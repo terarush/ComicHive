@@ -4,7 +4,7 @@
   import LoadingElements from "../../components/elements/LoadingElements.svelte";
   import { FetchAnimeApi } from "../../utils/Fetch";
   import { onMount } from "svelte";
-    import SearchAnime from "../../components/SearchAnime.svelte";
+  import SearchAnime from "../../components/SearchAnime.svelte";
 
   let animeList: any[] = [];
   let isLoading = true;
@@ -36,14 +36,15 @@
 
 <div>
   {#if isLoading}
-    <LoadingElements/>
+    <LoadingElements />
   {:else}
     <MenuHero {...MenuHeroData} />
-    
-    <h1 class="text-3xl font-bold text-[hsl(var(--foreground))] text-center mt-10 bg-[hsl(var(--background))]">
+    <h1
+      class="text-3xl font-bold text-[hsl(var(--foreground))] text-center mt-10 bg-[hsl(var(--background))]"
+    >
       Anime Release Terbaru
     </h1>
-    <SearchAnime/>
+    <SearchAnime />
     <AnimeLayout {animeList} />
   {/if}
 </div>

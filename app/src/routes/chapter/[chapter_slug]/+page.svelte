@@ -11,6 +11,7 @@
   let isLoading = true;
   let notFound = false;
   let title: any;
+  let soundCloudPlayer: HTMLIFrameElement | null = null;
 
   onMount(async () => {
     try {
@@ -28,6 +29,12 @@
     } finally {
       isLoading = false;
       await tick();
+    }
+    if (soundCloudPlayer) {
+      soundCloudPlayer.contentWindow?.postMessage(
+        JSON.stringify({ method: "play" }),
+        "https://w.soundcloud.com",
+      );
     }
   });
 </script>
@@ -47,7 +54,9 @@
     class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] h-full py-[250px]"
   >
     <div class="text-center text-red-500 py-[100px]">
-      <h2 class="text-2xl font-bold">Chapter Tidak Ditemukan atau mungkin belum release.</h2>
+      <h2 class="text-2xl font-bold">
+        Chapter Tidak Ditemukan atau mungkin belum release.
+      </h2>
       <p class="text-sm">Pastikan slug benar atau coba lagi nanti.</p>
     </div>
   </div>

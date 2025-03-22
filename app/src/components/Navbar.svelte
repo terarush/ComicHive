@@ -1,5 +1,6 @@
 <script lang="ts">
-  import ModeButton from "./elements/ModeButton.svelte";
+  import UserButton from "clerk-sveltekit/client/UserButton.svelte";
+import ModeButton from "./elements/ModeButton.svelte";
   import Link from "svelte-link";
 
   let isMenuOpen = false;
@@ -54,7 +55,7 @@
 
         <div class="flex items-center gap-2" aria-label="ComicHive">
           <svg
-            class="h-6 w-6 text-[hsl(var(--primary))] fill-[hsl(var(--primary))]"
+            class="h-6 w-6 text-[hsl(var(--foreground))] fill-[hsl(var(--primary))]"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -107,11 +108,12 @@
       <div class="flex items-center gap-4">
         <ModeButton />
         <Link
-          href="/signin"
+          href="/auth/login"
           class="inline-flex items-center justify-center px-4 py-2 border border-[hsl(var(--border))] rounded-md text-sm font-medium text-[hsl(var(--foreground))] bg-[hsl(var(--background))] hover:bg-[hsl(var(--muted))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--ring))]"
         >
           Sign in
         </Link>
+        <UserButton/>
       </div>
     </div>
 

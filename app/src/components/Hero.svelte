@@ -38,7 +38,7 @@
         </Link>
         <Link
           href="/anime"
-          class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-[hsl(var(--foreground))] bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))] transition-all duration-300"
+          class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-[hsl(var(--foreground))] bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent))] cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))] transition-all duration-300"
         >
           Jelajahi Anime
         </Link>
