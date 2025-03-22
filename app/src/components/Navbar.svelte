@@ -1,6 +1,5 @@
 <script lang="ts">
-  import UserButton from "clerk-sveltekit/client/UserButton.svelte";
-import ModeButton from "./elements/ModeButton.svelte";
+  import ModeButton from "./elements/ModeButton.svelte";
   import Link from "svelte-link";
 
   let isMenuOpen = false;
@@ -11,7 +10,7 @@ import ModeButton from "./elements/ModeButton.svelte";
 </script>
 
 <nav
-  class="fixed inset-x-0 top-0 z-50 bg-[hsl(var(--background))] shadow-sm dark:bg-[hsl(var(--background))]"
+  class="fixed inset-x-0 top-0 z-50 bg-[hsl(var(--background)/0.8)] backdrop-blur-lg shadow-sm dark:bg-[hsl(var(--background)/0.8)]"
 >
   <div class="w-full max-w-7xl mx-auto px-4">
     <div class="flex justify-between h-16 items-center">
@@ -55,7 +54,7 @@ import ModeButton from "./elements/ModeButton.svelte";
 
         <div class="flex items-center gap-2" aria-label="ComicHive">
           <svg
-            class="h-6 w-6 text-[hsl(var(--foreground))] fill-[hsl(var(--primary))]"
+            class="h-6 w-6 text-[hsl(var(--primary))] fill-[hsl(var(--primary))]"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -113,7 +112,6 @@ import ModeButton from "./elements/ModeButton.svelte";
         >
           Sign in
         </Link>
-        <UserButton/>
       </div>
     </div>
 
@@ -153,3 +151,4 @@ import ModeButton from "./elements/ModeButton.svelte";
     {/if}
   </div>
 </nav>
+

@@ -3,9 +3,12 @@
   import Button from "../elements/Button.svelte";
 
   let query = "";
+  let timeoutId: NodeJS.Timeout | null = null; 
 
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+
+  export let placeholder: string;
 
   function handleSearch() {
     if (query.trim()) {
@@ -14,9 +17,18 @@
   }
 
   function handleInputChange(newValue: string) {
-    query = newValue; 
+    query = newValue;
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      if (query.trim()) {
+        dispatch("search", query); 
+      }
+    }, 1000); 
   }
-  export let placeholder: string;
 </script>
 
 <div class="flex items-center space-x-2 w-full md:px-0 px-5 max-w-md">
@@ -31,7 +43,7 @@
   <Button
     variant="primary"
     classes="px-6 py-2 rounded-r-md"
-    on:click={handleSearch}
+    on:click={handleSearch} 
   >
     Cari
   </Button>
