@@ -1,25 +1,44 @@
+import { HTTPException } from "hono/http-exception";
 import { prismaClient } from "../application/database";
+import { CreateFavoriteRequest } from "../model/favorite-model";
 
 export class FavoriteService {
   static async getFavorite(userId: string) {
-    const user = await prismaClient.user.findFirst({
-      where: {
-        id: userId,
+    return await prismaClient.favorite.findMany({
+      where: { userId },
+    });
+  }
+
+  static async postFavorite(userId: string, request: CreateFavoriteRequest) {
+    const favorite = await prismaClient.favorite.create({
+      data: {
+        animeId: request.anime_id,
+        userId: userId,
       },
     });
 
-    const favorite = await prismaClient.favorite.findMany({
+    return {
+      message: "success",
+      favorite,
+    };
+  }
+
+  static async deleteFavorite(userId: string, request: CreateFavoriteRequest) {
+    const favorite = await prismaClient.favorite.deleteMany({
       where: {
-        userId: user?.id,
+        animeId: request.anime_id,
+        userId,
       },
     });
 
     if (!favorite) {
-      return {
-        favorite: null,
-      };
+      throw new HTTPException(404, {
+        message: "Error not found favorite id",
+      });
     }
 
-    return favorite;
+    return {
+      message: "success",
+    };
   }
 }
