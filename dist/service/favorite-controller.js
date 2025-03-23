@@ -12,10 +12,21 @@ class FavoriteService {
     }
     static async postFavorite(userId, request) {
         request = favorite_validation_1.FavoriteValidation.CREATE_FAVORITE.parse(request);
+        const favoriteCheck = await database_1.prismaClient.favorite.findFirst({
+            where: {
+                animeId: request.anime_id,
+                userId,
+            },
+        });
+        if (favoriteCheck) {
+            return {
+                message: "Already add to favorite."
+            };
+        }
         const favorite = await database_1.prismaClient.favorite.create({
             data: {
                 animeId: request.anime_id,
-                userId: userId,
+                userId,
             },
         });
         return {
@@ -31,7 +42,7 @@ class FavoriteService {
                 userId,
             },
         });
-        if (!favorite) {
+        if (favorite.count === 0) {
             throw new http_exception_1.HTTPException(404, {
                 message: "Error not found favorite id",
             });
