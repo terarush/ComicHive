@@ -16,5 +16,6 @@ export const authMiddleware = async (c: Context, next: Next) => {
   }
 
   c.set('token', token);
+  c.set('userId', user.id)
   return next();
 };
