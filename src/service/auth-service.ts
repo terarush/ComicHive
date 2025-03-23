@@ -19,11 +19,11 @@ export class AuthService {
       throw new HTTPException(400, { message: "Username already exists" });
     }
 
-    const emailExists = await prismaClient.contact.count({
+    const existingContact = await prismaClient.contact.findUnique({
       where: { email: request.email },
     });
 
-    if (emailExists > 0) {
+    if (existingContact) {
       throw new HTTPException(400, { message: "Email already exists" });
     }
 

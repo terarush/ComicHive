@@ -18,10 +18,10 @@ class AuthService {
         if (usernameExists > 0) {
             throw new http_exception_1.HTTPException(400, { message: "Username already exists" });
         }
-        const emailExists = await database_1.prismaClient.contact.count({
+        const existingContact = await database_1.prismaClient.contact.findUnique({
             where: { email: request.email },
         });
-        if (emailExists > 0) {
+        if (existingContact) {
             throw new http_exception_1.HTTPException(400, { message: "Email already exists" });
         }
         request.password = await bcrypt_1.default.hash(request.password, 10);

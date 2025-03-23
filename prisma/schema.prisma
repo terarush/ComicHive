@@ -14,8 +14,9 @@ model User {
   name     String
   token    String?
 
-  contact   Contact?   @relation(fields: [contactId], references: [id])
+  contact   Contact?   @relation(fields: [contactId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   contactId String?    @unique @db.ObjectId
+
   favorite  Favorite[] @relation()
   comment   Comment[]  @relation()
 
@@ -26,11 +27,11 @@ model Contact {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   first_name String
   last_name  String
-  email      String?
+  email      String? @unique
   phone      String?
 
   user   User?   @relation()
-  userId String? @unique @db.ObjectId
+  userId String? @db.ObjectId
 
   @@map("contacts")
 }
@@ -48,7 +49,6 @@ model Favorite {
 model Comment {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   animeId String
-
   content String
 
   user   User   @relation(fields: [userId], references: [id])
