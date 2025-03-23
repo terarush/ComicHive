@@ -1,15 +1,18 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { ZodError } from "zod";
-import r from './router';
+import { cors } from "hono/cors";
+import r from "./router";
 
-const app = new Hono()
+const app = new Hono();
+
+app.use("*", cors());
 
 app.get("/", async (c: any) => {
-  c.text("API Client is ready!!")
-})
-app.route('/api/v1', r);
+  c.text("API Client is ready!!");
+});
+app.route("/api/v1", r);
 
 app.onError(async (err, c) => {
   if (err instanceof HTTPException) {
@@ -30,9 +33,12 @@ app.onError(async (err, c) => {
   }
 });
 
-serve({
-  fetch: app.fetch,
-  port: 3000
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
+serve(
+  {
+    fetch: app.fetch,
+    port: 3000,
+  },
+  (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`);
+  },
+);
