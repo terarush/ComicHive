@@ -8,12 +8,14 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  username String    @unique
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  username String   @unique
   password String
   name     String
   token    String?
-  contacts Contact[]
+
+  contact  Contact? @relation(fields: [contactId], references: [id]) 
+  contactId String? @unique @db.ObjectId 
 
   @@map("users")
 }
@@ -25,25 +27,9 @@ model Contact {
   email      String?
   phone      String?
 
-  userId String @db.ObjectId 
-  user   User   @relation(fields: [userId], references: [id])  
-
-  addresses Address[]
+  user       User?   @relation() 
+  userId     String? @unique @db.ObjectId 
 
   @@map("contacts")
-}
-
-model Address {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  street      String?
-  city        String?
-  province    String?
-  country     String
-  postal_code String
-
-  contactId String  @db.ObjectId
-  contact   Contact @relation(fields: [contactId], references: [id])
-
-  @@map("addresses")
 }
 

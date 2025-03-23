@@ -1,9 +1,9 @@
-import { User } from "@prisma/client";
-
 export type RegisterUserRequest = {
   username: string;
-  name: string;
   password: string;
+  email: string;
+  first_name: string;
+  last_name: string;
 };
 
 export type LoginUserRequest = {
@@ -16,10 +16,3 @@ export type UserResponse = {
   name: string;
   token?: string;
 };
-
-export function toUserResponse(user: User): UserResponse {
-  return {
-    name: user.name,
-    username: user.username
-  }
-}
