@@ -34,10 +34,14 @@
 </script>
 
 <div
-  class="flex items-center justify-center min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))]"
+  class="relative flex items-center justify-center min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))]"
 >
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--secondary))] to-[hsl(var(--tertiary))] opacity-30 blur-lg"
+  ></div>
+
   <form
-    class="w-full max-w-md bg-[hsl(var(--card))] p-6 rounded-lg shadow-lg border border-[hsl(var(--border))]"
+    class="relative w-full max-w-md bg-[hsl(var(--card))] p-6 rounded-lg shadow-lg border border-[hsl(var(--border))] backdrop-blur-md"
     on:submit={handleSubmit}
   >
     <h2 class="text-2xl font-bold text-[hsl(var(--primary))] mb-4">Register</h2>
@@ -58,10 +62,7 @@
 
     <div class="space-y-4">
       <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >Username</label
-        >
+        <label class="block text-sm font-medium text-[hsl(var(--muted-foreground))]">Username</label>
         <input
           type="text"
           bind:value={formData.username}
@@ -71,10 +72,7 @@
       </div>
 
       <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >Email</label
-        >
+        <label class="block text-sm font-medium text-[hsl(var(--muted-foreground))]">Email</label>
         <input
           type="email"
           bind:value={formData.email}
@@ -84,10 +82,7 @@
       </div>
 
       <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >First Name</label
-        >
+        <label class="block text-sm font-medium text-[hsl(var(--muted-foreground))]">First Name</label>
         <input
           type="text"
           bind:value={formData.first_name}
@@ -97,10 +92,7 @@
       </div>
 
       <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >Last Name</label
-        >
+        <label class="block text-sm font-medium text-[hsl(var(--muted-foreground))]">Last Name</label>
         <input
           type="text"
           bind:value={formData.last_name}
@@ -110,10 +102,7 @@
       </div>
 
       <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >Password</label
-        >
+        <label class="block text-sm font-medium text-[hsl(var(--muted-foreground))]">Password</label>
         <input
           type="password"
           bind:value={formData.password}

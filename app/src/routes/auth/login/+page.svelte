@@ -20,9 +20,9 @@
       setTimeout(() => {
         localStorage.setItem("accessToken", token);
       }, 2000);
-      message = "Login success, selamat datang kembali"
+      message = "Login success, selamat datang kembali";
       errorMessages = [];
-      goto('/')
+      goto('/');
     } catch (error: any) {
       console.error("Error:", error);
       if (error.response && error.response.data.errors) {
@@ -36,11 +36,13 @@
   };
 </script>
 
-<div
-  class="flex items-center justify-center min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))]"
->
+<div class="relative flex items-center justify-center min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--secondary))] to-[hsl(var(--tertiary))] opacity-30 blur-lg"
+  ></div>
+
   <form
-    class="w-full max-w-md bg-[hsl(var(--card))] p-6 rounded-lg shadow-lg border border-[hsl(var(--border))]"
+    class="relative w-full max-w-md bg-[hsl(var(--card))] p-6 rounded-lg shadow-lg border border-[hsl(var(--border))] z-10"
     on:submit={handleSubmit}
   >
     <h2 class="text-2xl font-bold text-[hsl(var(--primary))] mb-4">Login</h2>
@@ -93,10 +95,10 @@
       Login
     </button>
     <p class="mt-4 text-center text-sm">
-      Dont have account? create your account <Link
+      Don't have an account? Create your account <Link
         href="/auth/register"
-        class="text-[hsl(var(--primary))] hover:underline">Register here</Link
-      >
+        class="text-[hsl(var(--primary))] hover:underline">Register here</Link>
     </p>
   </form>
 </div>
+
