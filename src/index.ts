@@ -1,11 +1,31 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { HTTPException } from "hono/http-exception";
+import { ZodError } from "zod";
+import r from './router';
 
 const app = new Hono()
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.route('/api/v1', r);
+
+app.onError(async (err, c) => {
+  if (err instanceof HTTPException) {
+    c.status(err.status);
+    return c.json({
+      errors: [{ message: err.message }],
+    });
+  } else if (err instanceof ZodError) {
+    c.status(400);
+    return c.json({
+      errors: err.errors,
+    });
+  } else {
+    c.status(500);
+    return c.json({
+      errors: [{ message: err.message }],
+    });
+  }
+});
 
 serve({
   fetch: app.fetch,

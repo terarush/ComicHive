@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
     "module": "NodeNext",
+    "target": "ESNext",
     "strict": true,
-    "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
-    "types": [
-      "node"
-    ],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
-  }
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"],  
+  "exclude": ["node_modules", "dist", "api", "app"]
 }
+
