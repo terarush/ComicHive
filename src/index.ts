@@ -6,6 +6,9 @@ import r from './router';
 
 const app = new Hono()
 
+app.get("/", async (c: any) => {
+  c.text("API Client is ready!!")
+})
 app.route('/api/v1', r);
 
 app.onError(async (err, c) => {
