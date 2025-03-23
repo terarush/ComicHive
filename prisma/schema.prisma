@@ -17,6 +17,7 @@ model User {
   contact   Contact?   @relation(fields: [contactId], references: [id])
   contactId String?    @unique @db.ObjectId
   favorite  Favorite[] @relation()
+  comment   Comment[]  @relation()
 
   @@map("users")
 }
@@ -35,11 +36,23 @@ model Contact {
 }
 
 model Favorite {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  animeId String 
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  animeId String
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @db.ObjectId
 
   @@map("favorites")
+}
+
+model Comment {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  animeId String
+
+  content String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  @@map("comments")
 }

@@ -1,6 +1,7 @@
 import { HTTPException } from "hono/http-exception";
 import { prismaClient } from "../application/database";
 import { CreateFavoriteRequest } from "../model/favorite-model";
+import { FavoriteValidation } from "../validation/favorite-validation";
 
 export class FavoriteService {
   static async getFavorite(userId: string) {
@@ -10,6 +11,7 @@ export class FavoriteService {
   }
 
   static async postFavorite(userId: string, request: CreateFavoriteRequest) {
+    request = FavoriteValidation.CREATE_FAVORITE.parse(request);
     const favorite = await prismaClient.favorite.create({
       data: {
         animeId: request.anime_id,
@@ -24,6 +26,7 @@ export class FavoriteService {
   }
 
   static async deleteFavorite(userId: string, request: CreateFavoriteRequest) {
+    request = FavoriteValidation.DELETE_FAVORITE.parse(request);
     const favorite = await prismaClient.favorite.deleteMany({
       where: {
         animeId: request.anime_id,
