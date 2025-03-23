@@ -14,3 +14,10 @@ export const FetchAnimeApi = axios.create({
     "Content-Type": "application/json"
   }
 })
+
+export const FetchApi = axios.create({
+  baseURL: `${ENV.API_URL}/api/v1`,
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
