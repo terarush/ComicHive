@@ -1,25 +1,28 @@
 <script lang="ts">
   import { FetchApi } from "../../../utils/Fetch";
+  import Link from "svelte-link";
   import { goto } from "$app/navigation";
 
   let formData = {
     username: "",
     password: "",
-    email: "",
-    first_name: "",
-    last_name: "",
   };
 
   let errorMessages: string[] = [];
-  let successMessage: string = "";
+  let message: string = "";
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
 
     try {
-      const response = await FetchApi.post("/auth/register", formData);
+      const response = await FetchApi.post("/auth/login", formData);
+      const token = response.data.data.token;
+      setTimeout(() => {
+        localStorage.setItem("accessToken", token);
+      }, 2000);
+      message = "Login success, selamat datang kembali"
       errorMessages = [];
-      successMessage = "Registration successful! Please check your email for verification.";
+      goto('/')
     } catch (error: any) {
       console.error("Error:", error);
       if (error.response && error.response.data.errors) {
@@ -40,14 +43,13 @@
     class="w-full max-w-md bg-[hsl(var(--card))] p-6 rounded-lg shadow-lg border border-[hsl(var(--border))]"
     on:submit={handleSubmit}
   >
-    <h2 class="text-2xl font-bold text-[hsl(var(--primary))] mb-4">Register</h2>
+    <h2 class="text-2xl font-bold text-[hsl(var(--primary))] mb-4">Login</h2>
 
-    {#if successMessage}
+    {#if message}
       <div class="text-green-500 text-sm mb-4">
-        <p>{successMessage}</p>
+        <p>{message}</p>
       </div>
     {/if}
-
     {#if errorMessages.length > 0}
       <div class="text-red-500 text-sm mb-4">
         {#each errorMessages as error}
@@ -73,45 +75,6 @@
       <div>
         <label
           class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >Email</label
-        >
-        <input
-          type="email"
-          bind:value={formData.email}
-          class="w-full mt-1 px-3 py-2 bg-[hsl(var(--input))] text-[hsl(var(--foreground))] border border-[hsl(var(--border))] rounded-md focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))]"
-          required
-        />
-      </div>
-
-      <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >First Name</label
-        >
-        <input
-          type="text"
-          bind:value={formData.first_name}
-          class="w-full mt-1 px-3 py-2 bg-[hsl(var(--input))] text-[hsl(var(--foreground))] border border-[hsl(var(--border))] rounded-md focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))]"
-          required
-        />
-      </div>
-
-      <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
-          >Last Name</label
-        >
-        <input
-          type="text"
-          bind:value={formData.last_name}
-          class="w-full mt-1 px-3 py-2 bg-[hsl(var(--input))] text-[hsl(var(--foreground))] border border-[hsl(var(--border))] rounded-md focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))]"
-          required
-        />
-      </div>
-
-      <div>
-        <label
-          class="block text-sm font-medium text-[hsl(var(--muted-foreground))]"
           >Password</label
         >
         <input
@@ -127,14 +90,13 @@
       type="submit"
       class="w-full mt-4 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-md hover:bg-opacity-90 transition"
     >
-      Register
+      Login
     </button>
-
     <p class="mt-4 text-center text-sm">
-      Already have an account? <a
-        href="/auth/login"
-        class="text-[hsl(var(--primary))] hover:underline">Login here</a>
+      Dont have account? create your account <Link
+        href="/auth/register"
+        class="text-[hsl(var(--primary))] hover:underline">Register here</Link
+      >
     </p>
   </form>
 </div>
-
