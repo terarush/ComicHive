@@ -7,6 +7,9 @@
     "build": "tsc && prisma generate",
     "start": "node dist/index.js"
   },
+    "engines": {
+    "node": "20 || >=22"
+  },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
     "@prisma/client": "^6.5.0",
