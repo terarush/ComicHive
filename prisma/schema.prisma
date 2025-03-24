@@ -13,12 +13,13 @@ model User {
   password String
   name     String
   token    String?
+  avatar   String?
 
-  contact   Contact?   @relation(fields: [contactId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  contactId String?    @unique @db.ObjectId
+  contact   Contact? @relation(fields: [contactId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contactId String?  @unique @db.ObjectId
 
-  favorite  Favorite[] @relation()
-  comment   Comment[]  @relation()
+  favorite Favorite[] @relation()
+  comment  Comment[]  @relation()
 
   @@map("users")
 }
