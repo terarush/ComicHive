@@ -2,6 +2,8 @@
   import { user } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import Link from "svelte-link";
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
 
   let isMenuOpen = false;
   let isProfileMenuOpen = false;
@@ -10,9 +12,18 @@
     isMenuOpen = !isMenuOpen;
   }
 
-  function toggleProfileMenu() {
+  function toggleProfileMenu(event: Event) {
+    event.stopPropagation();
     isProfileMenuOpen = !isProfileMenuOpen;
   }
+
+  function closeProfileMenu() {
+    isProfileMenuOpen = false;
+  }
+
+  onMount(() => {
+    window.addEventListener("click", closeProfileMenu);
+  });
 
   $: profile = $user;
 
@@ -29,7 +40,7 @@
   ];
 </script>
 
-<nav class="fixed inset-x-0 top-0 z-50 bg-[hsl(var(--background)/0.8)] backdrop-blur-lg shadow-sm dark:bg-[hsl(var(--background)/0.8)]">
+<nav class="fixed inset-x-0 top-0 z-50 bg-[hsl(var(--background)/0.8)] backdrop-blur-lg shadow-sm">
   <div class="w-full max-w-7xl mx-auto px-4">
     <div class="flex justify-between h-16 items-center">
       <div class="flex gap-2 items-center">
@@ -57,14 +68,14 @@
         {/each}
       </nav>
 
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 relative">
         <ModeButton />
 
         {#if profile}
           <div class="relative">
             <button
               class="flex items-center gap-2"
-              on:click={toggleProfileMenu}
+              on:click|stopPropagation={toggleProfileMenu}
             >
               {#if profile.avatar}
                 <img src={profile.avatar} alt="Profile" class="w-8 h-8 rounded-full">
@@ -76,7 +87,10 @@
             </button>
 
             {#if isProfileMenuOpen}
-              <div class="absolute right-2 mt-2 w-40 bg-white shadow-md rounded-md py-2 z-50 dark:bg-[hsl(var(--background))] border border-[hsl(var(--primary))]">
+              <div
+                transition:fade
+                class="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 z-50 dark:bg-[hsl(var(--background))] border border-[hsl(var(--primary))]"
+              >
                 <Link href="/profile" class="block px-4 py-2 text-sm hover:bg-[hsl(var(--muted))]">Profile</Link>
                 <a href="/auth/logout" class="block px-4 py-2 text-sm hover:bg-[hsl(var(--muted))]">Logout</a>
               </div>

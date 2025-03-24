@@ -17,7 +17,6 @@
     try {
       const response = await FetchApi.post("/auth/login", formData);
       const token = response.data.data.token;
-      console.log(token);
       setTimeout(() => {
         message = "Login success, selamat datang kembali";
       }, 2000);
