@@ -24,9 +24,11 @@
 	"dependencies": {
 		"@lucide/svelte": "^0.482.0",
 		"@tailwindcss/vite": "^4.0.14",
+		"@types/js-cookie": "^3.0.6",
 		"@vercel/analytics": "^1.5.0",
 		"@vercel/speed-insights": "^1.2.0",
 		"axios": "^1.8.3",
+		"js-cookie": "^3.0.5",
 		"mode-watcher": "^0.5.1",
 		"tailwindcss": "^4.0.14"
 	}

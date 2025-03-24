@@ -2,6 +2,7 @@
   import { FetchApi } from "../../../utils/Fetch";
   import Link from "svelte-link";
   import { goto } from "$app/navigation";
+  import Cookies from "js-cookie";
 
   let formData = {
     username: "",
@@ -18,11 +19,11 @@
       const response = await FetchApi.post("/auth/login", formData);
       const token = response.data.data.token;
       setTimeout(() => {
-        localStorage.setItem("accessToken", token);
+        Cookies.set("accessToken", token, { expires: 7, path: "" });
       }, 2000);
       message = "Login success, selamat datang kembali";
       errorMessages = [];
-      goto('/');
+      goto("/");
     } catch (error: any) {
       console.error("Error:", error);
       if (error.response && error.response.data.errors) {
@@ -36,7 +37,9 @@
   };
 </script>
 
-<div class="relative flex items-center justify-center min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
+<div
+  class="relative flex items-center justify-center min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))]"
+>
   <div
     class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--secondary))] to-[hsl(var(--tertiary))] opacity-30 blur-lg"
   ></div>
@@ -97,8 +100,8 @@
     <p class="mt-4 text-center text-sm">
       Don't have an account? Create your account <Link
         href="/auth/register"
-        class="text-[hsl(var(--primary))] hover:underline">Register here</Link>
+        class="text-[hsl(var(--primary))] hover:underline">Register here</Link
+      >
     </p>
   </form>
 </div>
-
