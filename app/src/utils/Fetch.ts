@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ENV } from "../env";
+import Cookies from "js-cookie"
 
 export const FetchMangaApi = axios.create({
   baseURL: ENV.MANGA_API_URL,
@@ -19,6 +20,6 @@ export const FetchApi = axios.create({
   baseURL: `${ENV.API_URL}/api/v1`,
   headers: {
     "Content-Type": "application/json",
-    "x-token": `${ENV.ACCESS_TOKEN}`,
+    "x-token": `${Cookies.get("accessToken")}`,
   },
 });

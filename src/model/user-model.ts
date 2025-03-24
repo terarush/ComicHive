@@ -16,3 +16,12 @@ export type UserResponse = {
   name: string;
   token?: string;
 };
+
+export type UpdateUserRequest = {
+  username?: string;
+  name?: string;
+  avatar?: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+}

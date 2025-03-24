@@ -12,3 +12,11 @@ exports.userController.get("/", middleware_1.authMiddleware, async (c) => {
         data: user,
     });
 });
+exports.userController.patch("/", middleware_1.authMiddleware, async (c) => {
+    const userId = c.get("userId");
+    const request = (await c.req.json());
+    const response = await user_service_1.UserService.updateUser(userId, request);
+    return c.json({
+        data: response
+    });
+});

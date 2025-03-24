@@ -1,11 +1,12 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
+  import Cookies from "js-cookie";
 
   onMount(() => {
     setTimeout(() => {
-      localStorage.removeItem("accessToken"); 
-      goto("/"); 
+      Cookies.remove("accessToken");
+      goto("/");
     }, 2000);
   });
 </script>
@@ -21,4 +22,3 @@
     </div>
   </div>
 </div>
-
