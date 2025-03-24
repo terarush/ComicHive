@@ -1,7 +1,6 @@
 <script lang="ts">
   import { FetchApi } from "../../../utils/Fetch";
   import Link from "svelte-link";
-  import { goto } from "$app/navigation";
   import Cookies from "js-cookie";
 
   let formData = {
@@ -18,12 +17,13 @@
     try {
       const response = await FetchApi.post("/auth/login", formData);
       const token = response.data.data.token;
+      console.log(token);
       setTimeout(() => {
-        Cookies.set("accessToken", token, { expires: 7, path: "" });
+        message = "Login success, selamat datang kembali";
       }, 2000);
-      message = "Login success, selamat datang kembali";
+      Cookies.set("accessToken", token, { expires: 7, path: "" });
       errorMessages = [];
-      goto("/");
+      window.location.href = "/";
     } catch (error: any) {
       console.error("Error:", error);
       if (error.response && error.response.data.errors) {

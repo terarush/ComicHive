@@ -18,6 +18,7 @@ export class UserService {
       id: user.id,
       name: user.name,
       username: user.username,
+      avatar: user.avatar,
       contacts: {
         email: user.contact?.email || null,
         first_name: user.contact?.first_name || null,

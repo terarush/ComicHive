@@ -2,10 +2,12 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import Cookies from "js-cookie";
+  import { user } from "../../../stores/user";
 
   onMount(() => {
     setTimeout(() => {
       Cookies.remove("accessToken");
+      user.set(null)
       goto("/");
     }, 2000);
   });

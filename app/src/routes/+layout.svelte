@@ -3,6 +3,12 @@
   import Navbar from "../components/Navbar.svelte";
   import Footer from "../components/Footer.svelte";
   import "../app.css";
+  import { onMount } from "svelte";
+  import { fetchUser } from "../stores/user";
+
+  onMount(() => {
+    fetchUser();
+  });
 </script>
 
 <main class="bg-[hsl(var(--background))]">
