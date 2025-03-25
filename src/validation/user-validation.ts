@@ -1,6 +1,6 @@
 import { z, ZodType } from "zod";
 
-export class UpdateUserValidation {
+export class UserValidation {
   static readonly UPDATE_USER: ZodType = z.object({
     username: z.string().optional(),
     name: z.string().optional(),
@@ -9,5 +9,9 @@ export class UpdateUserValidation {
     first_name: z.string().optional(),
     last_name: z.string().optional(),
   });
-}
 
+  static readonly CHANGE_PASSWORD: ZodType = z.object({
+    old_password: z.string().min(6),
+    new_password: z.string().min(6),
+  });
+}

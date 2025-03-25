@@ -25,3 +25,8 @@ export type UpdateUserRequest = {
   first_name?: string;
   last_name?: string;
 }
+
+export type ChangePasswordRequest = {
+  old_password: string;
+  new_password: string;
+}
