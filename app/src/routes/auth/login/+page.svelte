@@ -10,16 +10,20 @@
 
   let errorMessages: string[] = [];
   let message: string = "";
+  let isSubmitting = false;
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
+    isSubmitting = true;
 
     try {
       const response = await FetchApi.post("/auth/login", formData);
       const token = response.data.data.token;
+
       setTimeout(() => {
         message = "Login success, selamat datang kembali";
       }, 2000);
+
       Cookies.set("accessToken", token, { expires: 7, path: "" });
       errorMessages = [];
       window.location.href = "/";
@@ -29,9 +33,12 @@
         errorMessages = error.response.data.errors.map(
           (err: { message: string }) => err.message,
         );
+        message = "";
       } else {
         errorMessages = ["An unexpected error occurred."];
       }
+    } finally {
+      isSubmitting = false;
     }
   };
 </script>
@@ -92,15 +99,24 @@
 
     <button
       type="submit"
-      class="w-full mt-4 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-md hover:bg-opacity-90 transition"
+      class="w-full mt-4 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-md hover:bg-opacity-90 transition flex items-center justify-center"
+      disabled={isSubmitting}
     >
-      Login
+      {#if isSubmitting}
+        Processing...
+      {:else}
+        Login
+      {/if}
     </button>
+
     <p class="mt-4 text-center text-sm">
-      Don't have an account? Create your account <Link
+      Don't have an account? Create your account
+      <Link
         href="/auth/register"
-        class="text-[hsl(var(--primary))] hover:underline">Register here</Link
+        class="text-[hsl(var(--primary))] hover:underline"
       >
+        Register here
+      </Link>
     </p>
   </form>
 </div>

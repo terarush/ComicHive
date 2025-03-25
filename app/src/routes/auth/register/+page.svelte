@@ -12,9 +12,11 @@
 
   let errorMessages: string[] = [];
   let successMessage: string = "";
+  let isSubmitting = false;
 
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
+    isSubmitting = true;
 
     try {
       const response = await FetchApi.post("/auth/register", formData);
@@ -29,6 +31,8 @@
       } else {
         errorMessages = ["An unexpected error occurred."];
       }
+    } finally {
+      isSubmitting = false;
     }
   };
 </script>
@@ -114,9 +118,14 @@
 
     <button
       type="submit"
-      class="w-full mt-4 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-md hover:bg-opacity-90 transition"
+      class="w-full mt-4 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-md hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+      disabled={isSubmitting}
     >
-      Register
+      {#if isSubmitting}
+        Processing...
+      {:else}
+        Register
+      {/if}
     </button>
 
     <p class="mt-4 text-center text-sm">

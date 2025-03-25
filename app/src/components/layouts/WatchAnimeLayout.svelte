@@ -2,6 +2,7 @@
   import type { EpisodeData } from "../../types/episodes";
   import { ArrowBigRight, ArrowBigLeft } from "@lucide/svelte";
   import { FetchAnimeApi } from "../../utils/Fetch";
+  import AddComment from "../fragments/AddComment.svelte";
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
@@ -72,7 +73,7 @@
           href={`/anime/watch/${episode.prevEpisode?.episodeId}`}
           class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))] flex items-center gap-2"
         >
-          <ArrowBigLeft/> Episode {episode.prevEpisode?.title}
+          <ArrowBigLeft /> Episode {episode.prevEpisode?.title}
         </a>
       {/if}
       {#if episode.hasNextEpisode}
@@ -81,7 +82,8 @@
           href={`/anime/watch/${episode.nextEpisode?.episodeId}`}
           class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))] flex items-center gap-2"
         >
-          Episode {episode.nextEpisode?.title} <ArrowBigRight/>
+          Episode {episode.nextEpisode?.title}
+          <ArrowBigRight />
         </a>
       {/if}
     </div>
@@ -125,31 +127,6 @@
         </div>
       {/each}
     </div>
-    <!--
-    <div class="mt-6">
-      <h2 class="text-xl font-semibold mb-2">Recommended Episodes</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {#each episode.recommendedEpisodeList as recommended}
-          <a
-            rel="external"
-            href={`/anime/watch/${recommended.episodeId}`}
-            class="block bg-[hsl(var(--muted))] rounded-md shadow-md overflow-hidden hover:bg-[hsl(var(--muted-foreground))]"
-          >
-            <img
-              src={recommended.poster}
-              alt={recommended.title}
-              class="w-full h-40 object-cover"
-            />
-            <div class="p-2">
-              <h3 class="text-sm font-medium">{recommended.title}</h3>
-              <p class="text-xs text-[hsl(var(--muted-foreground))]">
-                {recommended.releaseDate}
-              </p>
-            </div>
-          </a>
-        {/each}
-      </div>
-    </div>
-    -->
+    <AddComment />
   </div>
 </section>
