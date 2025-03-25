@@ -24,7 +24,7 @@ export class commentService {
     userId: string,
     request: CreateCommentRequest,
   ) {
-    request = CommentValidation.CREATE_COMMENT.parse(request)
+    request = CommentValidation.CREATE_COMMENT.parse(request);
     const comment = await prismaClient.comment.create({
       data: {
         animeId,
