@@ -57,3 +57,8 @@ model Comment {
 
   @@map("comments")
 }
+
+model ReplyComment {
+
+  @@map("reply_comments")
+}

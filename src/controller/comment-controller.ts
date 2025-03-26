@@ -24,3 +24,9 @@ commentController.post("/:animeId", authMiddleware, async (c) => {
     data: response,
   });
 });
+
+commentController.post("/:animeId", authMiddleware, async (c) => {
+  const userId = c.get("userId");
+  const animeId = c.req.param("animeId") as string;
+  return null
+}

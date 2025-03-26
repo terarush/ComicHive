@@ -38,4 +38,8 @@ export class commentService {
       comment,
     };
   }
+
+  static async replyComment(animeId: string, userId: string, request:) {
+
+  }
 }
