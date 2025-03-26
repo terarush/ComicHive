@@ -1,10 +1,8 @@
 import { prismaClient } from "../application/database";
 import {
   CreateCommentRequest,
-  ReplyCommentRequest,
 } from "../model/comment-model";
 import { CommentValidation } from "../validation/comment-validation";
-import { HTTPException } from "hono/http-exception";
 
 export class CommentService {
   static async getComment(animeId: string) {
