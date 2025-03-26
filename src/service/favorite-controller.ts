@@ -5,54 +5,66 @@ import { FavoriteValidation } from "../validation/favorite-validation";
 
 export class FavoriteService {
   static async getFavorite(userId: string) {
-    return await prismaClient.favorite.findMany({
+    const favorites = await prismaClient.favorite.findMany({
       where: { userId },
+      select: {
+        id: true,
+        animeId: true,
+        created_at: true,
+      },
     });
+
+    if (favorites.length === 0) {
+      return { message: "No favorites found." };
+    }
+
+    return { favorites };
   }
 
   static async postFavorite(userId: string, request: CreateFavoriteRequest) {
     request = FavoriteValidation.CREATE_FAVORITE.parse(request);
-    const favoriteCheck = await prismaClient.favorite.findFirst({
+
+    const exists = await prismaClient.favorite.count({
       where: {
         animeId: request.anime_id,
         userId,
       },
     });
-    if(favoriteCheck) {
-      return {
-        message: "Already add to favorite."
-      }
+
+    if (exists > 0) {
+      throw new HTTPException(400, { message: "Already added to favorites." });
     }
+
     const favorite = await prismaClient.favorite.create({
       data: {
         animeId: request.anime_id,
         userId,
+        created_at: new Date(),
+      },
+      select: {
+        id: true,
+        animeId: true,
+        created_at: true,
       },
     });
 
-    return {
-      message: "success",
-      favorite,
-    };
+    return { message: "Added to favorites", favorite };
   }
 
   static async deleteFavorite(userId: string, request: CreateFavoriteRequest) {
     request = FavoriteValidation.DELETE_FAVORITE.parse(request);
-    const favorite = await prismaClient.favorite.deleteMany({
+
+    const deleted = await prismaClient.favorite.deleteMany({
       where: {
         animeId: request.anime_id,
         userId,
       },
     });
 
-    if (favorite.count === 0) {
-      throw new HTTPException(404, {
-        message: "Error not found favorite id",
-      });
+    if (deleted.count === 0) {
+      throw new HTTPException(404, { message: "Favorite not found." });
     }
 
-    return {
-      message: "success",
-    };
+    return { message: "Removed from favorites." };
   }
 }

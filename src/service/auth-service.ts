@@ -43,6 +43,7 @@ export class AuthService {
             last_name: last_name,
           },
         },
+        created_at: new Date(),
       },
       select: {
         id: true,

@@ -3,5 +3,6 @@ export type CreateCommentRequest = {
 }
 
 export type ReplyCommentRequest = {
-
+  comment_id: string;
+  content: string;
 }

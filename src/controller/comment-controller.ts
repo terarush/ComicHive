@@ -1,7 +1,10 @@
 import { Hono } from "hono";
 import { authMiddleware } from "../middleware/middleware";
 import { commentService } from "../service/comment-service";
-import { CreateCommentRequest } from "../model/comment-model";
+import {
+  CreateCommentRequest,
+  ReplyCommentRequest,
+} from "../model/comment-model";
 
 export const commentController = new Hono<{
   Variables: { token: string; userId: string };
@@ -25,8 +28,26 @@ commentController.post("/:animeId", authMiddleware, async (c) => {
   });
 });
 
-commentController.post("/:animeId", authMiddleware, async (c) => {
+commentController.post("/reply", authMiddleware, async (c) => {
   const userId = c.get("userId");
-  const animeId = c.req.param("animeId") as string;
-  return null
-}
+  const request = (await c.req.json()) as ReplyCommentRequest;
+  const response = await commentService.replyComment(userId, request);
+  return c.json({
+    data: response,
+  });
+});
+
+commentController.delete("/reply", authMiddleware, async (c) => {
+  const userId = c.get("userId");
+  const { reply_id } = await c.req.json();
+
+  const response = await commentService.deleteReply(userId, reply_id);
+
+  if (response.error) {
+    return c.json({ error: response.error }, 400);
+  }
+
+  return c.json({
+    data: response,
+  });
+});
