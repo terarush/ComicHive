@@ -26,12 +26,14 @@ export class CommentService {
           select: {
             id: true,
             username: true,
+            created_at: true,
+            updated_at: true,
           },
         },
       },
     });
 
-    return { comments };
+    return comments;
   }
 
   static async postComment(
@@ -57,57 +59,4 @@ export class CommentService {
 
     return { message: "Success", comment };
   }
-
-  static async replyComment(userId: string, request: ReplyCommentRequest) {
-    request = CommentValidation.REPLY_COMMENT.parse(request);
-
-    const existingComment = await prismaClient.comment.findUnique({
-      where: { id: request.comment_id },
-      select: { id: true },
-    });
-
-    if (!existingComment) {
-      throw new HTTPException(404, { message: "Comment not found." });
-    }
-
-    const reply = await prismaClient.replyComment.create({
-      data: {
-        content: request.content,
-        userId,
-        commentId: request.comment_id,
-        created_at: new Date(),
-      },
-      select: {
-        id: true,
-        content: true,
-        created_at: true
-      },
-    });
-
-    return { message: "Reply added successfully", reply };
-  }
-
-  static async deleteReply(userId: string, replyId: string) {
-    const request = CommentValidation.DELETE_REPLY.parse({ reply_id: replyId });
-
-    const reply = await prismaClient.replyComment.findUnique({
-      where: { id: request.reply_id },
-      select: { id: true, userId: true },
-    });
-
-    if (!reply) {
-      throw new HTTPException(404, { message: "Reply not found." });
-    }
-
-    if (reply.userId !== userId) {
-      throw new HTTPException(403, { message: "Unauthorized to delete this reply." });
-    }
-
-    await prismaClient.replyComment.delete({
-      where: { id: request.reply_id },
-    });
-
-    return { message: "Reply deleted successfully" };
-  }
 }
-

@@ -8,70 +8,52 @@ datasource db {
 }
 
 model User {
-  id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  username   String         @unique
-  password   String
-  name       String
-  token      String?
-  avatar     String?
-  contact    Contact?       @relation(fields: [contactId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  contactId  String?        @unique @db.ObjectId
-  favorite   Favorite[]     @relation()
-  comment    Comment[]      @relation()
-  replies    ReplyComment[] @relation()
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  username String  @unique
+  password String
+  name     String
+  token    String?
+  avatar   String?
+
+  contact   Contact? @relation(fields: [contactId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  contactId String?  @unique @db.ObjectId
+
+  favorite Favorite[] @relation()
+  comment  Comment[]  @relation()
 
   @@map("users")
 }
 
 model Contact {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
   first_name String
   last_name  String
-  email      String?  @unique
+  email      String? @unique
   phone      String?
-  user       User?    @relation()
-  userId     String?  @db.ObjectId
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+
+  user   User?   @relation()
+  userId String? @db.ObjectId
 
   @@map("contacts")
 }
 
 model Favorite {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  animeId    String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String   @db.ObjectId
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  animeId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
 
   @@map("favorites")
 }
 
 model Comment {
-  id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  animeId    String
-  content    String
-  user       User           @relation(fields: [userId], references: [id])
-  userId     String         @db.ObjectId
-  replies    ReplyComment[] @relation("CommentReplies")
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  animeId String
+  content String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
 
   @@map("comments")
-}
-
-model ReplyComment {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  content    String
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String   @db.ObjectId
-  comment    Comment  @relation("CommentReplies", fields: [commentId], references: [id], onDelete: Cascade)
-  commentId  String   @db.ObjectId
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  @@map("reply_comments")
 }
