@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateUserValidation = void 0;
+exports.UserValidation = void 0;
 const zod_1 = require("zod");
-class UpdateUserValidation {
+class UserValidation {
     static UPDATE_USER = zod_1.z.object({
         username: zod_1.z.string().optional(),
         name: zod_1.z.string().optional(),
@@ -11,5 +11,9 @@ class UpdateUserValidation {
         first_name: zod_1.z.string().optional(),
         last_name: zod_1.z.string().optional(),
     });
+    static CHANGE_PASSWORD = zod_1.z.object({
+        old_password: zod_1.z.string().min(6),
+        new_password: zod_1.z.string().min(6),
+    });
 }
-exports.UpdateUserValidation = UpdateUserValidation;
+exports.UserValidation = UserValidation;

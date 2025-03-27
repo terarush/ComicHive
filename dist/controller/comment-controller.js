@@ -7,7 +7,7 @@ const comment_service_1 = require("../service/comment-service");
 exports.commentController = new hono_1.Hono();
 exports.commentController.get("/:animeId", async (c) => {
     const animeId = c.req.param("animeId");
-    const response = await comment_service_1.commentService.getComment(animeId);
+    const response = await comment_service_1.CommentService.getComment(animeId);
     return c.json({
         data: response,
     });
@@ -16,7 +16,7 @@ exports.commentController.post("/:animeId", middleware_1.authMiddleware, async (
     const userId = c.get("userId");
     const animeId = c.req.param("animeId");
     const request = (await c.req.json());
-    const response = await comment_service_1.commentService.postComment(animeId, userId, request);
+    const response = await comment_service_1.CommentService.postComment(animeId, userId, request);
     return c.json({
         data: response,
     });

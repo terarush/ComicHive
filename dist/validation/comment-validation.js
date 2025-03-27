@@ -6,5 +6,12 @@ class CommentValidation {
     static CREATE_COMMENT = zod_1.z.object({
         content: zod_1.z.string(),
     });
+    static REPLY_COMMENT = zod_1.z.object({
+        comment_id: zod_1.z.string(),
+        content: zod_1.z.string(),
+    });
+    static DELETE_REPLY = zod_1.z.object({
+        reply_id: zod_1.z.string(),
+    });
 }
 exports.CommentValidation = CommentValidation;

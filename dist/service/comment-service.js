@@ -1,21 +1,33 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commentService = void 0;
+exports.CommentService = void 0;
 const database_1 = require("../application/database");
 const comment_validation_1 = require("../validation/comment-validation");
-class commentService {
+class CommentService {
     static async getComment(animeId) {
-        const comment = await database_1.prismaClient.comment.findMany({
-            where: {
-                animeId,
+        const commentCount = await database_1.prismaClient.comment.count({
+            where: { animeId },
+        });
+        if (commentCount === 0) {
+            return { message: "There are no comments on this anime yet." };
+        }
+        const comments = await database_1.prismaClient.comment.findMany({
+            where: { animeId },
+            select: {
+                id: true,
+                content: true,
+                created_at: true,
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        created_at: true,
+                        updated_at: true,
+                    },
+                },
             },
         });
-        if (comment.length === 0) {
-            return {
-                message: "There are no comments on this anime yet.",
-            };
-        }
-        return comment;
+        return comments;
     }
     static async postComment(animeId, userId, request) {
         request = comment_validation_1.CommentValidation.CREATE_COMMENT.parse(request);
@@ -24,12 +36,15 @@ class commentService {
                 animeId,
                 userId,
                 content: request.content,
+                created_at: new Date(),
+            },
+            select: {
+                id: true,
+                content: true,
+                created_at: true,
             },
         });
-        return {
-            message: "success",
-            comment,
-        };
+        return { message: "Success", comment };
     }
 }
-exports.commentService = commentService;
+exports.CommentService = CommentService;
