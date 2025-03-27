@@ -3,9 +3,11 @@
   import { ArrowBigRight, ArrowBigLeft } from "@lucide/svelte";
   import { FetchAnimeApi } from "../../utils/Fetch";
   import AddComment from "../fragments/AddComment.svelte";
+  import { user } from "../../stores/user";
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
+  $: users = $user;
 
   async function fetchServerUrl(serverId: string) {
     try {
@@ -127,6 +129,8 @@
         </div>
       {/each}
     </div>
-    <AddComment />
+    {#if users}
+      <AddComment />
+    {/if}
   </div>
 </section>
