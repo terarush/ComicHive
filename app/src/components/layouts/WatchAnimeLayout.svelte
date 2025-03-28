@@ -4,6 +4,7 @@
   import { FetchAnimeApi } from "../../utils/Fetch";
   import AddComment from "../fragments/AddComment.svelte";
   import { user } from "../../stores/user";
+    import CommentList from "../fragments/CommentList.svelte";
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
   export let episodeId: string;
@@ -145,5 +146,6 @@
         </h1>
       </div>
     {/if}
+    <CommentList animeId={episodeId}/>
   </div>
 </section>
