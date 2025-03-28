@@ -40,12 +40,12 @@
 </script>
 
 <section
-  class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] pt-[100px]"
+  class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] py-[100px]"
 >
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="relative group">
       <div
-        class="w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl"
+        class="w-full aspect-video bg-black rounded-md overflow-hidden shadow-2xl"
       >
         <iframe
           src={selectedQualityUrl}
@@ -71,7 +71,7 @@
         <div class="relative">
           <select
             id="quality"
-            class="appearance-none w-full pl-4 pr-10 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-xl text-sm focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))]"
+            class="appearance-none w-full pl-4 pr-10 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md text-sm focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))]"
             on:change={updateVideoUrl}
           >
             {#each episode.server.qualities as quality}
@@ -108,7 +108,7 @@
             rel="external"
             href={`/anime/watch/${episode.prevEpisode?.episodeId}`}
             data-sveltekit-preload-data="hover"
-            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-xl hover:bg-[hsl(var(--primary)/0.1)] hover:border-[hsl(var(--primary)/0.3)] transition-colors"
+            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md hover:bg-[hsl(var(--primary)/0.1)] hover:border-[hsl(var(--primary)/0.3)] transition-colors"
           >
             <ArrowBigLeft class="w-5 h-5" />
             <span class="font-medium">Previous Episode</span>
@@ -119,7 +119,7 @@
             rel="external"
             href={`/anime/watch/${episode.nextEpisode?.episodeId}`}
             data-sveltekit-preload-data="hover"
-            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-xl hover:bg-[hsl(var(--primary)/0.1)] hover:border-[hsl(var(--primary)/0.3)] transition-colors"
+            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md hover:bg-[hsl(var(--primary)/0.1)] hover:border-[hsl(var(--primary)/0.3)] transition-colors"
           >
             <span class="font-medium">Next Episode</span>
             <ArrowBigRight class="w-5 h-5" />
@@ -167,9 +167,10 @@
           <div class="flex flex-wrap gap-2">
             {#each episode.genreList as genre}
               <a
+                rel="external"
                 href={genre.href}
                 data-sveltekit-preload-data="hover"
-                class="px-4 py-2 text-sm font-medium bg-[hsl(var(--primary)/0.1)] text-[hsl(var(--primary))] rounded-full hover:bg-[hsl(var(--primary)/0.2)] transition-colors flex items-center gap-1"
+                class="px-4 py-2 text-sm font-medium bg-[hsl(var(--primary)/0.1)] text-[hsl(var(--primary))] rounded-md hover:bg-[hsl(var(--primary)/0.2)] transition-colors flex items-center gap-1"
               >
                 {genre.title}
                 <svg

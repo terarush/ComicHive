@@ -30,7 +30,7 @@
     >
       {#each animeList as anime}
         <div
-          class="group relative bg-[hsl(var(--card))] rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-[hsl(var(--border))]"
+          class="group relative bg-[hsl(var(--card))] rounded-md overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-[hsl(var(--border))]"
         >
           <div class="w-full overflow-hidden">
             <img

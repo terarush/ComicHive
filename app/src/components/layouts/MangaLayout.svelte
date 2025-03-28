@@ -18,7 +18,7 @@
       {#each mangaList as manga}
         <a 
           href={`/manga/${manga.endpoint}`} 
-          class="group relative flex flex-col rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+          class="group relative flex flex-col rounded-md overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
           data-sveltekit-preload-data="hover"
           rel="noopener noreferrer"
         >

@@ -27,7 +27,7 @@
           data-sveltekit-preload-data="hover"
         >
           <div
-            class="relative w-full aspect-[3/2] rounded-xl overflow-hidden shadow-lg bg-[hsl(var(--muted))] transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1"
+            class="relative w-full aspect-[3/2] rounded-md overflow-hidden shadow-lg bg-[hsl(var(--muted))] transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1"
           >
             <img
               src={anime.poster}
