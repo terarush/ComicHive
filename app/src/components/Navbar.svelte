@@ -101,7 +101,7 @@
         {#if profile}
           <div class="relative">
             <button
-              class="flex items-center gap-2"
+              class="flex items-center gap-2 cursor-pointer"
               on:click|stopPropagation={toggleProfileMenu}
             >
               {#if profile.avatar}
