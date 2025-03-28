@@ -219,6 +219,7 @@
               <h3 class="mt-2 text-lg font-medium">Join the Discussion</h3>
               <p class="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
                 <a
+                  rel="external"
                   href={`/auth/login?from=/anime/watch/${episodeId}`}
                   data-sveltekit-preload-data="tap"
                   class="text-[hsl(var(--primary))] font-medium hover:underline"
