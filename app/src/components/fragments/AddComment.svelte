@@ -29,7 +29,7 @@
 </script>
 
 <div
-  class="comment-box border border-[hsl(var(--border))] rounded-[var(--radius)] p-4 bg-[hsl(var(--card))]"
+  class={`comment-box border border-[hsl(var(--border))] rounded-[var(--radius)] p-4 bg-[hsl(var(--card))]`}
 >
   <textarea
     bind:value={comment}

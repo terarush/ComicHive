@@ -37,7 +37,7 @@
   </div>
 
   {#if hasInteracted}
-    <div class="mt-8 mx-auto max-w-2xl">
+    <div class="mt-8 mx-auto">
       <ResultSearchLayout mangaList={searchResults} />
     </div>
   {/if}

@@ -34,7 +34,7 @@
   </div>
 
   {#if hasInteracted}
-    <div class="mt-8 mx-auto max-w-3xl">
+    <div class="mt-8 mx-auto">
       {#if isLoading}
         <p class="text-center text-[hsl(var(--muted-foreground))]"></p>
       {:else}

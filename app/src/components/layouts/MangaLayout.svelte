@@ -11,42 +11,41 @@
   export let text: string = "Last post";
 </script>
 
-<section class="bg-[hsl(var(--background))] py-8 sm:py-12 text-[hsl(var(--foreground))]">
-  <div class="max-w-6xl mx-auto px-4">
+<section class="bg-[hsl(var(--background))] py-10 sm:py-14 text-[hsl(var(--foreground))]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <slot />
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
       {#each mangaList as manga}
         <a 
           href={`/manga/${manga.endpoint}`} 
-          class="flex"
-          data-sveltekit-preload-data={false}
+          class="group relative flex flex-col rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+          data-sveltekit-preload-data="hover"
           rel="noopener noreferrer"
         >
-          <div
-            class="flex flex-col w-full bg-[hsl(var(--card))] border border-[hsl(var(--primary))] rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-          >
-            <div class="w-full aspect-[4/3] relative overflow-hidden">
-              <img
-                src={manga.image}
-                alt={manga.title}
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-              />
+          <div class="relative w-full aspect-[3/4] bg-[hsl(var(--muted))]">
+            <img
+              src={manga.image}
+              alt={manga.title}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+            
+            <div class="absolute top-2 right-2 bg-[hsl(var(--primary))] text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+              {manga.upload_on}
             </div>
+          </div>
 
-            <div class="p-4 space-y-2 flex-grow">
-              <h3
-                class="text-lg font-bold text-[hsl(var(--foreground))] line-clamp-1 hover:text-blue-500 transition-colors"
-              >
-                {manga.title}
-              </h3>
-              <div class="text-xs text-[hsl(var(--muted-foreground))]">
-                {text} {manga.upload_on}
-              </div>
-              <p
-                class="text-sm text-[hsl(var(--muted-foreground))] line-clamp-2"
-              >
-                {manga.description}
-              </p>
+          <div class="p-3 flex-1 flex flex-col">
+            <h3 class="text-sm font-semibold text-[hsl(var(--foreground))] line-clamp-2 mb-1.5 group-hover:text-[hsl(var(--primary))] transition-colors">
+              {manga.title}
+            </h3>
+            
+            <p class="text-xs text-[hsl(var(--muted-foreground))] line-clamp-3 mb-3">
+              {manga.description}
+            </p>
+            
+            <div class="mt-auto text-xs text-[hsl(var(--primary))] font-medium">
+              {text} {manga.upload_on}
             </div>
           </div>
         </a>
@@ -54,4 +53,3 @@
     </div>
   </div>
 </section>
-
