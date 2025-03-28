@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { FetchApi } from "../../utils/Fetch";
 
   let comment = "";
   const dispatch = createEventDispatcher();
@@ -9,9 +10,12 @@
     dispatch("submit", { comment });
     comment = "";
   }
+  console.log(comment);
 </script>
 
-<div class="comment-box border border-[hsl(var(--border))] rounded-[var(--radius)] p-4 bg-[hsl(var(--card))]">
+<div
+  class="comment-box border border-[hsl(var(--border))] rounded-[var(--radius)] p-4 bg-[hsl(var(--card))]"
+>
   <textarea
     bind:value={comment}
     class="w-full bg-[hsl(var(--input))] text-[hsl(var(--foreground))] border border-[hsl(var(--border))] rounded-md p-2 focus:outline-none focus:ring-[hsl(var(--ring))]"
@@ -19,7 +23,7 @@
   ></textarea>
   <button
     on:click={submitComment}
-    class="mt-2 px-4 py-2 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] rounded-md hover:bg-[hsl(var(--primary),0.9)] transition"
+    class="mt-2 px-4 py-2 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] rounded-md hover:bg-[hsl(var(--muted))] transition"
   >
     Kirim
   </button>

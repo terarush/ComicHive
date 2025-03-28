@@ -8,6 +8,7 @@ export default defineConfig({
     sourcemap: false,
   },
   server: {
+    port: 7878,
     hmr: {
       overlay: false,
     },

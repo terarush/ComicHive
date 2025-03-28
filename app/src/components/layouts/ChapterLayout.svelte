@@ -75,6 +75,7 @@
         <a
           href={prevChapter}
           rel="external"
+          data-sveltekit-preload-data={false}
           class="px-4 py-2 rounded-lg bg-[hsl(var(--background))] text-[hsl(var(--background-foreground))] hover:bg-[hsl(var(--background)/0.8)] transition-colors"
         >
           ← Sebelumnya
@@ -85,6 +86,7 @@
         <a
           href={nextChapter}
           rel="external"
+          data-sveltekit-preload-data={false}
           class="px-4 py-2 rounded-lg bg-[hsl(var(--background))] text-[hsl(var(--background-foreground))] hover:bg-[hsl(var(--background)/0.8)] transition-colors"
         >
           Selanjutnya →

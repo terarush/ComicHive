@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Link from 'svelte-link';
-
   export let mangaList: {
     id?: number;
     title?: string;
@@ -18,7 +16,12 @@
     <slot />
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {#each mangaList as manga}
-        <Link href={`/manga/${manga.endpoint}`} class="flex">
+        <a 
+          href={`/manga/${manga.endpoint}`} 
+          class="flex"
+          data-sveltekit-preload-data={false}
+          rel="noopener noreferrer"
+        >
           <div
             class="flex flex-col w-full bg-[hsl(var(--card))] border border-[hsl(var(--primary))] rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
           >
@@ -46,8 +49,9 @@
               </p>
             </div>
           </div>
-        </Link>
+        </a>
       {/each}
     </div>
   </div>
 </section>
+

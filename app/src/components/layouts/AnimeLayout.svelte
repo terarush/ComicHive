@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Link from 'svelte-link';
-
   export let animeList: {
     title?: string;
     poster?: string;
@@ -19,7 +17,11 @@
     <slot />
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {#each animeList as anime}
-        <Link href={`/anime/${anime.animeId}`} class="flex">
+        <a 
+          href={`/anime/${anime.animeId}`} 
+          class="flex"
+          data-sveltekit-preload-data={false}
+        >
           <div
             class="flex flex-col w-full bg-[hsl(var(--card))] border border-[hsl(var(--primary))] rounded-md shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
@@ -42,7 +44,7 @@
               </div>
             </div>
           </div>
-        </Link>
+        </a>
       {/each}
     </div>
   </div>

@@ -35,6 +35,7 @@
             Updated: {manga.updated_on}
           </p>
           <a
+          data-sveltekit-preload-data={false}
             href={`/manga/${manga.endpoint}`}
             class="mt-3 inline-block text-[hsl(var(--primary))] hover:text-[hsl(var(--background-foreground))] transition-colors duration-300"
           >

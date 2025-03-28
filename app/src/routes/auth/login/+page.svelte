@@ -15,6 +15,8 @@
   const handleSubmit = async (event: Event) => {
     event.preventDefault();
     isSubmitting = true;
+    const params = new URLSearchParams(window.location.search);
+    const redirectTo = params.get("from") || "/";
 
     try {
       const response = await FetchApi.post("/auth/login", formData);
@@ -26,7 +28,7 @@
 
       Cookies.set("accessToken", token, { expires: 7, path: "" });
       errorMessages = [];
-      window.location.href = "/";
+      window.location.href = redirectTo;
     } catch (error: any) {
       console.error("Error:", error);
       if (error.response && error.response.data.errors) {

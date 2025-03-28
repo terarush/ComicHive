@@ -1,6 +1,5 @@
 <script lang="ts">
   import Loading from "../elements/Loading.svelte";
-  import Link from "svelte-link";
 
   export let animeList: {
     title: string;
@@ -62,12 +61,13 @@
               </div>
             </div>
           </div>
-          <Link
+          <a
+          data-sveltekit-preload-data={false}
             href={`/anime/${anime.animeId}`}
             class="mt-3 inline-block text-[hsl(var(--background-foregroudn))] text-center py-2 border-[hsl(var(--background-foreground))] border rounded-md"
           >
             Watch Now
-          </Link>
+          </a>
         </div>
       {/each}
     </div>

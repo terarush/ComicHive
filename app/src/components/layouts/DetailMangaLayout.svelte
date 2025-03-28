@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Link from "svelte-link";
   export let manga: {
     title: string;
     type: string;
@@ -39,15 +38,13 @@
 
           <div class="flex flex-wrap gap-2">
             {#each manga.genre_list as genre}
-              <Link
+              <a
                 href={`/genres/${genre.genre_name.toLowerCase().replace(/\s+/g, "-")}`}
+                data-sveltekit-preload-data={false}
+                class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
               >
-                <span
-                  class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
-                >
-                  {genre.genre_name}
-                </span>
-              </Link>
+                {genre.genre_name}
+              </a>
             {/each}
           </div>
 
@@ -66,13 +63,14 @@
         <h2 class="text-xl font-bold">Chapters</h2>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {#each manga.chapter as chapter}
-            <Link
+            <a
               href={`/chapter${chapter.chapter_endpoint}`}
+              data-sveltekit-preload-data={false}
               class="block px-4 py-3 bg-[hsl(var(--muted))] rounded-lg text-sm font-medium transition-all duration-300 shadow-sm 
               hover:bg-[hsl(var(--muted-foreground))] hover:shadow-md"
             >
               {chapter.chapter_title}
-            </Link>
+            </a>
           {/each}
         </div>
       </div>

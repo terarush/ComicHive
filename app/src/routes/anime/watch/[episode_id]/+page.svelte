@@ -95,6 +95,6 @@
       </h1>
     </div>
   {:else}
-    <WatchAnimeLayout episode={episodeData} {videoUrl} />
+    <WatchAnimeLayout episode={episodeData} {videoUrl} episodeId={data.episodeId} />
   {/if}
 </div>

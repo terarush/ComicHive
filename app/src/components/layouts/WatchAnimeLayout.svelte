@@ -6,6 +6,7 @@
   import { user } from "../../stores/user";
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
+  export let episodeId: string;
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
   $: users = $user;
 
@@ -73,6 +74,7 @@
         <a
           rel="external"
           href={`/anime/watch/${episode.prevEpisode?.episodeId}`}
+          data-sveltekit-preload-data={false}
           class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))] flex items-center gap-2"
         >
           <ArrowBigLeft /> Episode {episode.prevEpisode?.title}
@@ -82,6 +84,7 @@
         <a
           rel="external"
           href={`/anime/watch/${episode.nextEpisode?.episodeId}`}
+          data-sveltekit-preload-data={false}
           class="px-4 py-2 bg-[hsl(var(--muted))] rounded-md shadow-md text-sm hover:bg-[hsl(var(--muted-foreground))] flex items-center gap-2"
         >
           Episode {episode.nextEpisode?.title}
@@ -99,6 +102,7 @@
       {#each episode.genreList as genre}
         <a
           href={genre.href}
+          data-sveltekit-preload-data={false}
           class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full"
           >{genre.title}</a
         >
@@ -116,6 +120,7 @@
                 <div class="flex flex-wrap gap-2 mt-1">
                   {#each quality.urls as link}
                     <a
+                    data-sveltekit-preload-data={false}
                       href={link.url}
                       class="px-3 py-1 text-xs bg-[hsl(var(--muted))] rounded-md shadow-md hover:bg-[hsl(var(--muted-foreground))]"
                     >
@@ -131,6 +136,14 @@
     </div>
     {#if users}
       <AddComment />
+    {:else}
+      <div class="py-5">
+        <h1 class="text-xl">
+          Please <a href={`/auth/login?from=/anime/watch/${episodeId}`} data-sveltekit-preload-data="tap" class="text-[hsl(var(--primary))]"
+            >Sign In</a
+          > to get comment features.
+        </h1>
+      </div>
     {/if}
   </div>
 </section>

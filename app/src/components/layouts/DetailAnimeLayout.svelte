@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Link from "svelte-link";
-
   interface AnimeData {
     title: string;
     poster: string;
@@ -104,13 +102,13 @@
         </p>
         <div class="flex flex-wrap gap-2 mt-2">
           {#each anime.genreList as genre}
-            <Link href={genre.href}>
-              <span
-                class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
-              >
-                {genre.title}
-              </span>
-            </Link>
+            <a
+              href={genre.href}
+              data-sveltekit-preload-data={false}
+              class="px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
+            >
+              {genre.title}
+            </a>
           {/each}
         </div>
       </div>
@@ -127,13 +125,14 @@
       <h2 class="text-xl font-semibold mb-2">Episodes</h2>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         {#each anime.episodeList as episode}
-          <Link
+          <a
             href={`/anime/watch/${episode.episodeId}`}
+            data-sveltekit-preload-data={false}
             class="block px-4 py-3 bg-[hsl(var(--muted))] rounded-lg text-sm font-medium transition-all duration-300 shadow-sm 
               hover:bg-[hsl(var(--muted-foreground))] text-center hover:shadow-md"
           >
             Episode {episode.title}
-          </Link>
+          </a>
         {/each}
       </div>
     </div>

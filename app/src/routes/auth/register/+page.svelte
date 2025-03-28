@@ -1,6 +1,5 @@
 <script lang="ts">
   import { FetchApi } from "../../../utils/Fetch";
-  import { goto } from "$app/navigation";
 
   let formData = {
     username: "",
@@ -130,6 +129,7 @@
 
     <p class="mt-4 text-center text-sm">
       Already have an account? <a
+      data-sveltekit-preload-data="tap"
         href="/auth/login"
         class="text-[hsl(var(--primary))] hover:underline">Login here</a>
     </p>
