@@ -1,7 +1,5 @@
 import { prismaClient } from "../application/database";
-import {
-  CreateCommentRequest,
-} from "../model/comment-model";
+import { CreateCommentRequest } from "../model/comment-model";
 import { CommentValidation } from "../validation/comment-validation";
 
 export class CommentService {
@@ -24,6 +22,7 @@ export class CommentService {
           select: {
             id: true,
             username: true,
+            avatar: true,
             created_at: true,
             updated_at: true,
           },
