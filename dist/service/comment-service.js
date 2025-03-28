@@ -21,6 +21,7 @@ class CommentService {
                     select: {
                         id: true,
                         username: true,
+                        avatar: true,
                         created_at: true,
                         updated_at: true,
                     },
