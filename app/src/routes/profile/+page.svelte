@@ -3,11 +3,67 @@
   import { user, fetchUser } from "../../stores/user";
   import { writable } from "svelte/store";
   import LoadingElements from "../../components/elements/LoadingElements.svelte";
+  import { User, BookOpen, Film, Edit } from "@lucide/svelte";
+  import { FetchApi } from "../../utils/Fetch";
+  import Button from "../../components/elements/Button.svelte";
+  import ProfileForm from "../../components/fragments/ProfileForm.svelte";
 
   let isLoading = writable(true);
+  let isModalOpen = writable(false);
+  let formData = writable({
+    username: "",
+    name: "",
+    avatar: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+  });
+  let error = writable("");
+  let success = writable("");
 
   function getInitials(name: string) {
     return name ? name.charAt(0).toUpperCase() : "?";
+  }
+
+  function openModal() {
+    if ($user) {
+      formData.set({
+        username: $user.username || "",
+        name: $user.name || "",
+        avatar: $user.avatar || "",
+        email: $user.contact?.email || "",
+        first_name: $user.contact?.first_name || "",
+        last_name: $user.contact?.last_name || "",
+      });
+    }
+    isModalOpen.set(true);
+    error.set("");
+    success.set("");
+  }
+
+  async function handleSubmit() {
+    try {
+      isLoading.set(true);
+      error.set("");
+      success.set("");
+
+      const payload = Object.fromEntries(
+        Object.entries($formData).filter(([_, value]) => value !== ""),
+      );
+
+      const response = await FetchApi.patch("/user", payload);
+      if (response.status == 200) {
+        success.set("Profile updated successfully!");
+        await fetchUser();
+        setTimeout(() => isModalOpen.set(false), 1500);
+      } else {
+        error.set("Failed to update profile");
+      }
+    } catch (err: any) {
+      error.set(err.message || "An error occurred");
+    } finally {
+      isLoading.set(false);
+    }
   }
 
   onMount(async () => {
@@ -17,81 +73,217 @@
 </script>
 
 <div
-  class="min-h-screen flex items-center justify-center bg-[hsl(var(--background))] text-[hsl(var(--foreground))] p-6"
+  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[hsl(var(--primary)/5%)] to-[hsl(var(--secondary)/5%)] py-12 px-4 sm:px-6 lg:px-8 sm:mt-0 mt-5"
 >
-  <div
-    class="w-full max-w-6xl bg-[hsl(var(--card))] rounded-xl shadow-xl border border-[hsl(var(--border))] overflow-hidden flex flex-col md:flex-row"
-  >
-    <div
-      class="w-full md:w-1/2 flex flex-col items-center p-8 bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))]"
-    >
+  <div class="w-full max-w-5xl mx-auto">
+    {#if $isLoading && !$isModalOpen}
       <div
-        class="relative w-32 h-32 rounded-full overflow-hidden bg-[hsl(var(--card))] shadow-lg"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       >
-        {#if $user}
-          {#if $user.avatar}
-            <img
-              src={$user.avatar}
-              alt="Avatar"
-              class="w-full h-full object-cover"
-            />
-          {:else}
+        <LoadingElements />
+      </div>
+    {/if}
+
+    <div
+      class="bg-[hsl(var(--card))] rounded-2xl shadow-xl overflow-hidden border border-[hsl(var(--border))]"
+    >
+      <div class="flex flex-col md:flex-row">
+        <div
+          class="w-full md:w-1/3 p-8 bg-gradient-to-b from-[hsl(var(--primary)/10%)] to-transparent flex flex-col items-center text-center"
+        >
+          <div class="relative group mb-6">
             <div
-              class="flex items-center justify-center h-full text-3xl font-bold text-white bg-[hsl(var(--primary))]"
+              class="w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-[hsl(var(--primary)/30%)] bg-white/50 backdrop-blur-sm flex items-center justify-center"
             >
-              {getInitials($user.name)}
+              {#if $user}
+                {#if $user.avatar}
+                  <img
+                    src={$user.avatar}
+                    alt="Profile picture of {$user.name}"
+                    class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+                  />
+                {:else}
+                  <div
+                    class="flex items-center justify-center h-full w-full text-4xl font-bold text-white bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(var(--secondary))]"
+                  >
+                    {getInitials($user.name)}
+                  </div>
+                {/if}
+              {:else}
+                <div
+                  class="p-5 text-[hsl(var(--muted-foreground))] bg-[hsl(var(--secondary))] rounded-full"
+                >
+                  <User size={40} />
+                </div>
+              {/if}
+            </div>
+          </div>
+
+          <h1 class="text-2xl font-bold tracking-tight">
+            {$user?.name || "Guest User"}
+          </h1>
+          <p class="text-[hsl(var(--muted-foreground))] mt-1 text-sm">
+            @{$user?.username || "unknown"}
+          </p>
+
+          {#if $user?.contact}
+            <div class="mt-6 w-full space-y-3 text-left">
+              {#if $user.contact.email}
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 mt-0.5">
+                    <div
+                      class="w-5 h-5 rounded-full bg-[hsl(var(--primary)/10%)] flex items-center justify-center text-[hsl(var(--primary))]"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                        ></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                  <p class="ml-2 text-sm break-all">{$user.contact.email}</p>
+                </div>
+              {/if}
+
+              {#if $user.contact.first_name || $user.contact.last_name}
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 mt-0.5">
+                    <div
+                      class="w-5 h-5 rounded-full bg-[hsl(var(--primary)/10%)] flex items-center justify-center text-[hsl(var(--primary))]"
+                    >
+                      <User size={12} />
+                    </div>
+                  </div>
+                  <p class="ml-2 text-sm">
+                    {$user.contact.first_name}
+                    {$user.contact.last_name}
+                  </p>
+                </div>
+              {/if}
+            </div>
+
+            <div class="mt-8 w-full">
+              <Button
+                on:click={openModal}
+                variant="primary"
+                classes="w-full group"
+              >
+                <span class="flex items-center justify-center">
+                  <Edit
+                    size={16}
+                    class="mr-2 transition-transform group-hover:rotate-12"
+                  />
+                  Edit Profile
+                </span>
+              </Button>
             </div>
           {/if}
-        {/if}
-      </div>
-      <h2 class="mt-4 text-2xl font-semibold">{$user?.name || "Guest"}</h2>
-      <p class="text-sm text-[hsl(var(--muted-foreground))]">
-        @{$user?.username || "Unknown"}
-      </p>
+        </div>
 
-      {#if $user?.contact}
-        <div class="mt-4 space-y-2 text-center">
-          <p class="text-sm">
-            <span class="font-medium">Email:</span> {$user.contact.email}
-          </p>
-          <p class="text-sm">
-            <span class="font-medium">Name:</span>
-            {$user.contact.first_name} {$user.contact.last_name}
-          </p>
-          <p class="text-sm">
-            <span class="font-medium">Member since:</span> January 2023
-          </p>
-        </div>
-      {:else}
-        <div class="mt-4 text-center">
-          <p class="text-red-500">You are not logged in.</p>
-          <a href="/auth/login" class="text-blue-500">Login here</a>
-        </div>
-      {/if}
-    </div>
+        <div
+          class="w-full md:w-2/3 p-8 bg-[hsl(var(--card))] border-t md:border-t-0 md:border-l border-[hsl(var(--border)/50%)]"
+        >
+          <div class="mb-8">
+            <h2
+              class="text-xl font-semibold mb-6 pb-2 border-b border-[hsl(var(--border))]"
+            >
+              Your Statistics
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div
+                class="bg-[hsl(var(--secondary)/20%)] p-4 rounded-xl border border-[hsl(var(--border)/30%)] hover:shadow-sm transition-all duration-200 hover:translate-y-[-2px]"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="p-2 rounded-lg bg-[hsl(var(--primary)/10%)] text-[hsl(var(--primary))] mr-4"
+                  >
+                    <Film size={20} />
+                  </div>
+                  <div>
+                    <p
+                      class="text-sm text-[hsl(var(--muted-foreground))] font-medium"
+                    >
+                      Anime Watched
+                    </p>
+                    <p class="text-2xl font-bold mt-1">247</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-[hsl(var(--secondary)/20%)] p-4 rounded-xl border border-[hsl(var(--border)/30%)] hover:shadow-sm transition-all duration-200 hover:translate-y-[-2px]"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="p-2 rounded-lg bg-[hsl(var(--primary)/10%)] text-[hsl(var(--primary))] mr-4"
+                  >
+                    <BookOpen size={20} />
+                  </div>
+                  <div>
+                    <p
+                      class="text-sm text-[hsl(var(--muted-foreground))] font-medium"
+                    >
+                      Manga Read
+                    </p>
+                    <p class="text-2xl font-bold mt-1">189</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <div class="w-full md:w-1/2 p-8 flex flex-col justify-between">
-      <h3 class="text-xl font-medium mb-4">Statistics</h3>
-      <div class="grid grid-cols-2 gap-4">
-        <div
-          class="bg-[hsl(var(--secondary))] p-4 rounded-lg text-center shadow-md"
-        >
-          <p class="text-sm text-[hsl(var(--muted-foreground))]">
-            Anime Watched
-          </p>
-          <p class="text-2xl font-bold">247</p>
-        </div>
-        <div
-          class="bg-[hsl(var(--secondary))] p-4 rounded-lg text-center shadow-md"
-        >
-          <p class="text-sm text-[hsl(var(--muted-foreground))]">Manga Read</p>
-          <p class="text-2xl font-bold">189</p>
+          <div class="pt-6 border-t border-[hsl(var(--border)/30%)]">
+            <h2
+              class="text-xl font-semibold mb-6 pb-2 border-b border-[hsl(var(--border))]"
+            >
+              Quick Actions
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+              <Button
+                variant="outline"
+                classes="w-full h-24 flex flex-col items-center justify-center"
+              >
+                <Film size={24} class="mb-2 text-[hsl(var(--primary))]" />
+                <span>Add Anime</span>
+              </Button>
+              <Button
+                variant="outline"
+                classes="w-full h-24 flex flex-col items-center justify-center"
+              >
+                <BookOpen size={24} class="mb-2 text-[hsl(var(--primary))]" />
+                <span>Add Manga</span>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-{#if $isLoading}
-  <LoadingElements />
+{#if $isModalOpen}
+  <ProfileForm
+    bind:isModalOpen
+    bind:formData
+    bind:error
+    bind:success
+    bind:isLoading
+    {handleSubmit}
+  />
+{/if}
+
+{#if $isLoading && !$isModalOpen}
+  <div class="fixed inset-0 flex items-center justify-center bg-black/50">
+    <LoadingElements />
+  </div>
 {/if}

@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { fetchUser } from '../stores/auth';
+  import { onMount } from "svelte";
+  import { fetchAuth } from "../stores/auth";
 
   onMount(() => {
-    fetchUser(); 
+    fetchAuth();
   });
 </script>
 
 <slot></slot>
-

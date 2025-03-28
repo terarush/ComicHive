@@ -2,6 +2,7 @@
   import { user } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import { onMount } from "svelte";
+  import { User, LogOut } from "@lucide/svelte";
   import { fade } from "svelte/transition";
 
   let isMenuOpen = false;
@@ -121,20 +122,35 @@
 
             {#if isProfileMenuOpen}
               <div
-                data-sveltekit-preload-data="false"
                 transition:fade
-                class="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 z-50 dark:bg-[hsl(var(--background))] border border-[hsl(var(--primary))]"
+                class="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-[hsl(var(--background))] shadow-lg border border-[hsl(var(--border))] ring-1 ring-black/5 overflow-hidden z-50"
               >
-                <a
-                  href="/profile"
-                  class="block px-4 py-2 text-sm hover:bg-[hsl(var(--muted))]"
-                  >Profile</a
-                >
-                <a
-                  href="/auth/logout"
-                  class="block px-4 py-2 text-sm hover:bg-[hsl(var(--muted))]"
-                  >Logout</a
-                >
+                <div class="px-4 py-3 border-b border-[hsl(var(--border))]">
+                  <p class="text-sm font-medium text-[hsl(var(--foreground))]">
+                    {profile.name}
+                  </p>
+                  <p
+                    class="text-xs text-[hsl(var(--muted-foreground))] truncate"
+                  >
+                    @{profile.username}
+                  </p>
+                </div>
+                <div class="py-1">
+                  <a
+                    href="/profile"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+                  >
+                    <User class="w-5 h-5" />
+                    Profile
+                  </a>
+                  <a
+                    href="/auth/logout"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+                  >
+                    <LogOut class="w-5 h-5" />
+                    Logout
+                  </a>
+                </div>
               </div>
             {/if}
           </div>

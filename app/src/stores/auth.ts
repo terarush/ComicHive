@@ -1,29 +1,29 @@
-import { writable } from 'svelte/store';
-import { FetchApi } from '../utils/Fetch';
-import { goto } from '$app/navigation';
-
+import { writable } from "svelte/store";
+import { FetchApi } from "../utils/Fetch";
+import { goto } from "$app/navigation";
+import Cookies from "js-cookie";
 export interface User {
   id: string;
   username: string;
   email: string;
 }
 
-export const user = writable<User | null>(null);
+export const auth = writable<User | null>(null);
 
-export const setUser = (newUser: User | null) => {
-  user.set(newUser);
+export const setAuth = (newUser: User | null) => {
+  auth.set(newUser);
 };
 
-export const fetchUser = async () => {
+export const fetchAuth = async () => {
   try {
-    const response = await FetchApi.get('/user'); 
-    setUser(response.data.data.user);
+    const response = await FetchApi.get("/user");
+    setAuth(response.data.data.user);
   } catch (error: any) {
     if (error.response?.status === 401) {
-      goto('/auth/login');
+      goto("/auth/login");
     } else {
-      setUser(null); 
+      setAuth(null);
+      Cookies.remove("accessToken", { path: "/" });
     }
   }
 };
-

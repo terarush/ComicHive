@@ -29,9 +29,7 @@
         if (firstServer) {
           await fetchVideoUrl(firstServer.serverId);
         } else {
-          console.warn("No valid server found, using default streaming URL.");
-          videoUrl =
-            episodeData?.defaultStreamingUrl || "https://example.com/aku";
+          videoUrl = episodeData?.defaultStreamingUrl;
         }
       }
     } catch (error) {
@@ -44,14 +42,10 @@
 
   async function fetchVideoUrl(serverId: string) {
     try {
-      console.log("Fetching server URL for ID:", serverId);
       const serverResponse = await FetchAnimeApi.get(`/server/${serverId}`);
       const fetchedUrl =
-        serverResponse.data.data.url ||
-        episodeData?.defaultStreamingUrl ||
-        "https://example.com/aku";
+        serverResponse.data.data.url || episodeData?.defaultStreamingUrl;
 
-      console.log("Fetched video URL:", fetchedUrl);
       await checkVideo(fetchedUrl);
     } catch (error) {
       console.error("Failed to fetch video URL:", error);
@@ -67,7 +61,6 @@
       if (res.ok) {
         videoUrl = url;
       } else {
-        console.warn(`Video URL not accessible, status: ${res.status}`);
         videoUrl = episodeData?.defaultStreamingUrl;
       }
       await tick();
@@ -95,6 +88,10 @@
       </h1>
     </div>
   {:else}
-    <WatchAnimeLayout episode={episodeData} {videoUrl} episodeId={data.episodeId} />
+    <WatchAnimeLayout
+      episode={episodeData}
+      {videoUrl}
+      episodeId={data.episodeId}
+    />
   {/if}
 </div>

@@ -55,7 +55,7 @@
                   <span
                     class="inline-flex items-center px-3 py-1 text-xs font-medium bg-[hsl(var(--muted))] rounded-full text-[hsl(var(--foreground))]"
                   >
-                    <a class="hover:underline">{genre.title}</a>
+                    <a href="/" class="hover:underline">{genre.title}</a>
                   </span>
                 {/each}
               </div>

@@ -27,7 +27,7 @@
       if (query.trim()) {
         dispatch("search", query); 
       }
-    }, 1000); 
+    }, 200); 
   }
 </script>
 

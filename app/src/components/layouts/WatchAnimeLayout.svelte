@@ -4,11 +4,12 @@
   import { FetchAnimeApi } from "../../utils/Fetch";
   import AddComment from "../fragments/AddComment.svelte";
   import { user } from "../../stores/user";
-    import CommentList from "../fragments/CommentList.svelte";
+  import CommentList from "../fragments/CommentList.svelte";
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
   export let episodeId: string;
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
+  let commentList: CommentList;
   $: users = $user;
 
   async function fetchServerUrl(serverId: string) {
@@ -36,7 +37,6 @@
       selectedQualityUrl = url;
     }
   }
-  console.log(episode);
 </script>
 
 <section
@@ -109,6 +109,7 @@
         >
       {/each}
     </div>
+    <!--
     <div class="mt-6">
       <h2 class="text-xl font-semibold mb-2">Download Links</h2>
       {#each episode.downloadUrl.formats as format}
@@ -135,17 +136,25 @@
         </div>
       {/each}
     </div>
+    -->
     {#if users}
-      <AddComment />
+      <div class="mt-5">
+        <AddComment
+          animeId={episodeId}
+          on:refresh={() => commentList.refreshComments()}
+        />
+      </div>
     {:else}
       <div class="py-5">
         <h1 class="text-xl">
-          Please <a href={`/auth/login?from=/anime/watch/${episodeId}`} data-sveltekit-preload-data="tap" class="text-[hsl(var(--primary))]"
-            >Sign In</a
+          Please <a
+            href={`/auth/login?from=/anime/watch/${episodeId}`}
+            data-sveltekit-preload-data="tap"
+            class="text-[hsl(var(--primary))]">Sign In</a
           > to get comment features.
         </h1>
       </div>
     {/if}
-    <CommentList animeId={episodeId}/>
+    <CommentList animeId={episodeId} bind:this={commentList} />
   </div>
 </section>

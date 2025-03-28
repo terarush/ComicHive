@@ -22,8 +22,8 @@ export async function fetchUser() {
       const response = await FetchApi.get("/user");
       user.set(response.data.data);
     } catch (error) {
-      console.error("Failed to fetch user:", error);
       user.set(null);
+      Cookies.remove("accessToken");
     }
   } else {
     user.set(null);
