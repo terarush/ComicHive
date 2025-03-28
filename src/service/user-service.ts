@@ -46,19 +46,19 @@ export class UserService {
     const contactData =
       data.email || data.first_name || data.last_name
         ? {
-            upsert: {
-              create: {
-                email: data.email ?? "",
-                first_name: data.first_name ?? "",
-                last_name: data.last_name ?? "",
-              },
-              update: {
-                email: data.email ?? undefined,
-                first_name: data.first_name ?? undefined,
-                last_name: data.last_name ?? undefined,
-              },
+          upsert: {
+            create: {
+              email: data.email ?? "",
+              first_name: data.first_name ?? "",
+              last_name: data.last_name ?? "",
             },
-          }
+            update: {
+              email: data.email ?? undefined,
+              first_name: data.first_name ?? undefined,
+              last_name: data.last_name ?? undefined,
+            },
+          },
+        }
         : undefined;
 
     const updatedUser = await prismaClient.user.update({
@@ -118,4 +118,3 @@ export class UserService {
     return { message: "Password changed successfully." };
   }
 }
-
