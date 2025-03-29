@@ -46,19 +46,19 @@ export class UserService {
     const contactData =
       data.email || data.first_name || data.last_name
         ? {
-          upsert: {
-            create: {
-              email: data.email ?? "",
-              first_name: data.first_name ?? "",
-              last_name: data.last_name ?? "",
+            upsert: {
+              create: {
+                email: data.email ?? "",
+                first_name: data.first_name ?? "",
+                last_name: data.last_name ?? "",
+              },
+              update: {
+                email: data.email ?? undefined,
+                first_name: data.first_name ?? undefined,
+                last_name: data.last_name ?? undefined,
+              },
             },
-            update: {
-              email: data.email ?? undefined,
-              first_name: data.first_name ?? undefined,
-              last_name: data.last_name ?? undefined,
-            },
-          },
-        }
+          }
         : undefined;
 
     const updatedUser = await prismaClient.user.update({
@@ -74,7 +74,6 @@ export class UserService {
         username: true,
         name: true,
         avatar: true,
-        token: true,
         contact: {
           select: {
             email: true,
@@ -92,7 +91,9 @@ export class UserService {
     request = UserValidation.CHANGE_PASSWORD.parse(request);
 
     if (request.new_password.length < 8) {
-      throw new HTTPException(400, { message: "Password must be at least 8 characters long." });
+      throw new HTTPException(400, {
+        message: "Password must be at least 8 characters long.",
+      });
     }
 
     const user = await prismaClient.user.findUnique({
