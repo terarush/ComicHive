@@ -20,6 +20,8 @@
   });
   let error = writable("");
   let success = writable("");
+  let avatarFile: File | null = null;
+  let avatarPreview = writable<string | null>(null);
 
   function getInitials(name: string) {
     return name ? name.charAt(0).toUpperCase() : "?";
@@ -35,6 +37,8 @@
         first_name: $user.contact?.first_name || "",
         last_name: $user.contact?.last_name || "",
       });
+      avatarFile = null;
+      avatarPreview.set(null);
     }
     isModalOpen.set(true);
     error.set("");
@@ -47,23 +51,68 @@
       error.set("");
       success.set("");
 
-      const payload = Object.fromEntries(
-        Object.entries($formData).filter(([_, value]) => value !== ""),
-      );
+      let payload;
+      
+      if (avatarFile) {
+        const formDataObj = new FormData();
+        formDataObj.append('avatar', avatarFile);
+        formDataObj.append('username', $formData.username);
+        formDataObj.append('name', $formData.name);
+        formDataObj.append('email', $formData.email);
+        formDataObj.append('first_name', $formData.first_name);
+        formDataObj.append('last_name', $formData.last_name);
 
-      const response = await FetchApi.patch("/user", payload);
-      if (response.status == 200) {
-        success.set("Profile updated successfully!");
-        await fetchUser();
-        setTimeout(() => isModalOpen.set(false), 1500);
+        const response = await FetchApi.patch("/user", formDataObj, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        if (response.status === 200) {
+          success.set("Profile updated successfully!");
+          await fetchUser();
+          setTimeout(() => isModalOpen.set(false), 1500);
+        } else {
+          error.set("Failed to update profile");
+        }
       } else {
-        error.set("Failed to update profile");
+        payload = Object.fromEntries(
+          Object.entries($formData).filter(([_, value]) => value !== ""),
+        );
+        
+        const response = await FetchApi.patch("/user", payload);
+        
+        if (response.status === 200) {
+          success.set("Profile updated successfully!");
+          await fetchUser();
+          setTimeout(() => isModalOpen.set(false), 1500);
+        } else {
+          error.set("Failed to update profile");
+        }
       }
     } catch (err: any) {
       error.set(err.message || "An error occurred");
     } finally {
       isLoading.set(false);
     }
+  }
+
+  function handleFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      avatarFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        avatarPreview.set(e.target?.result as string);
+        $formData.avatar = ""; 
+      };
+      reader.readAsDataURL(avatarFile);
+    }
+  }
+
+  function clearAvatar() {
+    avatarFile = null;
+    avatarPreview.set(null);
   }
 
   onMount(async () => {
@@ -182,7 +231,7 @@
                 <span class="flex items-center justify-center">
                   <Edit
                     size={16}
-                    class="mr-2 transition-transform group-hover:rotate-12"
+                    class="mr-2"
                   />
                   Edit Profile
                 </span>
@@ -279,6 +328,9 @@
     bind:success
     bind:isLoading
     {handleSubmit}
+    {handleFileChange}
+    {clearAvatar}
+    avatarPreview={$avatarPreview}
   />
 {/if}
 
