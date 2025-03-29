@@ -70,7 +70,6 @@ class UserService {
                 username: true,
                 name: true,
                 avatar: true,
-                token: true,
                 contact: {
                     select: {
                         email: true,
@@ -85,7 +84,9 @@ class UserService {
     static async changePassword(userId, request) {
         request = user_validation_1.UserValidation.CHANGE_PASSWORD.parse(request);
         if (request.new_password.length < 8) {
-            throw new http_exception_1.HTTPException(400, { message: "Password must be at least 8 characters long." });
+            throw new http_exception_1.HTTPException(400, {
+                message: "Password must be at least 8 characters long.",
+            });
         }
         const user = await database_1.prismaClient.user.findUnique({
             where: { id: userId },
