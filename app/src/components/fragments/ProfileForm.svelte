@@ -2,7 +2,7 @@
   import { type Writable } from "svelte/store";
   import { Edit, X, Image } from "@lucide/svelte";
   import Button from "../elements/Button.svelte";
-  import LoadingElements from "../elements/LoadingElements.svelte";
+  import Loading from "../elements/Loading.svelte";
 
   export let isModalOpen: Writable<boolean>;
   export let formData: Writable<{
@@ -203,11 +203,7 @@
         Cancel
       </Button>
       <Button on:click={handleSubmit} disabled={$isLoading}>
-        {#if $isLoading}
-          <LoadingElements />
-        {:else}
-          <Edit size={16} class="mr-1" />
-        {/if}
+        <Edit size={16} class="mr-1" />
         Save Changes
       </Button>
     </div>
