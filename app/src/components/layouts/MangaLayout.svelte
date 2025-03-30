@@ -28,6 +28,7 @@
               alt={manga.title}
               class="w-full h-full object-cover"
               loading="lazy"
+              decoding="async"
             />
             
             <div class="absolute top-2 right-2 bg-[hsl(var(--primary))] text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">

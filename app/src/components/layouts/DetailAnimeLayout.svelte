@@ -1,51 +1,5 @@
 <script lang="ts">
-  interface AnimeData {
-    title: string;
-    poster: string;
-    score: Score;
-    japanese: string;
-    synonyms: string;
-    english: string;
-    status: string;
-    type: string;
-    source: string;
-    duration: string;
-    episodes: number;
-    season: string;
-    studios: string;
-    producers: string;
-    aired: string;
-    trailer: string;
-    synopsis: Synopsis;
-    genreList: Genre[];
-    batchList: any[];
-    episodeList: Episode[];
-  }
-
-  interface Score {
-    value: string;
-    users: string;
-  }
-
-  interface Synopsis {
-    paragraphs: string[];
-    connections: any[];
-  }
-
-  interface Genre {
-    title: string;
-    genreId: string;
-    href: string;
-    samehadakuUrl: string;
-  }
-
-  interface Episode {
-    title: number;
-    episodeId: string;
-    href: string;
-    samehadakuUrl: string;
-  }
-
+  import type { AnimeData } from "../../types/types";
   export let anime: AnimeData = {
     title: "",
     poster: "",
@@ -70,7 +24,9 @@
   };
 </script>
 
-<section class="bg-[hsl(var(--background))] py-8 sm:py-12 text-[hsl(var(--foreground))] mt-5">
+<section
+  class="bg-[hsl(var(--background))] py-12 text-[hsl(var(--foreground))] mt-6"
+>
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
       <div class="flex-shrink-0 w-full lg:w-auto flex justify-center lg:block">
@@ -78,10 +34,12 @@
           <img
             src={anime.poster}
             alt={anime.title}
-            class="w-full rounded-xl shadow-lg border-2 border-[hsl(var(--border))] transition-transform duration-300 group-hover:scale-105"
+            class="w-full rounded-xl shadow-lg border-2 border-[hsl(var(--border))] transition-transform duration-300"
           />
           {#if anime.score}
-            <div class="absolute top-3 right-3 bg-[hsl(var(--primary))] text-white text-sm font-bold px-3 py-1 rounded-full flex items-center backdrop-blur-sm">
+            <div
+              class="absolute top-3 right-3 bg-[hsl(var(--primary))] text-white text-sm font-bold px-3 py-1 rounded-full flex items-center backdrop-blur-sm"
+            >
               ★ {anime.score.value}
             </div>
           {/if}
@@ -90,9 +48,13 @@
 
       <div class="flex-1 space-y-4">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight">{anime.title || anime.english}</h1>
+          <h1 class="text-3xl font-bold tracking-tight">
+            {anime.title || anime.english}
+          </h1>
           {#if anime.japanese}
-            <p class="text-lg text-[hsl(var(--muted-foreground))] mt-1">{anime.japanese}</p>
+            <p class="text-lg text-[hsl(var(--muted-foreground))] mt-1">
+              {anime.japanese}
+            </p>
           {/if}
         </div>
 
@@ -144,7 +106,11 @@
     </div>
 
     <div class="mt-12">
-      <h2 class="text-2xl font-bold mb-4 pb-2 border-b border-[hsl(var(--border))]">Synopsis</h2>
+      <h2
+        class="text-2xl font-bold mb-4 pb-2 border-b border-[hsl(var(--border))]"
+      >
+        Synopsis
+      </h2>
       <div class="prose max-w-none text-[hsl(var(--foreground))]">
         {#each anime.synopsis.paragraphs as paragraph}
           <p class="mb-4">{paragraph}</p>
@@ -153,8 +119,14 @@
     </div>
 
     <div class="mt-12">
-      <h2 class="text-2xl font-bold mb-6 pb-2 border-b border-[hsl(var(--border))]">Episodes</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+      <h2
+        class="text-2xl font-bold mb-6 pb-2 border-b border-[hsl(var(--border))]"
+      >
+        Episodes
+      </h2>
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+      >
         {#each anime.episodeList as episode}
           <a
             href={`/anime/watch/${episode.episodeId}`}

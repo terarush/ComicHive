@@ -11,7 +11,7 @@
   } | null;
 </script>
 
-<section class="bg-[hsl(var(--background))] py-12 text-[hsl(var(--foreground))]">
+<section class="bg-[hsl(var(--background))] py-12 mt-5 text-[hsl(var(--foreground))]">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     {#if manga}
       <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
