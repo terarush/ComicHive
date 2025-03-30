@@ -23,11 +23,15 @@
   let isLoading = writable(true);
   let comments = writable<Comment[]>([]);
 
-
   async function FetchComment() {
     try {
       const response = await FetchApi.get(`/comment/${animeId}`);
       const data = response.data.data;
+      data.sort(
+        (a: Comment, b: Comment) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      );
+
       comments.set(data);
     } catch (error) {
       console.error("Error fetching comments:", error);

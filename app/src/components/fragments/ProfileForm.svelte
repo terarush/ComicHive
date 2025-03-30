@@ -2,7 +2,6 @@
   import { type Writable } from "svelte/store";
   import { Edit, X, Image } from "@lucide/svelte";
   import Button from "../elements/Button.svelte";
-  import Loading from "../elements/Loading.svelte";
 
   export let isModalOpen: Writable<boolean>;
   export let formData: Writable<{
