@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
       <div class="lg:col-span-2 space-y-8">
         <div
           class="bg-[hsl(var(--card))] p-6 rounded-md border border-[hsl(var(--border))] shadow-sm"

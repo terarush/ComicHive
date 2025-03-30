@@ -3,7 +3,7 @@
   import { user, fetchUser } from "../../stores/user";
   import { writable } from "svelte/store";
   import LoadingElements from "../../components/elements/LoadingElements.svelte";
-  import { User, BookOpen, Film, Edit } from "@lucide/svelte";
+  import { User, BookOpen, Film, Edit, Mail, Shield } from "@lucide/svelte";
   import { FetchApi } from "../../utils/Fetch";
   import Button from "../../components/elements/Button.svelte";
   import ProfileForm from "../../components/fragments/ProfileForm.svelte";
@@ -52,22 +52,22 @@
       success.set("");
 
       let payload;
-      
+
       if (avatarFile) {
         const formDataObj = new FormData();
-        formDataObj.append('avatar', avatarFile);
-        formDataObj.append('username', $formData.username);
-        formDataObj.append('name', $formData.name);
-        formDataObj.append('email', $formData.email);
-        formDataObj.append('first_name', $formData.first_name);
-        formDataObj.append('last_name', $formData.last_name);
+        formDataObj.append("avatar", avatarFile);
+        formDataObj.append("username", $formData.username);
+        formDataObj.append("name", $formData.name);
+        formDataObj.append("email", $formData.email);
+        formDataObj.append("first_name", $formData.first_name);
+        formDataObj.append("last_name", $formData.last_name);
 
         const response = await FetchApi.patch("/user", formDataObj, {
           headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+            "Content-Type": "multipart/form-data",
+          },
         });
-        
+
         if (response.status === 200) {
           success.set("Profile updated successfully!");
           await fetchUser();
@@ -79,9 +79,9 @@
         payload = Object.fromEntries(
           Object.entries($formData).filter(([_, value]) => value !== ""),
         );
-        
+
         const response = await FetchApi.patch("/user", payload);
-        
+
         if (response.status === 200) {
           success.set("Profile updated successfully!");
           await fetchUser();
@@ -104,7 +104,7 @@
       const reader = new FileReader();
       reader.onload = (e) => {
         avatarPreview.set(e.target?.result as string);
-        $formData.avatar = ""; 
+        $formData.avatar = "";
       };
       reader.readAsDataURL(avatarFile);
     }
@@ -119,6 +119,7 @@
     await fetchUser();
     isLoading.set(false);
   });
+
 </script>
 
 <div
@@ -183,22 +184,7 @@
                     <div
                       class="w-5 h-5 rounded-full bg-[hsl(var(--primary)/10%)] flex items-center justify-center text-[hsl(var(--primary))]"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path
-                          d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                        ></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                      </svg>
+                      <Mail size={12} />
                     </div>
                   </div>
                   <p class="ml-2 text-sm break-all">{$user.contact.email}</p>
@@ -220,6 +206,28 @@
                   </p>
                 </div>
               {/if}
+
+
+              <div class="flex items-start">
+                <div class="flex-shrink-0 mt-0.5">
+                  <div
+                    class="w-5 h-5 rounded-full bg-[hsl(var(--primary)/10%)] flex items-center justify-center text-[hsl(var(--primary))]"
+                  >
+                    {#if $user.role === "ADMIN"}
+                      <Shield size={12} />
+                    {:else}
+                      <User size={12} />
+                    {/if}
+                  </div>
+                </div>
+                <div class="ml-2">
+                  <p class="text-sm">
+                    <span>
+                      {$user.role}
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div class="mt-8 w-full">
@@ -229,10 +237,7 @@
                 classes="w-full group"
               >
                 <span class="flex items-center justify-center">
-                  <Edit
-                    size={16}
-                    class="mr-2"
-                  />
+                  <Edit size={16} class="mr-2" />
                   Edit Profile
                 </span>
               </Button>

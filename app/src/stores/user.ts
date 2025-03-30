@@ -7,6 +7,7 @@ export type UserProfile = {
   name: string;
   username: string;
   avatar?: string;
+  role?: string;
   contact: {
     email: string;
     first_name: string;
