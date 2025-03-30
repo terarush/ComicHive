@@ -6,10 +6,6 @@
 <footer
   class="relative bg-[hsl(var(--background))] text-[hsl(var(--foreground))] overflow-hidden"
 >
-  <div
-    class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--secondary))] to-[hsl(var(--tertiary))] opacity-20 blur-lg"
-  ></div>
-
   <div class="relative max-w-7xl mx-auto px-4 py-12 sm:py-16">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 z-10">
       <div class="space-y-4">

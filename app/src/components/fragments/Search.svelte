@@ -45,6 +45,6 @@
     classes="px-6 py-2 rounded-r-md"
     on:click={handleSearch} 
   >
-    Cari
+    Search
   </Button>
 </div>

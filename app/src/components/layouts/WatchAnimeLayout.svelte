@@ -1,28 +1,34 @@
 <script lang="ts">
   import type { EpisodeData } from "../../types/episodes";
-  import { ArrowBigRight, ArrowBigLeft } from "@lucide/svelte";
+  import {
+    ArrowBigRight,
+    ArrowBigLeft,
+    MessageSquare,
+    Info,
+    Tag,
+    ChevronDown,
+    LogIn,
+    ChevronRight,
+  } from "@lucide/svelte";
   import { FetchAnimeApi } from "../../utils/Fetch";
-  import AddComment from "../fragments/AddComment.svelte";
   import { user } from "../../stores/user";
+
   import CommentList from "../fragments/CommentList.svelte";
+  import AddComment from "../fragments/AddComment.svelte";
+
   export let videoUrl: string | null = null;
   export let episode: EpisodeData;
   export let episodeId: string;
+
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
   let commentList: CommentList;
+  let showComments = true;
   $: users = $user;
 
   async function fetchServerUrl(serverId: string) {
     try {
       const response = await FetchAnimeApi.get(`/server/${serverId}`);
-      const result = response.data;
-
-      if (result.ok && result.data.url) {
-        return result.data.url;
-      } else {
-        console.error("Failed to fetch server URL:", result.message);
-        return null;
-      }
+      return response.data.ok ? response.data.data.url : null;
     } catch (error) {
       console.error("Error fetching server URL:", error);
       return null;
@@ -33,46 +39,49 @@
     const selectElement = event.target as HTMLSelectElement;
     const serverId = selectElement.value;
     const url = await fetchServerUrl(serverId);
-    if (url) {
-      selectedQualityUrl = url;
-    }
+    if (url) selectedQualityUrl = url;
   }
 </script>
 
 <section
-  class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] py-[100px]"
+  class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] py-8 mt-5 sm:py-12"
 >
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="relative group">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
       <div
-        class="w-full aspect-video bg-black rounded-md overflow-hidden shadow-2xl"
+        class="relative group rounded-md overflow-hidden shadow-2xl bg-black"
       >
-        <iframe
-          src={selectedQualityUrl}
-          class="w-full h-full"
-          allow="fullscreen"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <div class="aspect-video w-full">
+          <iframe
+            src={selectedQualityUrl}
+            class="w-full h-full"
+            allow="fullscreen"
+            frameborder="0"
+            allowfullscreen
+            loading="eager"
+          ></iframe>
+        </div>
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+        ></div>
       </div>
-      <div
-        class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-      ></div>
-    </div>
 
-    <div class="mt-6 space-y-4">
-      <div>
-        <label
-          for="quality"
-          class="block text-sm font-medium mb-2 text-[hsl(var(--muted-foreground))]"
-        >
-          Video Quality
-        </label>
+      <div class="mt-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-lg font-semibold">Streaming Quality</h3>
+          <button
+            on:click={() => (showComments = !showComments)}
+            class="flex items-center gap-2 text-sm text-[hsl(var(--primary))] hover:underline"
+          >
+            <MessageSquare class="w-4 h-4" />
+            {showComments ? "Hide Comments" : "Show Comments"}
+          </button>
+        </div>
+
         <div class="relative">
           <select
-            id="quality"
-            class="appearance-none w-full pl-4 pr-10 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md text-sm focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))]"
             on:change={updateVideoUrl}
+            class="w-full bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent appearance-none pr-8"
           >
             {#each episode.server.qualities as quality}
               {#each quality.serverList as serverItem}
@@ -82,156 +91,126 @@
               {/each}
             {/each}
           </select>
-          <div
-            class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-          >
-            <svg
-              class="w-5 h-5 text-[hsl(var(--muted-foreground))]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
+          <ChevronDown
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[hsl(var(--muted-foreground))] pointer-events-none"
+          />
         </div>
       </div>
 
-      <div class="flex justify-between gap-3">
+      <div class="flex gap-4 mt-6">
         {#if episode.hasPrevEpisode}
           <a
             rel="external"
             href={`/anime/watch/${episode.prevEpisode?.episodeId}`}
+            class="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md hover:bg-[hsl(var(--primary)/0.1)] transition-colors group"
             data-sveltekit-preload-data="hover"
-            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md hover:bg-[hsl(var(--primary)/0.1)] hover:border-[hsl(var(--primary)/0.3)] transition-colors"
           >
-            <ArrowBigLeft class="w-5 h-5" />
-            <span class="font-medium">Previous Episode</span>
+            <ArrowBigLeft
+              class="w-5 h-5 text-[hsl(var(--primary))] group-hover:-translate-x-1 transition-transform"
+            />
+            <div class="text-left">
+              <p class="font-medium line-clamp-1">
+                {episode.prevEpisode?.title}
+              </p>
+            </div>
           </a>
         {/if}
         {#if episode.hasNextEpisode}
           <a
             rel="external"
             href={`/anime/watch/${episode.nextEpisode?.episodeId}`}
+            class="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md hover:bg-[hsl(var(--primary)/0.1)] transition-colors group"
             data-sveltekit-preload-data="hover"
-            class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-md hover:bg-[hsl(var(--primary)/0.1)] hover:border-[hsl(var(--primary)/0.3)] transition-colors"
           >
-            <span class="font-medium">Next Episode</span>
-            <ArrowBigRight class="w-5 h-5" />
+            <div class="text-right">
+              <p class="font-medium line-clamp-1">
+                {episode.nextEpisode?.title}
+              </p>
+            </div>
+            <ArrowBigRight
+              class="w-5 h-5 text-[hsl(var(--primary))] group-hover:translate-x-1 transition-transform"
+            />
           </a>
         {/if}
       </div>
     </div>
 
-    <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-3">
-      <div class="lg:col-span-2 space-y-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2 space-y-8">
         <div
           class="bg-[hsl(var(--card))] p-6 rounded-md border border-[hsl(var(--border))] shadow-sm"
         >
-          <h2 class="text-2xl font-bold mb-5 flex items-center gap-2">
-            <svg
-              class="w-6 h-6 text-[hsl(var(--primary))]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div class="flex items-center gap-3 mb-5">
+            <div
+              class="w-8 h-8 rounded-md bg-[hsl(var(--primary)/0.2)] flex items-center justify-center"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            Synopsis
-          </h2>
-          <div
-            class="prose prose-invert max-w-none text-[hsl(var(--foreground))]"
-          >
+              <Info class="w-5 h-5 text-[hsl(var(--primary))]" />
+            </div>
+            <h2 class="text-xl font-bold">Episode Synopsis</h2>
+          </div>
+          <div class="prose prose-invert max-w-none">
             {#each episode.synopsis.paragraphs as paragraph}
-              <p class="mb-4 last:mb-0">{paragraph}</p>
+              <p class="mb-4 last:mb-0 text-[hsl(var(--foreground))]">
+                {paragraph}
+              </p>
             {/each}
           </div>
         </div>
 
         <div>
-          <h3
-            class="text-lg font-semibold mb-3 text-[hsl(var(--muted-foreground))]"
-          >
+          <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Tag class="w-5 h-5 text-[hsl(var(--primary))]" />
             Genres
           </h3>
           <div class="flex flex-wrap gap-2">
             {#each episode.genreList as genre}
               <a
-                rel="external"
                 href={genre.href}
+                class="px-4 py-2 text-sm font-medium bg-[hsl(var(--primary)/0.1)] hover:bg-[hsl(var(--primary)/0.2)] text-[hsl(var(--primary))] rounded-full transition-colors flex items-center gap-2"
                 data-sveltekit-preload-data="hover"
-                class="px-4 py-2 text-sm font-medium bg-[hsl(var(--primary)/0.1)] text-[hsl(var(--primary))] rounded-md hover:bg-[hsl(var(--primary)/0.2)] transition-colors flex items-center gap-1"
               >
                 {genre.title}
-                <svg
-                  class="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <ChevronRight class="w-4 h-4" />
               </a>
             {/each}
           </div>
         </div>
       </div>
 
-      <div class="lg:col-span-1">
-        {#if users}
-          <AddComment
-            animeId={episodeId}
-            on:refresh={() => commentList.refreshComments()}
-          />
-        {:else}
-          <div
-            class="bg-[hsl(var(--card))] p-5 rounded-2xl border border-[hsl(var(--border))] mb-6 text-center"
-          >
-            <div class="p-3">
-              <svg
-                class="mx-auto h-8 w-8 text-[hsl(var(--primary))]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                />
-              </svg>
-              <h3 class="mt-2 text-lg font-medium">Join the Discussion</h3>
-              <p class="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
-                <a
-                  rel="external"
-                  href={`/auth/login?from=/anime/watch/${episodeId}`}
-                  data-sveltekit-preload-data="tap"
-                  class="text-[hsl(var(--primary))] font-medium hover:underline"
-                  >Sign in</a
-                > to leave a comment
-              </p>
+      {#if showComments}
+        <div class="lg:col-span-1 space-y-6">
+          {#if users}
+            <AddComment
+              animeId={episodeId}
+              on:refresh={() => commentList.refreshComments()}
+            />
+          {:else}
+            <div
+              class="bg-[hsl(var(--card))] p-6 rounded-md border border-[hsl(var(--border))] text-center"
+            >
+              <div class="p-3">
+                <div
+                  class="mx-auto w-12 h-12 rounded-full bg-[hsl(var(--primary)/0.1)] flex items-center justify-center mb-3"
+                >
+                  <LogIn class="w-5 h-5 text-[hsl(var(--primary))]" />
+                </div>
+                <h3 class="text-lg font-medium">Join the Discussion</h3>
+                <p class="mt-2 text-sm text-[hsl(var(--muted-foreground))]">
+                  <a
+                    href={`/auth/login?from=/anime/watch/${episodeId}`}
+                    class="text-[hsl(var(--primary))] font-medium hover:underline"
+                    data-sveltekit-preload-data="tap"
+                  >
+                    Sign in
+                  </a> to leave a comment
+                </p>
+              </div>
             </div>
-          </div>
-        {/if}
+          {/if}
 
-        <CommentList animeId={episodeId} bind:this={commentList} />
-      </div>
+          <CommentList animeId={episodeId} bind:this={commentList} />
+        </div>
+      {/if}
     </div>
   </div>
 </section>

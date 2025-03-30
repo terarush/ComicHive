@@ -11,8 +11,8 @@
   let message = "";
 
   const MenuHeroData = {
-    title: "Nonton Anime Terbaru",
-    description: "Nikmati streaming anime favoritmu hanya di Comichive!",
+    title: "Watch Latest Anime",
+    description: "Enjoy streaming your favorite anime only on ComicHive!",
     imageUrl: "/icon.jpg",
   };
 
@@ -31,7 +31,7 @@
 </script>
 
 <svelte:head>
-  <title>ComicHive - Tonton anime secara gratis tanpa iklan!</title>
+  <title>ComicHive - Watch anime for free without ads!</title>
 </svelte:head>
 
 <div>
@@ -42,7 +42,7 @@
     <h1
       class="text-3xl font-bold text-[hsl(var(--foreground))] text-center mt-10 bg-[hsl(var(--background))]"
     >
-      Anime Release Terbaru
+      Latest Anime Releases
     </h1>
     <SearchAnime />
     <AnimeLayout {animeList} />

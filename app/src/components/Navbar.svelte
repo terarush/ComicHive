@@ -2,7 +2,7 @@
   import { user } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import { onMount } from "svelte";
-  import { User, LogOut } from "@lucide/svelte";
+  import { User, LogOut, Bot } from "@lucide/svelte";
   import { fade } from "svelte/transition";
 
   let isMenuOpen = false;
@@ -81,9 +81,13 @@
           {/if}
         </button>
 
-        <a href="/" class="text-lg font-bold text-[hsl(var(--primary))]"
-          >ComicHive</a
+        <a
+          href="/"
+          class="text-lg font-bold text-[hsl(var(--primary))] flex gap-2"
         >
+          <Bot />
+          ComicHive
+        </a>
       </div>
 
       <nav data-sveltekit-preload-data="false" class="hidden md:flex gap-6">
@@ -158,9 +162,10 @@
           <a
             data-sveltekit-preload-data="tap"
             href="/auth/login"
-            class="px-4 py-2 border rounded-md text-sm font-medium bg-[hsl(var(--background))] hover:bg-[hsl(var(--muted))]"
-            >Sign in</a
+            class="px-4 py-2 rounded-lg text-sm font-medium border border-[hsl(var(--primary))] text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary)/0.1)] transition-colors"
           >
+            Sign In
+          </a>
         {/if}
       </div>
     </div>

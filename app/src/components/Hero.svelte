@@ -2,45 +2,32 @@
   import Link from "svelte-link";
 </script>
 
-<section
-  class="relative bg-[hsl(var(--background))] text-[hsl(var(--foreground))] overflow-hidden"
->
-  <div
-    class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--secondary))] to-[hsl(var(--tertiary))] opacity-30 blur-lg"
-  ></div>
+<section class="relative bg-[hsl(var(--background))] text-[hsl(var(--foreground))] overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-[hsl(var(--primary))] via-[hsl(var(--secondary))] to-[hsl(var(--tertiary))] opacity-30 blur-lg"></div>
 
-  <div
-    class="relative max-w-7xl mx-auto px-4 py-20 sm:py-32 flex flex-col md:flex-row items-center justify-between"
-  >
+  <div class="relative max-w-7xl mx-auto px-4 py-20 sm:py-32 flex flex-col md:flex-row items-center justify-between">
     <div class="text-center md:text-left mb-8 md:mb-0 z-10">
-      <h1
-        class="text-4xl sm:text-6xl font-extrabold tracking-tight text-[hsl(var(--background-foreground))] drop-shadow-lg"
-      >
-        Selamat Datang di ComicHive!
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-[hsl(var(--background-foreground))] drop-shadow-lg">
+        Welcome to ComicHive!
         <br class="hidden sm:inline" />
-        Baca Manga & Tonton Anime Gratis
+        Read Manga & Watch Anime for Free
       </h1>
-      <p
-        class="mt-4 text-lg sm:text-xl text-[hsl(var(--muted-foreground))] max-w-md"
-      >
-        ComicHive adalah platform terbaik untuk membaca manga, manhwa, dan
-        menonton anime secara gratis. Temukan ribuan judul, terhubung dengan
-        komunitas, dan nikmati pengalaman membaca yang menyenangkan!
+      <p class="mt-4 text-lg sm:text-xl text-[hsl(var(--muted-foreground))] max-w-md">
+        ComicHive is the best platform to read manga, manhwa, and watch anime for free. 
+        Discover thousands of titles, connect with the community, and enjoy a delightful reading experience!
       </p>
-      <div
-        class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-      >
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
         <Link
           href="/manga"
           class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-[hsl(var(--primary-foreground))] bg-[hsl(var(--primary))] cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))] transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          Mulai Membaca
+          Start Reading
         </Link>
         <Link
           href="/anime"
           class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-[hsl(var(--foreground))] bg-[hsl(var(--accent))] hover:bg-[hsl(var(--accent))] cursor-pointer rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[hsl(var(--ring))] transition-all duration-300"
         >
-          Jelajahi Anime
+          Explore Anime
         </Link>
       </div>
     </div>
@@ -54,12 +41,8 @@
     </div>
   </div>
 
-  <div
-    class="absolute top-1/3 left-1/4 w-24 h-24 bg-[hsl(var(--primary))] rounded-full opacity-30 blur-3xl animate-bounce-slow"
-  ></div>
-  <div
-    class="absolute bottom-1/3 right-1/4 w-16 h-16 bg-[hsl(var(--secondary))] rounded-full opacity-30 blur-2xl animate-float"
-  ></div>
+  <div class="absolute top-1/3 left-1/4 w-24 h-24 bg-[hsl(var(--primary))] rounded-full opacity-30 blur-3xl animate-bounce-slow"></div>
+  <div class="absolute bottom-1/3 right-1/4 w-16 h-16 bg-[hsl(var(--secondary))] rounded-full opacity-30 blur-2xl animate-float"></div>
 </section>
 
 <style>

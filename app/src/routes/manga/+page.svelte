@@ -13,9 +13,8 @@
   let hasMorePages = true;
 
   const MenuHeroData = {
-    title: "Baca Manga & Manhwa Terbaru",
-    description:
-      "Nikmati streaming Manga & Manhwa favoritmu hanya di Comichive!",
+    title: "Read Latest Manga & Manhwa",
+    description: "Enjoy your favorite Manga & Manhwa only on ComicHive!",
     imageUrl: "/icon.jpg",
   };
 
@@ -49,16 +48,16 @@
 </script>
 
 <svelte:head>
-  <title>ComicHive - Baca manga secara gratis!</title>
+  <title>ComicHive - Read manga for free!</title>
 </svelte:head>
 
 <main>
   {#if mangaList.length === 0}
-  <LoadingElements/>
+    <LoadingElements />
   {:else}
     <MenuHero {...MenuHeroData} />
     <SearchManga />
-    <MangaLayout {mangaList} text="update at " />
+    <MangaLayout {mangaList} text="Updated at " />
     <Pagination
       {currentPage}
       totalPages={Infinity}

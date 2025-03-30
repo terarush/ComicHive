@@ -30,7 +30,7 @@
 
 <div class="bg-[hsl(var(--background))]">
   <div class="flex justify-center items-center pt-20">
-    <Search placeholder="Cari anime..." on:search={(e) => handleSearch(e.detail)} />
+    <Search placeholder="Search anime..." on:search={(e) => handleSearch(e.detail)} />
   </div>
 
   {#if hasInteracted}
