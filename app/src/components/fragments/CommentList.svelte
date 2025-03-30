@@ -11,7 +11,7 @@
     Send,
     X,
     MoreVertical,
-    User
+    User,
   } from "@lucide/svelte";
 
   export let animeId: string;
@@ -46,7 +46,7 @@
   let replyingTo = writable<string | null>(null);
   let replyContent = writable("");
   let openMenuId = writable<string | null>(null);
-  const userId = $user?.id || null;
+  const userId = $user?.id;
   let isProcessing = writable(false);
 
   async function FetchComment() {
@@ -206,24 +206,9 @@
               </div>
             {/if}
           </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 mb-1">
-              <p class="text-sm font-medium text-[hsl(var(--foreground))]">
-                @{comment.user.username}
-              </p>
-              <span class="text-xs text-[hsl(var(--muted-foreground))]">•</span>
-              <p class="text-xs text-[hsl(var(--muted-foreground))]">
-                {formatDate(comment.created_at)}
-              </p>
-            </div>
-            <p
-              class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words"
-            >
-              {comment.content}
-            </p>
-            <div
-              class="absolute top-4 right-4 sm:relative sm:top-auto sm:right-auto"
-            >
+          <div class="flex-1 min-w-0 relative">
+            <!-- MoreVertical Button - Fixed position -->
+            <div class="absolute top-0 right-0">
               <button
                 on:click={() => toggleMenu(`comment-${comment.id}`)}
                 class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] p-1 rounded-full hover:bg-[hsl(var(--muted))] transition-colors"
@@ -256,6 +241,26 @@
                 </div>
               {/if}
             </div>
+
+            <div class="pr-6">
+              <div class="flex items-center gap-2 mb-1">
+                <p class="text-sm font-medium text-[hsl(var(--foreground))]">
+                  @{comment.user.username}
+                </p>
+                <span class="text-xs text-[hsl(var(--muted-foreground))]"
+                  >•</span
+                >
+                <p class="text-xs text-[hsl(var(--muted-foreground))]">
+                  {formatDate(comment.created_at)}
+                </p>
+              </div>
+              <p
+                class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words"
+              >
+                {comment.content}
+              </p>
+            </div>
+
             {#if $replyingTo === comment.id}
               <div class="mt-3 space-y-2">
                 <textarea
@@ -306,71 +311,76 @@
                         </div>
                       {/if}
                     </div>
-                    <div class="flex-1 min-w-0">
-                      <div class="flex items-center gap-2 mb-1">
+                    <div class="flex-1 min-w-0 relative">
+                      <div class="absolute top-0 right-0">
+                        <button
+                          on:click={() => toggleMenu(`reply-${reply.id}`)}
+                          class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] p-1 rounded-full hover:bg-[hsl(var(--muted))] transition-colors"
+                        >
+                          <MoreVertical class="w-4 h-4" />
+                        </button>
+                        {#if $openMenuId === `reply-${reply.id}`}
+                          <div
+                            class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-[hsl(var(--popover))] border border-[hsl(var(--border))] z-10"
+                          >
+                            <div class="py-1">
+                              {#if userId && userId === reply.user.id}
+                                <a
+                                  href={`/u/${reply.user.username}`}
+                                  data-sveltekit-preload-data="tap"
+                                  on:click={() => deleteReply(reply.id)}
+                                  class="flex items-center gap-2 w-full px-4 py-2 text-sm text-[hsl(var(--background-foreground))] hover:bg-[hsl(var(--muted))]"
+                                >
+                                  <User class="w-4 h-4" />
+                                  <span>Profile</span>
+                                </a>
+                                <button
+                                  on:click={() => deleteReply(reply.id)}
+                                  class="flex items-center gap-2 w-full px-4 py-2 text-sm text-[hsl(var(--destructive))] hover:bg-[hsl(var(--muted))]"
+                                  disabled={$isProcessing}
+                                >
+                                  <X class="w-4 h-4" />
+                                  <span>Delete</span>
+                                </button>
+                              {:else}
+                                <a
+                                  href={`/u/${reply.user.username}`}
+                                  data-sveltekit-preload-data="tap"
+                                  on:click={() => deleteReply(reply.id)}
+                                  class="flex items-center gap-2 w-full px-4 py-2 text-sm text-[hsl(var(--background-foreground))] hover:bg-[hsl(var(--muted))]"
+                                >
+                                  <User class="w-4 h-4" />
+                                  <span>Profile</span>
+                                </a>
+                              {/if}
+                            </div>
+                          </div>
+                        {/if}
+                      </div>
+
+                      <div class="pr-6">
+                        <div class="flex items-center gap-2 mb-1">
+                          <p
+                            class="text-xs font-medium text-[hsl(var(--foreground))]"
+                          >
+                            @{reply.user.username}
+                          </p>
+                          <span
+                            class="text-xs text-[hsl(var(--muted-foreground))]"
+                            >•</span
+                          >
+                          <p
+                            class="text-xs text-[hsl(var(--muted-foreground))]"
+                          >
+                            {formatDate(reply.created_at)}
+                          </p>
+                        </div>
                         <p
-                          class="text-xs font-medium text-[hsl(var(--foreground))]"
+                          class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words"
                         >
-                          @{reply.user.username}
-                        </p>
-                        <span
-                          class="text-xs text-[hsl(var(--muted-foreground))]"
-                          >•</span
-                        >
-                        <p class="text-xs text-[hsl(var(--muted-foreground))]">
-                          {formatDate(reply.created_at)}
+                          {reply.content}
                         </p>
                       </div>
-                      <p
-                        class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words"
-                      >
-                        {reply.content}
-                      </p>
-                    </div>
-                    <div class="absolute top-2 right-2">
-                      <button
-                        on:click={() => toggleMenu(`reply-${reply.id}`)}
-                        class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] p-1 rounded-full hover:bg-[hsl(var(--muted))] transition-colors"
-                      >
-                        <MoreVertical class="w-4 h-4" />
-                      </button>
-                      {#if $openMenuId === `reply-${reply.id}`}
-                        <div
-                          class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-[hsl(var(--popover))] border border-[hsl(var(--border))] z-10"
-                        >
-                          <div class="py-1">
-                            {#if userId && userId === reply.user.id}
-                              <a
-                                href={`/u/${reply.user.username}`}
-                                data-sveltekit-preload-data="tap"
-                                on:click={() => deleteReply(reply.id)}
-                                class="flex items-center gap-2 w-full px-4 py-2 text-sm text-[hsl(var(--background-foreground))] hover:bg-[hsl(var(--muted))]"
-                              >
-                                <User class="w-4 h-4" />
-                                <span>Profile</span>
-                              </a>
-                              <button
-                                on:click={() => deleteReply(reply.id)}
-                                class="flex items-center gap-2 w-full px-4 py-2 text-sm text-[hsl(var(--destructive))] hover:bg-[hsl(var(--muted))]"
-                                disabled={$isProcessing}
-                              >
-                                <X class="w-4 h-4" />
-                                <span>Delete</span>
-                              </button>
-                              {:else}
-                              <a
-                                href={`/u/${reply.user.username}`}
-                                data-sveltekit-preload-data="tap"
-                                on:click={() => deleteReply(reply.id)}
-                                class="flex items-center gap-2 w-full px-4 py-2 text-sm text-[hsl(var(--background-foreground))] hover:bg-[hsl(var(--muted))]"
-                              >
-                                <User class="w-4 h-4" />
-                                <span>Profile</span>
-                              </a>
-                            {/if}
-                          </div>
-                        </div>
-                      {/if}
                     </div>
                   </div>
                 {/each}
