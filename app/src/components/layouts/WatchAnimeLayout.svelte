@@ -44,7 +44,7 @@
 </script>
 
 <section
-  class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] py-8 mt-5 sm:py-12"
+  class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] py-8 pt-[100px]"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
