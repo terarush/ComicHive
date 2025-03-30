@@ -17,7 +17,7 @@ class UserService {
                 username: true,
                 name: true,
                 avatar: true,
-                token: true,
+                role: true,
                 contact: {
                     select: {
                         email: true,

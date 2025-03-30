@@ -33,6 +33,7 @@ class AuthService {
                 username: request.username,
                 password: request.password,
                 name: name,
+                role: 'MEMBER',
                 contact: {
                     create: {
                         email: request.email,
