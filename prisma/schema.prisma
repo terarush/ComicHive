@@ -15,6 +15,8 @@ model User {
   token    String?
   avatar   String?
 
+  role Role @default(MEMBER)
+
   contact   Contact? @relation(fields: [contactId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   contactId String?  @unique @db.ObjectId
 
@@ -24,6 +26,11 @@ model User {
   updated_at DateTime?  @map("updated_at")
 
   @@map("users")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
 }
 
 model Contact {
@@ -58,11 +65,10 @@ model Comment {
   animeId String
   content String
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @db.ObjectId
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String    @db.ObjectId
   created_at DateTime  @default(now())
   updated_at DateTime? @map("updated_at")
 
   @@map("comments")
 }
-

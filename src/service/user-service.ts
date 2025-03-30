@@ -14,6 +14,7 @@ export class UserService {
         name: true,
         avatar: true,
         token: true,
+        role: true,
         contact: {
           select: {
             email: true,
