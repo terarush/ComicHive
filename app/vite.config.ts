@@ -8,12 +8,16 @@ export default defineConfig({
     sourcemap: false,
   },
   server: {
+    fs: {
+      strict: false,
+    },
     port: 7878,
     hmr: {
       overlay: false,
     },
     watch: {
       usePolling: false,
+      interval: 100,
     },
   },
 });

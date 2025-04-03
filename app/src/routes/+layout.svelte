@@ -6,10 +6,9 @@
   import { onMount } from "svelte";
   import { fetchUser } from "../stores/user";
 
-  onMount( async () => {
+  onMount(async () => {
     await fetchUser();
   });
-
 </script>
 
 <main class="bg-[hsl(var(--background))]">
