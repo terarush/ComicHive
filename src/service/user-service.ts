@@ -5,6 +5,37 @@ import bcrypt from "bcrypt";
 import { UserValidation } from "../validation/user-validation";
 
 export class UserService {
+  static async getUserByUsername(username: string) {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        username,
+      },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        avatar: true,
+        role: true,
+        contact: {
+          select: {
+            email: true,
+            first_name: true,
+            last_name: true,
+          },
+        },
+        created_at: true,
+        updated_at: true,
+      },
+    });
+
+    if (!user) {
+      throw new HTTPException(404, {
+        message: "User not found",
+      });
+    }
+
+    return user;
+  }
   static async getUser(userId: string) {
     const user = await prismaClient.user.findUnique({
       where: { id: userId },
@@ -21,6 +52,8 @@ export class UserService {
             last_name: true,
           },
         },
+        created_at: true,
+        updated_at: true,
       },
     });
 

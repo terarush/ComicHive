@@ -9,6 +9,14 @@ export const userController = new Hono<{
   Variables: { token: string; userId: string };
 }>();
 
+userController.get("/:username", async (c) => {
+  const username = c.req.param("username") as string;
+  const response = await UserService.getUserByUsername(username);
+  return c.json({
+    data: response,
+  });
+});
+
 userController.get("/", authMiddleware, async (c) => {
   const token = c.get("userId") as string;
   const user = await UserService.getUser(token);
