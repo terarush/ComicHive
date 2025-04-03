@@ -119,7 +119,6 @@
     await fetchUser();
     isLoading.set(false);
   });
-
 </script>
 
 <div
@@ -207,9 +206,8 @@
                 </div>
               {/if}
 
-
-              <div class="flex items-start">
-                <div class="flex-shrink-0 mt-0.5">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
                   <div
                     class="w-5 h-5 rounded-full bg-[hsl(var(--primary)/10%)] flex items-center justify-center text-[hsl(var(--primary))]"
                   >
@@ -220,13 +218,9 @@
                     {/if}
                   </div>
                 </div>
-                <div class="ml-2">
-                  <p class="text-sm">
-                    <span>
-                      {$user.role}
-                    </span>
-                  </p>
-                </div>
+                <p class="ml-2 text-sm leading-none">
+                  {$user.role}
+                </p>
               </div>
             </div>
 
