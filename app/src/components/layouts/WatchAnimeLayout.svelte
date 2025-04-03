@@ -9,10 +9,11 @@
     ChevronDown,
     LogIn,
     ChevronRight,
+    Download,
+    X,
   } from "@lucide/svelte";
   import { FetchAnimeApi } from "../../utils/Fetch";
   import { user } from "../../stores/user";
-
   import CommentList from "../fragments/CommentList.svelte";
   import AddComment from "../fragments/AddComment.svelte";
 
@@ -24,6 +25,10 @@
   let commentList: CommentList;
   let showComments = true;
   $: users = $user;
+
+  // Download modal state
+  let activeFormat: any = null;
+  let showDownloadModal = false;
 
   async function fetchServerUrl(serverId: string) {
     try {
@@ -40,6 +45,15 @@
     const serverId = selectElement.value;
     const url = await fetchServerUrl(serverId);
     if (url) selectedQualityUrl = url;
+  }
+
+  function openDownloadModal(format) {
+    activeFormat = format;
+    showDownloadModal = true;
+  }
+
+  function closeDownloadModal() {
+    showDownloadModal = false;
   }
 </script>
 
@@ -135,7 +149,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div class="lg:col-span-2 space-y-8">
         <div
           class="bg-[hsl(var(--card))] p-6 rounded-md border border-[hsl(var(--border))] shadow-sm"
@@ -172,6 +186,31 @@
                 {genre.title}
                 <ChevronRight class="w-4 h-4" />
               </a>
+            {/each}
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Download class="w-5 h-5 text-[hsl(var(--primary))]" />
+            Download Links
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {#each episode.downloadUrl.formats as format}
+              <button
+                on:click={() => openDownloadModal(format)}
+                class="p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-lg hover:bg-[hsl(var(--primary)/0.05)] transition-colors text-left"
+              >
+                <h3 class="font-medium flex items-center gap-2">
+                  {format.title.replace(/\[.*?\]/, "")}
+                  <!-- Hapus teks dalam [] -->
+                  <ChevronRight class="w-4 h-4 text-[hsl(var(--primary))]" />
+                </h3>
+                <p class="text-sm text-[hsl(var(--muted-foreground))] mt-1">
+                  {format.qualities.length} quality options available
+                </p>
+              </button>
             {/each}
           </div>
         </div>
@@ -215,31 +254,45 @@
   </div>
 </section>
 
-<!--
-    <div class="mt-6">
-      <h2 class="text-xl font-semibold mb-2">Download Links</h2>
-      {#each episode.downloadUrl.formats as format}
-        <div class="mb-4">
-          <h3 class="text-md font-medium">{format.title}</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
-            {#each format.qualities as quality}
-              <div>
-                <h4 class="text-sm font-semibold">{quality.title}</h4>
-                <div class="flex flex-wrap gap-2 mt-1">
-                  {#each quality.urls as link}
-                    <a
-                    data-sveltekit-preload-data={false}
-                      href={link.url}
-                      class="px-3 py-1 text-xs bg-[hsl(var(--muted))] rounded-md shadow-md hover:bg-[hsl(var(--muted-foreground))]"
-                    >
-                      {link.title}
-                    </a>
-                  {/each}
-                </div>
-              </div>
-            {/each}
+{#if showDownloadModal && activeFormat}
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+    on:click={closeDownloadModal}
+  >
+    <div
+      class="relative bg-[hsl(var(--card))] rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <div
+        class="sticky top-0 bg-[hsl(var(--card))] p-4 border-b border-[hsl(var(--border))] flex justify-between items-center"
+      >
+        <h3 class="text-lg font-semibold">{activeFormat.title} Downloads</h3>
+        <button
+          on:click={closeDownloadModal}
+          class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]"
+        >
+          <X class="w-5 h-5" />
+        </button>
+      </div>
+
+      <div class="p-6">
+        {#each activeFormat.qualities as quality}
+          <div class="mb-6">
+            <h4 class="text-md font-medium mb-3">{quality.title}</h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {#each quality.urls as link}
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block px-4 py-2 text-sm text-center bg-[hsl(var(--muted))] hover:bg-[hsl(var(--primary)/0.1)] rounded-md transition-colors"
+                >
+                  {link.title}
+                </a>
+              {/each}
+            </div>
           </div>
-        </div>
-      {/each}
+        {/each}
+      </div>
     </div>
-    -->
+  </div>
+{/if}

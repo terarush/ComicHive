@@ -46,7 +46,6 @@
   let replyingTo = writable<string | null>(null);
   let replyContent = writable("");
   let openMenuId = writable<string | null>(null);
-  const userId = $user?.id;
   let isProcessing = writable(false);
 
   async function FetchComment() {
@@ -114,11 +113,9 @@
     isProcessing.set(true);
     try {
       await FetchApi.delete(`/comment/${commentId}`);
-      // Remove comment from local state immediately
       comments.update(current => current.filter(c => c.id !== commentId));
     } catch (error) {
       console.error("Error deleting comment:", error);
-      // Refresh if local deletion fails
       refreshComments();
     } finally {
       isProcessing.set(false);
@@ -131,7 +128,6 @@
     isProcessing.set(true);
     try {
       await FetchApi.delete(`/comment/reply/${replyId}`);
-      // Remove reply from local state immediately
       comments.update(current => current.map(comment => {
         if (comment.replies) {
           comment.replies = comment.replies.filter(r => r.id !== replyId);
@@ -140,7 +136,6 @@
       }));
     } catch (error) {
       console.error("Error deleting reply:", error);
-      // Refresh if local deletion fails
       refreshComments();
     } finally {
       isProcessing.set(false);
