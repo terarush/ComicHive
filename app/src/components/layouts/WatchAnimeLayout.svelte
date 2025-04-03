@@ -24,11 +24,17 @@
   let selectedQualityUrl: string | null = episode.defaultStreamingUrl;
   let commentList: CommentList;
   let showComments = true;
+  let showVideoWarning = true;
+  let hasAcceptedWarning = false;
   $: users = $user;
 
-  // Download modal state
   let activeFormat: any = null;
   let showDownloadModal = false;
+
+  function acceptWarning() {
+    hasAcceptedWarning = true;
+    showVideoWarning = false;
+  }
 
   async function fetchServerUrl(serverId: string) {
     try {
@@ -47,7 +53,7 @@
     if (url) selectedQualityUrl = url;
   }
 
-  function openDownloadModal(format) {
+  function openDownloadModal(format: any) {
     activeFormat = format;
     showDownloadModal = true;
   }
@@ -65,19 +71,55 @@
       <div
         class="relative group rounded-md overflow-hidden shadow-2xl bg-black"
       >
-        <div class="aspect-video w-full">
-          <iframe
-            src={selectedQualityUrl}
-            class="w-full h-full"
-            allow="fullscreen"
-            frameborder="0"
-            allowfullscreen
-            loading="eager"
-          ></iframe>
-        </div>
-        <div
-          class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-        ></div>
+        {#if showVideoWarning && !hasAcceptedWarning}
+          <div
+            class="aspect-video w-full bg-black flex items-center justify-center flex-col p-8 text-center"
+          >
+            <div class="mb-8">
+              <div class="flex items-center justify-center gap-2 mb-2">
+                <span class="text-3xl font-bold text-white">Comic Hive</span>
+              </div>
+              <div class="w-32 h-1 bg-[hsl(var(--primary))] mx-auto"></div>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+              <h3 class="text-xl font-bold text-white mb-4">Content Warning</h3>
+              <p class="text-gray-300 mb-6">
+                This video may contain mature content. By clicking "Continue",
+                you acknowledge that you are of legal age to view this content
+                in your country/region.
+              </p>
+              <div class="flex gap-4 justify-center">
+                <button
+                  on:click={acceptWarning}
+                  class="px-6 py-2 bg-[hsl(var(--primary))] text-white rounded-md hover:bg-[hsl(var(--primary)/0.9)] transition-colors"
+                >
+                  Continue
+                </button>
+                <a
+                  href="/"
+                  class="px-6 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors"
+                >
+                  Go Back
+                </a>
+              </div>
+            </div>
+          </div>
+        {:else}
+          <div class="aspect-video w-full">
+            <iframe
+              src={selectedQualityUrl}
+              class="w-full h-full"
+              allow="fullscreen"
+              frameborder="0"
+              allowfullscreen
+              loading="eager"
+            ></iframe>
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+          ></div>
+        {/if}
       </div>
 
       <div class="mt-4">
@@ -148,76 +190,72 @@
         {/if}
       </div>
     </div>
+    <div class="space-y-8">
+      <div
+        class="bg-[hsl(var(--card))] p-6 rounded-md border border-[hsl(var(--border))] shadow-sm"
+      >
+        <div class="flex items-center gap-3 mb-5">
+          <div
+            class="w-8 h-8 rounded-md bg-[hsl(var(--primary)/0.2)] flex items-center justify-center"
+          >
+            <Info class="w-5 h-5 text-[hsl(var(--primary))]" />
+          </div>
+          <h2 class="text-xl font-bold">Episode Synopsis</h2>
+        </div>
+        <div class="prose prose-invert max-w-none">
+          {#each episode.synopsis.paragraphs as paragraph}
+            <p class="mb-4 last:mb-0 text-[hsl(var(--foreground))]">
+              {paragraph}
+            </p>
+          {/each}
+        </div>
+      </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2 space-y-8">
-        <div
-          class="bg-[hsl(var(--card))] p-6 rounded-md border border-[hsl(var(--border))] shadow-sm"
-        >
-          <div class="flex items-center gap-3 mb-5">
-            <div
-              class="w-8 h-8 rounded-md bg-[hsl(var(--primary)/0.2)] flex items-center justify-center"
+      <div>
+        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+          <Tag class="w-5 h-5 text-[hsl(var(--primary))]" />
+          Genres
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          {#each episode.genreList as genre}
+            <a
+              href={genre.href}
+              class="px-4 py-2 text-sm font-medium bg-[hsl(var(--primary)/0.1)] hover:bg-[hsl(var(--primary)/0.2)] text-[hsl(var(--primary))] rounded-full transition-colors flex items-center gap-2"
+              data-sveltekit-preload-data="hover"
             >
-              <Info class="w-5 h-5 text-[hsl(var(--primary))]" />
-            </div>
-            <h2 class="text-xl font-bold">Episode Synopsis</h2>
-          </div>
-          <div class="prose prose-invert max-w-none">
-            {#each episode.synopsis.paragraphs as paragraph}
-              <p class="mb-4 last:mb-0 text-[hsl(var(--foreground))]">
-                {paragraph}
+              {genre.title}
+              <ChevronRight class="w-4 h-4" />
+            </a>
+          {/each}
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+          <Download class="w-5 h-5 text-[hsl(var(--primary))]" />
+          Download Links
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {#each episode.downloadUrl.formats as format}
+            <button
+              on:click={() => openDownloadModal(format)}
+              class="p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-lg hover:bg-[hsl(var(--primary)/0.05)] transition-colors text-left"
+            >
+              <h3 class="font-medium flex items-center gap-2">
+                {format.title.replace(/\[.*?\]/, "")}
+                <ChevronRight class="w-4 h-4 text-[hsl(var(--primary))]" />
+              </h3>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mt-1">
+                {format.qualities.length} quality options available
               </p>
-            {/each}
-          </div>
-        </div>
-
-        <div>
-          <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Tag class="w-5 h-5 text-[hsl(var(--primary))]" />
-            Genres
-          </h3>
-          <div class="flex flex-wrap gap-2">
-            {#each episode.genreList as genre}
-              <a
-                href={genre.href}
-                class="px-4 py-2 text-sm font-medium bg-[hsl(var(--primary)/0.1)] hover:bg-[hsl(var(--primary)/0.2)] text-[hsl(var(--primary))] rounded-full transition-colors flex items-center gap-2"
-                data-sveltekit-preload-data="hover"
-              >
-                {genre.title}
-                <ChevronRight class="w-4 h-4" />
-              </a>
-            {/each}
-          </div>
-        </div>
-
-        <div class="mt-6">
-          <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Download class="w-5 h-5 text-[hsl(var(--primary))]" />
-            Download Links
-          </h2>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {#each episode.downloadUrl.formats as format}
-              <button
-                on:click={() => openDownloadModal(format)}
-                class="p-4 bg-[hsl(var(--card))] border border-[hsl(var(--border))] rounded-lg hover:bg-[hsl(var(--primary)/0.05)] transition-colors text-left"
-              >
-                <h3 class="font-medium flex items-center gap-2">
-                  {format.title.replace(/\[.*?\]/, "")}
-                  <!-- Hapus teks dalam [] -->
-                  <ChevronRight class="w-4 h-4 text-[hsl(var(--primary))]" />
-                </h3>
-                <p class="text-sm text-[hsl(var(--muted-foreground))] mt-1">
-                  {format.qualities.length} quality options available
-                </p>
-              </button>
-            {/each}
-          </div>
+            </button>
+          {/each}
         </div>
       </div>
 
       {#if showComments}
-        <div class="lg:col-span-1 space-y-6">
+        <div class="space-y-6">
           {#if users}
             <AddComment
               animeId={episodeId}
