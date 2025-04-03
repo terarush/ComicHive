@@ -7,6 +7,13 @@ const user_service_1 = require("../service/user-service");
 const ImgurLibs_1 = require("../lib/ImgurLibs");
 const user_validation_1 = require("../validation/user-validation");
 exports.userController = new hono_1.Hono();
+exports.userController.get("/:username", async (c) => {
+    const username = c.req.param("username");
+    const response = await user_service_1.UserService.getUserByUsername(username);
+    return c.json({
+        data: response,
+    });
+});
 exports.userController.get("/", middleware_1.authMiddleware, async (c) => {
     const token = c.get("userId");
     const user = await user_service_1.UserService.getUser(token);

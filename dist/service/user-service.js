@@ -9,6 +9,35 @@ const database_1 = require("../application/database");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_validation_1 = require("../validation/user-validation");
 class UserService {
+    static async getUserByUsername(username) {
+        const user = await database_1.prismaClient.user.findUnique({
+            where: {
+                username,
+            },
+            select: {
+                id: true,
+                username: true,
+                name: true,
+                avatar: true,
+                role: true,
+                contact: {
+                    select: {
+                        email: true,
+                        first_name: true,
+                        last_name: true,
+                    },
+                },
+                created_at: true,
+                updated_at: true,
+            },
+        });
+        if (!user) {
+            throw new http_exception_1.HTTPException(404, {
+                message: "User not found",
+            });
+        }
+        return user;
+    }
     static async getUser(userId) {
         const user = await database_1.prismaClient.user.findUnique({
             where: { id: userId },
@@ -25,6 +54,8 @@ class UserService {
                         last_name: true,
                     },
                 },
+                created_at: true,
+                updated_at: true,
             },
         });
         if (!user) {
