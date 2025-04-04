@@ -9,7 +9,7 @@ Disallow: /api/
 Disallow: /private/
 
 User-agent: *
-Allow: /sitemap.xml
+Allow: /map.xml
 
 Sitemap: ${domain}/sitemap.xml
 
