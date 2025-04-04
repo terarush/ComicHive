@@ -8,6 +8,9 @@ Disallow: /auth/
 Disallow: /api/
 Disallow: /private/
 
+User-agent: *
+Allow: /sitemap.xml
+
 Sitemap: ${domain}/sitemap.xml
 
 Crawl-delay: 2
