@@ -1,1 +1,1 @@
-export const title = "ComicHive"
+export const title = "Finime"
