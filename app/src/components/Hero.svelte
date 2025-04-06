@@ -1,5 +1,6 @@
 <script lang="ts">
   import Link from "svelte-link";
+  import { title } from "../data/index"
 </script>
 
 <section class="relative bg-[hsl(var(--background))] text-[hsl(var(--foreground))] overflow-hidden">
@@ -8,9 +9,9 @@
   <div class="relative max-w-7xl mx-auto px-4 py-20 sm:py-32 flex flex-col md:flex-row items-center justify-between">
     <div class="text-center md:text-left mb-8 md:mb-0 z-10">
       <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-[hsl(var(--background-foreground))] drop-shadow-lg">
-        Welcome to ComicHive!
+        Welcome to {title}!
         <br class="hidden sm:inline" />
-        Read Manga & Watch Anime for Free
+        Read Manga & Watch Anime for Free 
       </h1>
       <p class="mt-4 text-lg sm:text-xl text-[hsl(var(--muted-foreground))] max-w-md">
         ComicHive is the best platform to read manga, manhwa, and watch anime for free. 

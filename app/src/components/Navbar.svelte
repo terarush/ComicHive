@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { User, LogOut, Bot } from "@lucide/svelte";
   import { fade } from "svelte/transition";
+  import { title } from "../data";
 
   let isMenuOpen = false;
   let isProfileMenuOpen = false;
@@ -86,7 +87,7 @@
           class="text-lg font-bold text-[hsl(var(--primary))] flex gap-2"
         >
           <Bot />
-          ComicHive
+          {title}
         </a>
       </div>
 

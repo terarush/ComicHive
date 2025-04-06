@@ -20,6 +20,7 @@
     id: string;
     username: string;
     avatar: string | null;
+    role: string | "MEMBER";
     created_at: string;
     updated_at: string | null;
   };
@@ -57,6 +58,7 @@
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
       );
       data.forEach((comment: Comment) => (comment.visibleReplies = 5));
+      console.log(response.data.data)
       comments.set(data);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -113,7 +115,7 @@
     isProcessing.set(true);
     try {
       await FetchApi.delete(`/comment/${commentId}`);
-      comments.update(current => current.filter(c => c.id !== commentId));
+      comments.update((current) => current.filter((c) => c.id !== commentId));
     } catch (error) {
       console.error("Error deleting comment:", error);
       refreshComments();
@@ -128,12 +130,14 @@
     isProcessing.set(true);
     try {
       await FetchApi.delete(`/comment/reply/${replyId}`);
-      comments.update(current => current.map(comment => {
-        if (comment.replies) {
-          comment.replies = comment.replies.filter(r => r.id !== replyId);
-        }
-        return comment;
-      }));
+      comments.update((current) =>
+        current.map((comment) => {
+          if (comment.replies) {
+            comment.replies = comment.replies.filter((r) => r.id !== replyId);
+          }
+          return comment;
+        }),
+      );
     } catch (error) {
       console.error("Error deleting reply:", error);
       refreshComments();
@@ -144,15 +148,17 @@
   }
 
   function loadMoreReplies(commentId: string) {
-    comments.update(current => current.map(comment => {
-      if (comment.id === commentId) {
-        return {
-          ...comment,
-          visibleReplies: (comment.visibleReplies || 5) + 5
-        };
-      }
-      return comment;
-    }));
+    comments.update((current) =>
+      current.map((comment) => {
+        if (comment.id === commentId) {
+          return {
+            ...comment,
+            visibleReplies: (comment.visibleReplies || 5) + 5,
+          };
+        }
+        return comment;
+      }),
+    );
   }
 
   onMount(() => {
@@ -172,7 +178,9 @@
 </script>
 
 <div class="space-y-6">
-  <h3 class="text-lg font-semibold flex items-center gap-2 text-[hsl(var(--foreground))]">
+  <h3
+    class="text-lg font-semibold flex items-center gap-2 text-[hsl(var(--foreground))]"
+  >
     <Mail class="w-5 h-5 text-[hsl(var(--primary))]" />
     Community Discussion
   </h3>
@@ -192,8 +200,11 @@
     </div>
   {:else if $comments.length > 0}
     <div class="space-y-4">
+      <!-- comment section -->
       {#each $comments as comment (comment.id)}
-        <div class="flex flex-col sm:flex-row gap-3 p-4 bg-[hsl(var(--card))] rounded-md border border-[hsl(var(--border))] shadow-sm relative">
+        <div
+          class="flex flex-col sm:flex-row gap-3 p-4 bg-[hsl(var(--card))] rounded-md border border-[hsl(var(--border))] shadow-sm relative"
+        >
           <div class="flex-shrink-0">
             {#if comment.user.avatar}
               <img
@@ -202,7 +213,9 @@
                 class="w-10 h-10 rounded-full object-cover"
               />
             {:else}
-              <div class="w-10 h-10 rounded-full bg-[hsl(var(--primary)/0.1)] flex items-center justify-center">
+              <div
+                class="w-10 h-10 rounded-full bg-[hsl(var(--primary)/0.1)] flex items-center justify-center"
+              >
                 <UserCircle class="w-5 h-5 text-[hsl(var(--primary))]" />
               </div>
             {/if}
@@ -218,7 +231,9 @@
               </button>
 
               {#if $openMenuId === `comment-${comment.id}`}
-                <div class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-[hsl(var(--popover))] border border-[hsl(var(--border))] z-10">
+                <div
+                  class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-[hsl(var(--popover))] border border-[hsl(var(--border))] z-10"
+                >
                   <div class="py-1">
                     <a
                       href={`/u/${comment.user.username}`}
@@ -259,12 +274,32 @@
                 <p class="text-sm font-medium text-[hsl(var(--foreground))]">
                   @{comment.user.username}
                 </p>
-                <span class="text-xs text-[hsl(var(--muted-foreground))]">•</span>
+
+                <!-- role badge -->
+                {#if comment.user.role === "ADMIN"}
+                  <span
+                    class="text-xs px-1.5 py-0.5 rounded bg-red-500/10 text-red-500 font-medium"
+                  >
+                    ADMIN
+                  </span>
+                {:else if comment.user.role === "MEMBER"}
+                  <span
+                    class="text-xs px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 font-medium"
+                  >
+                    MEMBER
+                  </span>
+                {/if}
+
+                <span class="text-xs text-[hsl(var(--muted-foreground))]"
+                  >•</span
+                >
                 <p class="text-xs text-[hsl(var(--muted-foreground))]">
                   {formatDate(comment.created_at)}
                 </p>
               </div>
-              <p class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words">
+              <p
+                class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words"
+              >
                 {comment.content}
               </p>
             </div>
@@ -298,7 +333,9 @@
             {/if}
 
             {#if comment.replies && comment.replies.length > 0}
-              <div class="mt-4 pl-4 border-l-2 border-[hsl(var(--muted))] space-y-2">
+              <div
+                class="mt-4 pl-4 border-l-2 border-[hsl(var(--muted))] space-y-2"
+              >
                 {#each comment.replies.slice(0, comment.visibleReplies || 5) as reply (reply.id)}
                   <div class="flex gap-2 pt-2 relative">
                     <div class="flex-shrink-0">
@@ -309,8 +346,12 @@
                           class="w-8 h-8 rounded-full object-cover"
                         />
                       {:else}
-                        <div class="w-8 h-8 rounded-full bg-[hsl(var(--primary)/0.1)] flex items-center justify-center">
-                          <UserCircle class="w-4 h-4 text-[hsl(var(--primary))]" />
+                        <div
+                          class="w-8 h-8 rounded-full bg-[hsl(var(--primary)/0.1)] flex items-center justify-center"
+                        >
+                          <UserCircle
+                            class="w-4 h-4 text-[hsl(var(--primary))]"
+                          />
                         </div>
                       {/if}
                     </div>
@@ -325,7 +366,9 @@
                         </button>
 
                         {#if $openMenuId === `reply-${reply.id}`}
-                          <div class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-[hsl(var(--popover))] border border-[hsl(var(--border))] z-10">
+                          <div
+                            class="absolute right-0 mt-1 w-40 rounded-md shadow-lg bg-[hsl(var(--popover))] border border-[hsl(var(--border))] z-10"
+                          >
                             <div class="py-1">
                               <a
                                 href={`/u/${reply.user.username}`}
@@ -353,15 +396,39 @@
 
                       <div class="pr-6">
                         <div class="flex items-center gap-2 mb-1">
-                          <p class="text-xs font-medium text-[hsl(var(--foreground))]">
+                          <p
+                            class="text-xs font-medium text-[hsl(var(--foreground))]"
+                          >
                             @{reply.user.username}
                           </p>
-                          <span class="text-xs text-[hsl(var(--muted-foreground))]">•</span>
-                          <p class="text-xs text-[hsl(var(--muted-foreground))]">
+                          <!-- role badge -->
+                          {#if reply.user.role === "ADMIN"}
+                            <span
+                              class="text-[10px] px-1 py-0.5 rounded bg-red-500/10 text-red-500 font-medium"
+                            >
+                              ADMIN
+                            </span>
+                          {:else if reply.user.role === "MEMBER"}
+                            <span
+                              class="text-[10px] px-1 py-0.5 rounded bg-blue-500/10 text-blue-500 font-medium"
+                            >
+                              MEMBER
+                            </span>
+                          {/if}
+
+                          <span
+                            class="text-xs text-[hsl(var(--muted-foreground))]"
+                            >•</span
+                          >
+                          <p
+                            class="text-xs text-[hsl(var(--muted-foreground))]"
+                          >
                             {formatDate(reply.created_at)}
                           </p>
                         </div>
-                        <p class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words">
+                        <p
+                          class="text-[hsl(var(--foreground))] text-sm whitespace-pre-line break-words"
+                        >
                           {reply.content}
                         </p>
                       </div>
@@ -382,10 +449,15 @@
           </div>
         </div>
       {/each}
+      <!-- end comment section -->
     </div>
   {:else}
-    <div class="text-center py-8 rounded-md bg-[hsl(var(--card))] border border-[hsl(var(--border))]">
-      <MessageSquare class="mx-auto w-8 h-8 text-[hsl(var(--muted-foreground))]" />
+    <div
+      class="text-center py-8 rounded-md bg-[hsl(var(--card))] border border-[hsl(var(--border))]"
+    >
+      <MessageSquare
+        class="mx-auto w-8 h-8 text-[hsl(var(--muted-foreground))]"
+      />
       <h4 class="mt-3 text-base font-medium text-[hsl(var(--foreground))]">
         No comments yet
       </h4>

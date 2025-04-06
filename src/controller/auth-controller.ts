@@ -1,5 +1,8 @@
 import { Hono } from "hono";
-import type { LoginUserRequest, RegisterUserRequest } from "../model/user-model";
+import type {
+  LoginUserRequest,
+  RegisterUserRequest,
+} from "../model/user-model";
 import { AuthService } from "../service/auth-service";
 
 export const authController = new Hono();
