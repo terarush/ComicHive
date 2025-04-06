@@ -17,7 +17,7 @@
   import CommentList from "../fragments/CommentList.svelte";
   import AddComment from "../fragments/AddComment.svelte";
 
-  export let videoUrl: string | null = null;
+  export let videoUrl: string;
   export let episode: EpisodeData;
   export let episodeId: string;
 
@@ -71,40 +71,43 @@
       <div
         class="relative group rounded-md overflow-hidden shadow-2xl bg-black"
       >
-        {#if showVideoWarning && !hasAcceptedWarning}
+        {#if showVideoWarning && !hasAcceptedWarning} 
           <div
             class="aspect-video w-full bg-black flex items-center justify-center flex-col p-8 text-center"
           >
-            <div class="mb-8">
-              <div class="flex items-center justify-center gap-2 mb-2">
-                <span class="text-3xl font-bold text-white">Comic Hive</span>
-              </div>
-              <div class="w-32 h-1 bg-[hsl(var(--primary))] mx-auto"></div>
-            </div>
-
             <div class="max-w-2xl mx-auto">
-              <h3 class="text-xl font-bold text-white mb-4">Content Warning</h3>
-              <p class="text-gray-300 mb-6">
-                This video may contain mature content. By clicking "Continue",
-                you acknowledge that you are of legal age to view this content
-                in your country/region.
+              <h3 class="text-xl font-bold text-white mb-4">
+                ⚠️ Unofficial Content Warning
+              </h3>
+              <p class="text-gray-300 mb-4">
+                This video is <span class="text-[hsl(var(--primary))] font-bold"
+                  >NOT OFFICIAL</span
+                > and is shared without proper authorization from the copyright holders.
+              </p>
+              <p class="text-gray-300 mb-2">
+                By continuing, you acknowledge that
               </p>
               <div class="flex gap-4 justify-center">
                 <button
                   on:click={acceptWarning}
-                  class="px-6 py-2 bg-[hsl(var(--primary))] text-white rounded-md hover:bg-[hsl(var(--primary)/0.9)] transition-colors"
+                  class="px-6 py-2 bg-[hsl(var(--primary))] text-white rounded-md hover:bg-red-700 transition-colors font-medium"
                 >
-                  Continue
+                  I Understand - Continue
                 </button>
                 <a
                   href="/"
                   class="px-6 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition-colors"
                 >
-                  Go Back
+                  Go Back to Safety
                 </a>
               </div>
+              <p class="text-gray-500 text-xs mt-6">
+                We recommend supporting the anime industry through official
+                platforms like Crunchyroll, Netflix, or local distributors.
+              </p>
             </div>
           </div>
+
         {:else}
           <div class="aspect-video w-full">
             <iframe
@@ -114,6 +117,7 @@
               frameborder="0"
               allowfullscreen
               loading="eager"
+              title={selectedQualityUrl}
             ></iframe>
           </div>
           <div

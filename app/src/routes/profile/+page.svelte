@@ -7,6 +7,7 @@
   import { FetchApi } from "../../utils/Fetch";
   import Button from "../../components/elements/Button.svelte";
   import ProfileForm from "../../components/fragments/ProfileForm.svelte";
+  import Role from "../../components/elements/Role.svelte";
 
   let isLoading = writable(true);
   let isModalOpen = writable(false);
@@ -206,21 +207,21 @@
                 </div>
               {/if}
 
-              <div class="flex items-center">
+              <div class="flex items-center gap-2">
                 <div class="flex-shrink-0">
                   <div
                     class="w-5 h-5 rounded-full bg-[hsl(var(--primary)/10%)] flex items-center justify-center text-[hsl(var(--primary))]"
                   >
-                    {#if $user.role === "ADMIN"}
-                      <Shield size={12} />
-                    {:else}
-                      <User size={12} />
-                    {/if}
+                    <Shield size={12} />
                   </div>
                 </div>
-                <p class="ml-2 text-sm leading-none">
-                  {$user.role}
-                </p>
+                <div>
+                  {#if $user.role === "ADMIN"}
+                    <Role variant="admin">{$user.role}</Role>
+                  {:else}
+                    <Role variant="member">{$user.role}</Role>
+                  {/if}
+                </div>
               </div>
             </div>
 

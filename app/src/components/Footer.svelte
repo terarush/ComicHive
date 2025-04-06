@@ -1,5 +1,6 @@
 <script lang="ts">
   import Link from "svelte-link";
+  import { title } from "../data";
   import { Facebook, Twitter, Instagram, Send } from "@lucide/svelte";
 </script>
 
@@ -10,7 +11,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 z-10">
       <div class="space-y-4">
         <h3 class="text-xl font-bold text-[hsl(var(--primary))]">
-          About ComicHive
+          About {title}
         </h3>
         <p class="text-sm text-[hsl(var(--muted-foreground))]">
           Your ultimate destination for reading manga online. Discover thousands
@@ -33,17 +34,33 @@
       <div class="space-y-4">
         <h3 class="text-xl font-bold text-[hsl(var(--primary))]">Follow Us</h3>
         <div class="flex gap-4">
-          <Link href="https://facebook.com" target="_blank" aria-label="Facebook">
-            <Facebook class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300" />
+          <Link
+            href="https://facebook.com"
+            target="_blank"
+            aria-label="Facebook"
+          >
+            <Facebook
+              class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300"
+            />
           </Link>
           <Link href="https://twitter.com" target="_blank" aria-label="Twitter">
-            <Twitter class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300" />
+            <Twitter
+              class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300"
+            />
           </Link>
-          <Link href="https://instagram.com" target="_blank" aria-label="Instagram">
-            <Instagram class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300" />
+          <Link
+            href="https://instagram.com"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <Instagram
+              class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300"
+            />
           </Link>
           <Link href="https://discord.com" target="_blank" aria-label="Discord">
-            <Send class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300" />
+            <Send
+              class="w-5 h-5 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300"
+            />
           </Link>
         </div>
       </div>
@@ -56,4 +73,3 @@
     </div>
   </div>
 </footer>
-
