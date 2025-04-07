@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { user } from "../stores/user";
+  import { user, fetchUser } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import { onMount } from "svelte";
   import { User, LogOut, Bot } from "@lucide/svelte";
@@ -8,6 +8,7 @@
 
   let isMenuOpen = false;
   let isProfileMenuOpen = false;
+  let isLoadUser: boolean = true;
 
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
@@ -22,7 +23,9 @@
     isProfileMenuOpen = false;
   }
 
-  onMount(() => {
+  onMount(async () => {
+    await fetchUser();
+    isLoadUser = false;
     window.addEventListener("click", closeProfileMenu);
   });
 
@@ -104,7 +107,8 @@
       <div class="flex items-center gap-4 relative">
         <ModeButton />
 
-        {#if profile}
+        {#if isLoadUser} 
+        {:else if profile}
           <div class="relative">
             <button
               class="flex items-center gap-2 cursor-pointer"

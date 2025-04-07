@@ -5,9 +5,11 @@
   import "../app.css";
   import { onMount } from "svelte";
   import { fetchUser } from "../stores/user";
+  let loading: boolean = true;
 
   onMount(async () => {
     await fetchUser();
+    loading = false;
   });
 </script>
 
