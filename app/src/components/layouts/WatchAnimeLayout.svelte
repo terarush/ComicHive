@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { EpisodeData } from "../../types/episodes";
+  import { slide } from "svelte/transition";
   import {
     ArrowBigRight,
     ArrowBigLeft,
@@ -297,7 +298,8 @@
 </section>
 
 {#if showDownloadModal && activeFormat}
-  <div
+  <div 
+    transition:slide
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
     on:click={closeDownloadModal}
   >

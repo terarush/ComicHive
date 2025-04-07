@@ -4,6 +4,7 @@
   import { writable } from "svelte/store";
   import Role from "../elements/Role.svelte";
   import { user } from "../../stores/user";
+  import { slide } from "svelte/transition";
   import {
     MessageSquare,
     Mail,
@@ -318,7 +319,7 @@
           </p>
 
           {#if $replyingTo === comment.id}
-            <div class="mt-3 space-y-3">
+            <div class="mt-3 space-y-3" transition:slide>
               <textarea
                 bind:value={$replyContent}
                 placeholder="Write your reply..."
@@ -449,7 +450,6 @@
       {/each}
     </div>
 
-    <!-- Empty State -->
   {:else}
     <div
       class="text-center py-8 rounded-md bg-[hsl(var(--card))] border border-[hsl(var(--border))]"

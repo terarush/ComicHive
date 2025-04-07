@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { user, fetchUser } from "../../stores/user";
   import { writable } from "svelte/store";
+  import { fade } from "svelte/transition";
   import LoadingElements from "../../components/elements/LoadingElements.svelte";
   import { User, BookOpen, Film, Edit, Mail, Shield } from "@lucide/svelte";
   import { FetchApi } from "../../utils/Fetch";
@@ -321,17 +322,19 @@
 </div>
 
 {#if $isModalOpen}
-  <ProfileForm
-    bind:isModalOpen
-    bind:formData
-    bind:error
-    bind:success
-    bind:isLoading
-    {handleSubmit}
-    {handleFileChange}
-    {clearAvatar}
-    avatarPreview={$avatarPreview}
-  />
+  <div transition:fade>
+    <ProfileForm
+      bind:isModalOpen
+      bind:formData
+      bind:error
+      bind:success
+      bind:isLoading
+      {handleSubmit}
+      {handleFileChange}
+      {clearAvatar}
+      avatarPreview={$avatarPreview}
+    />
+  </div>
 {/if}
 
 {#if $isLoading && !$isModalOpen}

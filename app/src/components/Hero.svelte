@@ -53,7 +53,7 @@
         class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight text-[hsl(var(--background-foreground))]"
       >
         <span
-          class="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--tertiary))]"
+          class="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--muted))]"
         >
           Welcome to {title}!
         </span>

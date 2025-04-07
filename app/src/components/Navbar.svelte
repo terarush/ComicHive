@@ -51,7 +51,7 @@
     <div class="flex justify-between h-16 items-center">
       <div class="flex gap-2 items-center">
         <button
-          class="md:hidden p-2 rounded-md text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]"
+          class="md:hidden p-2 rounded-md text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))/70] transition-all"
           on:click={toggleMenu}
         >
           {#if isMenuOpen}
@@ -87,7 +87,7 @@
 
         <a
           href="/"
-          class="text-lg font-bold text-[hsl(var(--primary))] flex gap-2"
+          class="text-lg font-bold text-[hsl(var(--primary))] flex gap-2 items-center"
         >
           <Bot />
           {title}
@@ -98,7 +98,7 @@
         {#each links as { name, link }}
           <a
             href={link}
-            class="font-medium text-sm text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))]"
+            class="font-medium text-sm text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors"
             >{name}</a
           >
         {/each}
@@ -107,8 +107,7 @@
       <div class="flex items-center gap-4 relative">
         <ModeButton />
 
-        {#if isLoadUser} 
-        {:else if profile}
+        {#if isLoadUser}{:else if profile}
           <div class="relative">
             <button
               class="flex items-center gap-2 cursor-pointer"
@@ -132,7 +131,7 @@
             {#if isProfileMenuOpen}
               <div
                 transition:fade
-                class="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-[hsl(var(--background))] shadow-lg border border-[hsl(var(--border))] ring-1 ring-black/5 overflow-hidden z-50"
+                class="absolute right-0 mt-2 w-60 origin-top-right rounded-md bg-[hsl(var(--background))] shadow-xl border border-[hsl(var(--border))] ring-1 ring-black/5 overflow-hidden z-50"
               >
                 <div class="px-4 py-3 border-b border-[hsl(var(--border))]">
                   <p class="text-sm font-medium text-[hsl(var(--foreground))]">
@@ -147,14 +146,14 @@
                 <div class="py-1">
                   <a
                     href="/profile"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
                   >
                     <User class="w-5 h-5" />
                     Profile
                   </a>
                   <a
                     href="/auth/logout"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))] transition-colors"
+                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
                   >
                     <LogOut class="w-5 h-5" />
                     Logout
@@ -167,7 +166,7 @@
           <a
             data-sveltekit-preload-data="tap"
             href="/auth/login"
-            class="px-4 py-2 rounded-lg text-sm font-medium border border-[hsl(var(--primary))] text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary)/0.1)] transition-colors"
+            class="px-4 py-2 rounded-md text-sm font-medium border border-[hsl(var(--primary))] text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary)/0.1)] transition-colors"
           >
             Sign In
           </a>
@@ -176,9 +175,16 @@
     </div>
 
     {#if isMenuOpen}
-      <div class="md:hidden py-2 space-y-2">
+      <div
+        transition:fade
+        class="md:hidden mt-4 space-y-2 bg-[hsl(var(--background))] rounded-md p-4 shadow-md border border-[hsl(var(--border))] transition-all"
+      >
         {#each links as { name, link }}
-          <a href={link} class="block px-4 py-2 text-sm font-medium">{name}</a>
+          <a
+            href={link}
+            class="block px-4 py-2 text-sm font-medium text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all"
+            >{name}</a
+          >
         {/each}
       </div>
     {/if}
