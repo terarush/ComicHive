@@ -5,6 +5,7 @@
   import LoadingElements from "../components/elements/LoadingElements.svelte";
   import SearchManga from "../components/SearchManga.svelte";
   import TopManga from "../components/TopManga.svelte";
+  import Donation from "../components/Donation.svelte";
   import { fetchPopularManga } from "../hooks/MangaHooks";
 
   let mangaList: {
@@ -38,6 +39,7 @@
   {#if isLoading}
     <LoadingElements />
   {:else}
+    <Donation/>
     <MangaLayout {mangaList} text="Last post ">
       <TopManga />
     </MangaLayout>
