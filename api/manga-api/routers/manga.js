@@ -151,7 +151,7 @@ router.get("/search/", async (req, res) => {
         .attr("href")
         .replace(replaceMangaPage, "")
         .replace("/manga/", "");
-      thumb = $(el).find("div.bgei > a > img").attr("data-src");
+      thumb = $(el).find("div.bgei > a > img").attr("data-src") || $(el).find("div.bgei > a > img").attr("src");
       type = $(el).find("div.bgei > a > div.tpe1_inf > b").text();
       title = $(el).find(".kan").find("h3").text().trim();
       updated_on = $(el).find("div.kan > p").text().split(".")[0].trim();
