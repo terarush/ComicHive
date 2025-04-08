@@ -2,6 +2,7 @@
   import Loading from "../elements/Loading.svelte";
   export let mangaList: {
     title: string;
+    thumb: string;
     type: string;
     endpoint: string;
     updated_on: string;
@@ -23,6 +24,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {#each mangaList as manga}
         <div class="bg-[hsl(var(--card))] rounded-lg shadow-sm border border-[hsl(var(--border))] overflow-hidden hover:shadow-md transition-all duration-200 flex flex-col h-full">
+          <img src={manga.thumb} alt={manga.title} class="w-full h-48 object-cover" />
           <div class="p-4 flex-1 min-h-[120px]">
             <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] line-clamp-2 mb-3 hover:text-[hsl(var(--primary))] transition-colors">
               {manga.title}
