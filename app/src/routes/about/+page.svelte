@@ -68,7 +68,7 @@
             class="w-20 h-20 rounded-full border-4 border-[hsl(var(--primary))] transition-all group-hover:border-[hsl(var(--ring))]"
           />
           <p
-            class="mt-3 font-semibold text-lg text-[hsl(var(--background-foreground))] group-hover:text-[hsl(var(--primary))]"
+            class="mt-3 font-semibold text-lg text-[hsl(var(--foreground))] group-hover:text-[hsl(var(--primary))]"
           >
             {contributor.login}
           </p>
