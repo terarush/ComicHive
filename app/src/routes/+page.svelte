@@ -19,7 +19,6 @@
   let isLoading = true;
 
   onMount(async () => {
-    window.location.href = "/500"
     try {
       mangaList = await fetchPopularManga();
     } catch (error) {
