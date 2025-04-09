@@ -7,7 +7,19 @@ const chapter = require("./routers/chapter");
 const cors = require("cors");
 const helmet = require("helmet");
 
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = ['https://c.tuxedolabs.xyz', 'http://localhost:7878'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+
+app.use('*', cors(corsOptions));
 app.use(helmet());
 app.use("/api", manga);
 app.use(express.static("./public"));
