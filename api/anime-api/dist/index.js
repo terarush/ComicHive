@@ -14,7 +14,11 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const { PORT } = animeConfig_1.default;
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+var corsOptions = {
+    origin: ['https://c.tuxedolabs.xyz', 'http://localhost:7878'],
+    credentials: true
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use((0, cache_1.clientCache)(1));
 app.use(index_1.otakudesuInfo.baseUrlPath, index_1.otakudesuRoute);

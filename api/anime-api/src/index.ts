@@ -11,8 +11,13 @@ import cors from "cors";
 const { PORT } = animeConfig;
 const app = express();
 
+var corsOptions = {
+  origin: ['https://c.tuxedolabs.xyz', 'http://localhost:7878'],
+  credentials: true
+}
+
 // MIDDLEWARES
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(clientCache(1));
 
