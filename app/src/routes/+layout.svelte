@@ -5,7 +5,14 @@
   import "../app.css";
   import { onMount } from "svelte";
   import { fetchUser } from "../stores/user";
+  import { page } from "$app/stores";
+
   let loading: boolean = true;
+
+  const hiddenPaths = ['/dashboard'];
+
+  $: currentPath = $page.url.pathname;
+  $: isHidden = hiddenPaths.some(path => currentPath.startsWith(path));
 
   onMount(async () => {
     await fetchUser();
@@ -15,7 +22,14 @@
 
 <main class="bg-[hsl(var(--background))]">
   <ModeWatcher />
-  <Navbar />
+  {#if !isHidden}
+    <Navbar />
+  {/if}
+
   <slot />
-  <Footer />
+
+  {#if !isHidden}
+    <Footer />
+  {/if}
 </main>
+

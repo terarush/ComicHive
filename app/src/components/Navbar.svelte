@@ -2,7 +2,7 @@
   import { user, fetchUser } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import { onMount } from "svelte";
-  import { User, LogOut, Bot } from "@lucide/svelte";
+  import { User, LogOut, Bot, LayoutDashboard } from "@lucide/svelte";
   import { fade } from "svelte/transition";
   import { title } from "../data";
 
@@ -151,6 +151,16 @@
                     <User class="w-5 h-5" />
                     Profile
                   </a>
+                  {#if $user?.role === "ADMIN"}
+                    <a
+                      data-sveltekit-preload-data="tap"
+                      href="/dashboard"
+                      class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
+                    >
+                      <LayoutDashboard class="w-5 h-5" />
+                      Dashboard
+                    </a>
+                  {/if}
                   <a
                     href="/auth/logout"
                     class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
