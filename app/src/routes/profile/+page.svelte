@@ -119,6 +119,9 @@
 
   onMount(async () => {
     await fetchUser();
+    if(!$user) {
+      window.location.href = "/"
+    }
     isLoading.set(false);
   });
 </script>

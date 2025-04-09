@@ -8,7 +8,8 @@
   export let data: AnimeSlug;
   let animeData: any;
   let error: string | null = null;
-  let title: string;
+  let title: string = "ComicHive";
+  let description: string = "Platform baca manga & nonton anime";
 
   onMount(async () => {
     try {
@@ -18,7 +19,8 @@
         return;
       }
       animeData = response.data.data;
-      title = response.data.data.english;
+      title = animeData.english || animeData.japanese || "ComicHive";
+      description = `Watch ${title} - ${animeData.type} | Status: ${animeData.status} | Rating: ${animeData.score?.value || 'N/A'}`;
     } catch (err) {
       error = "Failed to fetch anime details.";
       console.error(err);
@@ -28,6 +30,20 @@
 
 <svelte:head>
   <title>ComicHive - {title}</title>
+  <meta name="title" content={`ComicHive - ${title}`} />
+  <meta name="description" content={description} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`https://c.tuxedolabs.xyz/anime/${data.slug}`} />
+  <meta property="og:title" content={`ComicHive - ${title}`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={animeData?.poster || "https://c.tuxedolabs.xyz/icon.jpg"} />
+
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={`https://c.tuxedolabs.xyz/anime/${data.slug}`} />
+  <meta property="twitter:title" content={`ComicHive - ${title}`} />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content={animeData?.poster || "https://c.tuxedolabs.xyz/icon.jpg"} />
 </svelte:head>
 
 {#if error}
