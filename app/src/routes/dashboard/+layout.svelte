@@ -1,5 +1,6 @@
 <script lang="ts">
   import AuthAdminProvider from "$lib/AuthAdminProvider.svelte";
+  import AuthProvider from "$lib/AuthProvider.svelte"
   import { onMount } from "svelte";
   import Sidebar from "../../components/Sidebar.svelte";
   import { fetchUser } from "../../stores/user";
@@ -14,6 +15,7 @@
 </script>
 
 <div>
+<AuthProvider>
   <AuthAdminProvider>
     {#if isLoading}
       <LoadingElements />
@@ -23,4 +25,5 @@
       </Sidebar>
     {/if}
   </AuthAdminProvider>
+  </AuthProvider>
 </div>
