@@ -205,7 +205,7 @@
     {/if}
 
     <div class="flex-1 overflow-auto pt-16 lg:pt-0 bg-[hsl(var(--background))]">
-      <div class="p-6">
+      <div class="p-3">
         <slot />
       </div>
     </div>
