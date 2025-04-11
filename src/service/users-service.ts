@@ -22,9 +22,9 @@ export class UsersService {
       },
     });
 
-    if (!users) {
+    if (users.length === 0) {
       throw new HTTPException(404, {
-        message: "Users not found",
+        message: "No users found",
       });
     }
 

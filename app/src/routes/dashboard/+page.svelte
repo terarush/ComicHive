@@ -28,7 +28,7 @@
     try {
       isLoading = true;
       error = null;
-      const response = await FetchApi.get("/user");
+      const response = await FetchApi.get("/users");
       console.log(response.data.data)
       usersData = response.data.data || [];
       

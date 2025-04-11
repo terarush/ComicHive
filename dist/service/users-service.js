@@ -23,9 +23,9 @@ class UsersService {
                 updated_at: true,
             },
         });
-        if (!users) {
+        if (users.length === 0) {
             throw new http_exception_1.HTTPException(404, {
-                message: "Users not found",
+                message: "No users found",
             });
         }
         return users;

@@ -7,7 +7,7 @@ export const usersController = new Hono<{
 }>({});
 
 usersController.get("/", authMiddleware, async (c) => {
-  const response = UsersService.getUsers();
+  const response = await UsersService.getUsers();
   return c.json({
     data: response,
   });

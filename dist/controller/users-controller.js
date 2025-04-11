@@ -6,7 +6,7 @@ const middleware_1 = require("../middleware/middleware");
 const users_service_1 = require("../service/users-service");
 exports.usersController = new hono_1.Hono({});
 exports.usersController.get("/", middleware_1.authMiddleware, async (c) => {
-    const response = users_service_1.UsersService.getUsers();
+    const response = await users_service_1.UsersService.getUsers();
     return c.json({
         data: response,
     });
