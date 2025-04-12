@@ -16,16 +16,17 @@
   <div class="absolute inset-0 overflow-hidden">
     {#each Array(20) as _, i}
       <div
-        class="absolute rounded-full bg-[hsl(var(--primary)/0.1)]"
+        class="absolute text-[hsl(var(--muted-foreground)/0.4)] font-mono"
         style={`
-          width: ${Math.random() * 10 + 5}px;
-          height: ${Math.random() * 10 + 5}px;
+          font-size: ${Math.random() * 20 + 10}px;
           top: ${Math.random() * 100}%;
           left: ${Math.random() * 100}%;
-          animation: float ${Math.random() * 15 + 10}s linear infinite;
+          animation: float ${Math.random() * 20 + 10}s linear infinite;
           animation-delay: ${Math.random() * 5}s;
         `}
-      ></div>
+      >
+      {['<>', '{}', '();', '=>', '[]', '/*', '*/', '||', '&&', '==', '!='][i % 11]}
+      </div>
     {/each}
   </div>
 
@@ -53,7 +54,7 @@
         class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight text-[hsl(var(--background-foreground))]"
       >
         <span
-          class="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--muted))]"
+          class="bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--primary))]"
         >
           Welcome to {title}!
         </span>
@@ -115,7 +116,7 @@
           class="absolute -inset-4 bg-gradient-to-r from-[hsl(var(--primary)/0.4)] to-[hsl(var(--tertiary)/0.4)] rounded-3xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"
         ></div>
         <img
-          src="/logo.gif"
+          src="https://i.pinimg.com/736x/a5/4d/aa/a54daab18b80720212233699920e5495.jpg"
           alt="ComicHive Hero Illustration"
           class="relative w-full h-auto max-w-md rounded-2xl border-2 border-[hsl(var(--border)/0.3)] shadow-2xl transform transition-transform duration-500 group-hover:scale-[1.02]"
         />
