@@ -24,6 +24,7 @@ model User {
   created_at   DateTime       @default(now())
   updated_at   DateTime?      @map("updated_at")
   Comment      Comment[]
+  ResetPasswordToken ResetPasswordToken[]
   ReplyComment ReplyComment[]
 
   @@map("users")
@@ -83,4 +84,15 @@ model ReplyComment {
   created_at DateTime @default(now())
 
   @@map("reply_comments")
+}
+
+model ResetPasswordToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("reset_password_tokens")
 }

@@ -4,6 +4,7 @@ import { AuthValidation } from "../validation/auth-validation";
 import { HTTPException } from "hono/http-exception";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import { sendMail } from "../application/smtp";
 
 export class AuthService {
   static async register(
@@ -36,7 +37,7 @@ export class AuthService {
         username: request.username,
         password: request.password,
         name: name,
-        role: 'MEMBER',
+        role: "MEMBER",
         contact: {
           create: {
             email: request.email,
@@ -96,5 +97,90 @@ export class AuthService {
     });
 
     return { token };
+  }
+  static async requestResetPassword(
+    email: string,
+  ): Promise<{ message: string }> {
+    const contact = await prismaClient.contact.findUnique({
+      where: { email },
+      include: { user: true },
+    });
+
+    if (!contact || !contact.user) {
+      throw new HTTPException(404, { message: "Email not found" });
+    }
+
+    const existingToken = await prismaClient.resetPasswordToken.findFirst({
+      where: {
+        userId: contact.user.id,
+        createdAt: {
+          gte: new Date(Date.now() - 4 * 60 * 60 * 1000),
+        },
+      },
+    });
+
+    if (existingToken) {
+      throw new HTTPException(400, {
+        message:
+          "Reset password already requested recently. Please wait up to 4 hours.",
+      });
+    }
+
+    const token = crypto.randomUUID();
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+
+    await prismaClient.resetPasswordToken.create({
+      data: {
+        token,
+        userId: contact.user.id,
+        expiresAt,
+      },
+    });
+
+    const resetLink = `https://your-app.com/reset-password?token=${token}`;
+
+    await sendMail({
+      to: email,
+      subject: "Reset Password Request",
+      html: `
+        <h2>Reset Password</h2>
+        <p>Klik link di bawah untuk mengatur ulang password Anda:</p>
+        <a href="${resetLink}">${resetLink}</a>
+        <p>Link ini akan kedaluwarsa dalam 4 jam.</p>
+      `,
+    });
+
+    return { message: "Reset password link has been sent to your email" };
+  }
+
+  static async resetPasswordWithToken(
+    token: string,
+    newPassword: string,
+  ): Promise<{ message: string }> {
+    const resetToken = await prismaClient.resetPasswordToken.findUnique({
+      where: { token },
+      include: { user: true },
+    });
+
+    if (!resetToken || !resetToken.user) {
+      throw new HTTPException(400, { message: "Invalid token" });
+    }
+
+    if (new Date() > new Date(resetToken.expiresAt)) {
+      throw new HTTPException(400, { message: "Token has expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prismaClient.user.update({
+      where: { id: resetToken.userId },
+      data: { password: hashedPassword },
+    });
+
+    await prismaClient.resetPasswordToken.delete({
+      where: { token },
+    });
+
+    return { message: "Password has been reset successfully" };
   }
 }
