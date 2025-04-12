@@ -1,4 +1,4 @@
-package com.anonymous.finime
+package com.tuxedo.finime
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

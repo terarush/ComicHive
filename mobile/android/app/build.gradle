@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.finime'
+    namespace 'com.tuxedo.finime'
     defaultConfig {
-        applicationId 'com.anonymous.finime'
+        applicationId 'com.tuxedo.finime'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

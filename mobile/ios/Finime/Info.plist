@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>finime</string>
-          <string>com.anonymous.finime</string>
+          <string>com.tuxedo.finime</string>
         </array>
       </dict>
     </array>

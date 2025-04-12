@@ -25,7 +25,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="finime"/>
-        <data android:scheme="com.anonymous.finime"/>
+        <data android:scheme="com.tuxedo.finime"/>
       </intent-filter>
     </activity>
   </application>

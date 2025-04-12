@@ -10,22 +10,19 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.finime"
+      "bundleIdentifier": "com.tuxedo.finime"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.jpg",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
-      "package": "com.anonymous.finime"
+      "package": "com.tuxedo.finime"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
-    },
-    "splash": {
-      "backgroundColor": "#000000"
     },
     "plugins": [
       "expo-router"
