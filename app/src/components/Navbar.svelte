@@ -2,17 +2,14 @@
   import { user, fetchUser } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import { onMount } from "svelte";
-  import { User, LogOut, Bot, LayoutDashboard } from "@lucide/svelte";
-  import { fade } from "svelte/transition";
+  import { Bot, Home, Book, Users, Info, User } from "@lucide/svelte";
   import { title } from "../data";
+  import ProfileMenu from "./fragments/ProfileMenu.svelte";
+  import { fade } from "svelte/transition";
 
-  let isMenuOpen = false;
   let isProfileMenuOpen = false;
-  let isLoadUser: boolean = true;
-
-  function toggleMenu() {
-    isMenuOpen = !isMenuOpen;
-  }
+  let isLoadUser = true;
+  let isMobile = false;
 
   function toggleProfileMenu(event: Event) {
     event.stopPropagation();
@@ -23,10 +20,33 @@
     isProfileMenuOpen = false;
   }
 
-  onMount(async () => {
-    await fetchUser();
-    isLoadUser = false;
+  onMount(() => {
+    let mounted = true;
+
+    const loadData = async () => {
+      await fetchUser();
+      if (mounted) {
+        isLoadUser = false;
+      }
+    };
+
+    loadData();
+
+    const checkMobile = () => {
+      if (mounted) {
+        isMobile = window.innerWidth < 768;
+      }
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
     window.addEventListener("click", closeProfileMenu);
+
+    return () => {
+      mounted = false;
+      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("click", closeProfileMenu);
+    };
   });
 
   $: profile = $user;
@@ -35,56 +55,21 @@
     return name ? name.charAt(0).toUpperCase() : "?";
   }
 
-  let links = [
-    { name: "Home", link: "/" },
-    { name: "Anime", link: "/anime" },
-    { name: "Manga", link: "/manga" },
-    { name: "Community", link: "/community" },
-    { name: "About", link: "/about" },
+  const links = [
+    { name: "Home", link: "/", icon: Home },
+    { name: "Anime", link: "/anime", icon: Book },
+    { name: "Manga", link: "/manga", icon: Book },
+    { name: "Community", link: "/community", icon: Users },
+    { name: "About", link: "/about", icon: Info },
   ];
 </script>
 
 <nav
-  class="fixed inset-x-0 top-0 z-50 bg-[hsl(var(--background)/0.8)] backdrop-blur-lg shadow-sm"
+  class="hidden md:block fixed inset-x-0 top-0 z-50 bg-[hsl(var(--background)/0.8)] backdrop-blur-lg shadow-sm"
 >
   <div class="w-full max-w-7xl mx-auto px-4">
     <div class="flex justify-between h-16 items-center">
       <div class="flex gap-2 items-center">
-        <button
-          class="md:hidden p-2 rounded-md text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))/70] transition-all"
-          on:click={toggleMenu}
-        >
-          {#if isMenuOpen}
-            <svg
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          {:else}
-            <svg
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          {/if}
-        </button>
-
         <a
           href="/"
           class="text-lg font-bold text-[hsl(var(--primary))] flex gap-2 items-center"
@@ -94,7 +79,7 @@
         </a>
       </div>
 
-      <nav data-sveltekit-preload-data="false" class="hidden md:flex gap-6">
+      <nav data-sveltekit-preload-data="false" class="flex gap-6">
         {#each links as { name, link }}
           <a
             href={link}
@@ -128,47 +113,13 @@
               {/if}
             </button>
 
-            {#if isProfileMenuOpen}
-              <div
-                transition:fade
-                class="absolute right-0 mt-2 w-60 origin-top-right rounded-md bg-[hsl(var(--background))] shadow-xl border border-[hsl(var(--border))] ring-1 ring-black/5 overflow-hidden z-50"
-              >
-                <div class="px-4 py-3 border-b border-[hsl(var(--border))]">
-                  <p class="text-sm font-medium text-[hsl(var(--foreground))]">
-                    {profile.name}
-                  </p>
-                  <p
-                    class="text-xs text-[hsl(var(--muted-foreground))] truncate"
-                  >
-                    @{profile.username}
-                  </p>
-                </div>
-                <div class="py-1">
-                  <a
-                    href="/profile"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
-                  >
-                    <User class="w-5 h-5" />
-                    Profile
-                  </a>
-                  {#if $user?.role === "ADMIN"}
-                    <a
-                      data-sveltekit-preload-data="tap"
-                      href="/dashboard"
-                      class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
-                    >
-                      <LayoutDashboard class="w-5 h-5" />
-                      Dashboard
-                    </a>
-                  {/if}
-                  <a
-                    href="/auth/logout"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
-                  >
-                    <LogOut class="w-5 h-5" />
-                    Logout
-                  </a>
-                </div>
+            {#if isProfileMenuOpen && !isMobile}
+              <div class="absolute right-0 mt-2 z-50" transition:fade>
+                <ProfileMenu
+                  {profile}
+                  isMobile={false}
+                  onClose={closeProfileMenu}
+                />
               </div>
             {/if}
           </div>
@@ -183,20 +134,63 @@
         {/if}
       </div>
     </div>
-
-    {#if isMenuOpen}
-      <div
-        transition:fade
-        class="md:hidden mt-4 space-y-2 bg-[hsl(var(--background))] rounded-md p-4 shadow-md border border-[hsl(var(--border))] transition-all"
-      >
-        {#each links as { name, link }}
-          <a
-            href={link}
-            class="block px-4 py-2 text-sm font-medium text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all"
-            >{name}</a
-          >
-        {/each}
-      </div>
-    {/if}
   </div>
 </nav>
+
+<div
+  class="md:hidden fixed bottom-0 inset-x-0 z-50 bg-[hsl(var(--background))] border-t border-[hsl(var(--border))]"
+>
+  <div class="flex justify-around items-center h-16">
+    {#each links.slice(0, 3) as { name, link, icon: Icon }}
+      <a
+        href={link}
+        class="flex flex-col items-center justify-center w-full h-full text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors"
+      >
+        <Icon class="w-5 h-5" />
+        <span class="text-xs mt-1">{name}</span>
+      </a>
+    {/each}
+
+    {#if isLoadUser}{:else if profile}
+      <div
+        class="relative flex flex-col items-center justify-center w-full h-full"
+      >
+        <button
+          class="flex flex-col items-center justify-center w-full h-full"
+          on:click|stopPropagation={toggleProfileMenu}
+        >
+          {#if profile.avatar}
+            <img
+              src={profile.avatar}
+              alt="Profile"
+              class="w-6 h-6 rounded-full"
+            />
+          {:else}
+            <div
+              class="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold bg-[hsl(var(--primary))]"
+            >
+              {getInitials(profile.name)}
+            </div>
+          {/if}
+          <span class="text-xs mt-1">Profile</span>
+        </button>
+      </div>
+    {:else}
+      <a
+        data-sveltekit-preload-data="tap"
+        href="/auth/login"
+        class="flex flex-col items-center justify-center w-full h-full text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors"
+      >
+        <User class="w-5 h-5" />
+        <span class="text-xs mt-1">Login</span>
+      </a>
+    {/if}
+  </div>
+</div>
+
+{#if isProfileMenuOpen && profile && isMobile}
+  <div transition:fade>
+    <ProfileMenu {profile} isMobile={true} onClose={closeProfileMenu} />
+  </div>
+{/if}
+

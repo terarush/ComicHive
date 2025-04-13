@@ -32,7 +32,7 @@
 </script>
 
 <div class="bg-[hsl(var(--background))]">
-  <div class="flex justify-center items-center pt-20">
+  <div class="flex justify-center items-center">
     <Search placeholder="Search manga..." on:search={(e) => handleSearch(e.detail)} />
   </div>
 
