@@ -15,7 +15,7 @@ export default function WebScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <StatusBar 
+      <StatusBar
         backgroundColor="transparent"
         barStyle="light-content"
         translucent={true}
@@ -25,7 +25,7 @@ export default function WebScreen() {
       {hasError ? (
         <ErrorScreen onRetry={handleRetry} />
       ) : (
-        <WebView 
+        <WebView
           key={reloadKey}
           source={{ uri: 'https://c.tuxedolabs.xyz' }}
           style={styles.webview}
@@ -70,7 +70,6 @@ const errorStyles = StyleSheet.create({
     backgroundColor: Colors.dark.background,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 24,
   },
   title: {
     color: Colors.dark.primary,
