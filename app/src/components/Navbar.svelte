@@ -2,7 +2,8 @@
   import { user, fetchUser } from "../stores/user";
   import ModeButton from "./elements/ModeButton.svelte";
   import { onMount } from "svelte";
-  import { User, LogOut, Bot, LayoutDashboard } from "@lucide/svelte";
+  import { User, LogOut, Bot } from "@lucide/svelte";
+  import ProfileMenu from "./fragments/ProfileMenu.svelte";
   import { fade } from "svelte/transition";
   import { title } from "../data";
 
@@ -129,46 +130,8 @@
             </button>
 
             {#if isProfileMenuOpen}
-              <div
-                transition:fade
-                class="absolute right-0 mt-2 w-60 origin-top-right rounded-md bg-[hsl(var(--background))] shadow-xl border border-[hsl(var(--border))] ring-1 ring-black/5 overflow-hidden z-50"
-              >
-                <div class="px-4 py-3 border-b border-[hsl(var(--border))]">
-                  <p class="text-sm font-medium text-[hsl(var(--foreground))]">
-                    {profile.name}
-                  </p>
-                  <p
-                    class="text-xs text-[hsl(var(--muted-foreground))] truncate"
-                  >
-                    @{profile.username}
-                  </p>
-                </div>
-                <div class="py-1">
-                  <a
-                    href="/profile"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
-                  >
-                    <User class="w-5 h-5" />
-                    Profile
-                  </a>
-                  {#if $user?.role === "ADMIN"}
-                    <a
-                      data-sveltekit-preload-data="tap"
-                      href="/dashboard"
-                      class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
-                    >
-                      <LayoutDashboard class="w-5 h-5" />
-                      Dashboard
-                    </a>
-                  {/if}
-                  <a
-                    href="/auth/logout"
-                    class="flex items-center gap-2 px-4 py-2 text-sm text-[hsl(var(--foreground))] hover:bg-[hsl(var(--muted))]/60 rounded-md transition-all duration-200 ease-in-out"
-                  >
-                    <LogOut class="w-5 h-5" />
-                    Logout
-                  </a>
-                </div>
+              <div transition:fade>
+                <ProfileMenu {profile} />
               </div>
             {/if}
           </div>
