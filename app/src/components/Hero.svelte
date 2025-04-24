@@ -110,18 +110,18 @@
       </div>
     </div>
 
-    <div class="flex-shrink-0 z-10">
-      <div class="relative group">
-        <div
-          class="absolute -inset-4 bg-gradient-to-r from-[hsl(var(--primary)/0.4)] to-[hsl(var(--tertiary)/0.4)] rounded-3xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"
-        ></div>
-        <img
-          src="https://media.tenor.com/7hiQYhUQY2QAAAAM/dis.gif"
-          alt="ComicHive Hero Illustration"
-          class="relative w-[400px] h-auto max-w-md rounded-2xl border-2 border-[hsl(var(--border)/0.3)] shadow-2xl transform transition-transform duration-500 group-hover:scale-[1.02]"
-        />
-      </div>
-    </div>
+<div class="flex-shrink-0 z-10">
+  <div class="relative group">
+    <div
+      class="absolute -inset-4 bg-gradient-to-r from-[hsl(var(--primary)/0.4)] to-[hsl(var(--tertiary)/0.4)] rounded-3xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"
+    ></div>
+    <img
+      src="https://media.tenor.com/7hiQYhUQY2QAAAAM/dis.gif"
+      alt="ComicHive Hero Illustration"
+      class="relative w-full max-w-[400px] h-auto md:w-[400px] rounded-2xl border-2 border-[hsl(var(--border)/0.3)] shadow-2xl transform transition-transform duration-500 group-hover:scale-[1.02]"
+    />
+  </div>
+</div>
   </div>
 
   <style>
