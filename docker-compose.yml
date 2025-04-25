@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - anime-api
+      - manga-api
+    networks:
+      - comic-network
+
+  anime-api:
+    build:
+      context: ./api/anime-api
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./api/anime-api:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - comic-network
+
+  # Manga API Service
+  manga-api:
+    build:
+      context: ./api/manga-api
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./api/manga-api:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - comic-network
+
+networks:
+  comic-network:
+    driver: bridge
