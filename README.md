@@ -54,6 +54,5 @@ Proyek ini dirilis di bawah lisensi **MIT**.
 ## 📬 Kontak & Komunitas
 - 🌐 Website: [ComicHive](https://comic-hive.tuxedolabs.xyz)
 - ✉️ Email: me@tuxedolabs.xyz
-
 ---
 Selamat membaca dan menikmati anime favoritmu di **ComicHive**! 🎉
