@@ -11,20 +11,8 @@ import cors from "cors";
 const { PORT } = animeConfig;
 const app = express();
 
-const corsOptions = {
-  origin: function (origin: any, callback: any) {
-    const allowedOrigins = ['https://c.tuxedolabs.xyz', 'http://localhost:7878'];
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-};
-
 // MIDDLEWARES
-app.use('*', cors(corsOptions));
+app.use('*', cors());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(clientCache(1));
 
