@@ -9,6 +9,7 @@ const auth_validation_1 = require("../validation/auth-validation");
 const http_exception_1 = require("hono/http-exception");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const crypto_1 = __importDefault(require("crypto"));
+const smtp_1 = require("../application/smtp");
 class AuthService {
     static async register(request) {
         request = auth_validation_1.AuthValidation.REGISTER.parse(request);
@@ -33,7 +34,7 @@ class AuthService {
                 username: request.username,
                 password: request.password,
                 name: name,
-                role: 'MEMBER',
+                role: "MEMBER",
                 contact: {
                     create: {
                         email: request.email,
@@ -83,6 +84,70 @@ class AuthService {
             data: { token },
         });
         return { token };
+    }
+    static async requestResetPassword(email) {
+        const contact = await database_1.prismaClient.contact.findUnique({
+            where: { email },
+            include: { user: true },
+        });
+        if (!contact || !contact.user) {
+            throw new http_exception_1.HTTPException(404, { message: "Email not found" });
+        }
+        const existingToken = await database_1.prismaClient.resetPasswordToken.findFirst({
+            where: {
+                userId: contact.user.id,
+                createdAt: {
+                    gte: new Date(Date.now() - 4 * 60 * 60 * 1000),
+                },
+            },
+        });
+        if (existingToken) {
+            throw new http_exception_1.HTTPException(400, {
+                message: "Reset password already requested recently. Please wait up to 4 hours.",
+            });
+        }
+        const token = crypto_1.default.randomUUID();
+        const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+        await database_1.prismaClient.resetPasswordToken.create({
+            data: {
+                token,
+                userId: contact.user.id,
+                expiresAt,
+            },
+        });
+        const resetLink = `https://your-app.com/reset-password?token=${token}`;
+        await (0, smtp_1.sendMail)({
+            to: email,
+            subject: "Reset Password Request",
+            html: `
+        <h2>Reset Password</h2>
+        <p>Klik link di bawah untuk mengatur ulang password Anda:</p>
+        <a href="${resetLink}">${resetLink}</a>
+        <p>Link ini akan kedaluwarsa dalam 4 jam.</p>
+      `,
+        });
+        return { message: "Reset password link has been sent to your email" };
+    }
+    static async resetPasswordWithToken(token, newPassword) {
+        const resetToken = await database_1.prismaClient.resetPasswordToken.findUnique({
+            where: { token },
+            include: { user: true },
+        });
+        if (!resetToken || !resetToken.user) {
+            throw new http_exception_1.HTTPException(400, { message: "Invalid token" });
+        }
+        if (new Date() > new Date(resetToken.expiresAt)) {
+            throw new http_exception_1.HTTPException(400, { message: "Token has expired" });
+        }
+        const hashedPassword = await bcrypt_1.default.hash(newPassword, 10);
+        await database_1.prismaClient.user.update({
+            where: { id: resetToken.userId },
+            data: { password: hashedPassword },
+        });
+        await database_1.prismaClient.resetPasswordToken.delete({
+            where: { token },
+        });
+        return { message: "Password has been reset successfully" };
     }
 }
 exports.AuthService = AuthService;

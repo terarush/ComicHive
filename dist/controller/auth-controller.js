@@ -20,3 +20,21 @@ exports.authController.post("/login", async (c) => {
         data: response,
     });
 });
+exports.authController.post('/reset-password', async (c) => {
+    const body = await c.req.json();
+    const email = body.email;
+    if (!email) {
+        return c.json({ message: "Email is required" }, 400);
+    }
+    const result = await auth_service_1.AuthService.requestResetPassword(email);
+    return c.json(result);
+});
+exports.authController.post('/reset-password/token', async (c) => {
+    const token = c.req.query('q');
+    const { new_password } = await c.req.json();
+    if (!token || !new_password) {
+        return c.json({ message: 'Token and new password are required' }, 400);
+    }
+    const result = await auth_service_1.AuthService.resetPasswordWithToken(token, new_password);
+    return c.json(result);
+});
